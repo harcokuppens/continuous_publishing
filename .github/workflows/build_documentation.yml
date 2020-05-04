@@ -43,11 +43,11 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
       with:
-        tag_ name: ${{ github.ref }}
+        tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
         body: ''
         draft: false
-        pr erelease: false  
+        prerelease: false  
     - name: build documentation website in build/html/
       uses: ammaraskar/sphinx-action@master
       with:
