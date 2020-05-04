@@ -1,4 +1,6 @@
- on:
+name: Continous documentation (build stable docs on tag/release)
+
+on:
    push:
      branches:
        - master  
@@ -22,7 +24,7 @@
      - name: build documentation pdf in build/latex/
        uses: ammaraskar/sphinx-action@master
        with:
-         pre-build-command: "apt-get update -y && apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
+         pre-build-command: "pip install sphinx-rtd-theme && apt-get update -y && apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
          build-command: "make latexpdf"
          docs-folder: "."    
      - name: Add and commit build documentation to gh-pages branch          
