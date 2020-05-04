@@ -17,6 +17,7 @@
      - name: build documentation website in build/html/
        uses: ammaraskar/sphinx-action@master
        with:
+         pre-build-command: "pip install sphinx-rtd-theme"
          docs-folder: "."
      - name: build documentation pdf in build/latex/
        uses: ammaraskar/sphinx-action@master
