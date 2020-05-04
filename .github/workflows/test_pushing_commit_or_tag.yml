@@ -1,0 +1,19 @@
+
+on:
+  push:
+    branches:
+      - master                          
+    tags:
+      - 'v*'  
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+        steps:                                            
+        - name:  check whether push is a tag push or commit push
+          run: |
+            REF=${{ github.ref }}
+            if [[ $REF == *"tags"* ]]; then
+              echo "pushing a tag!"
+            else
+              echo "pushing a commit!"
+            fi
