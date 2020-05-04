@@ -30,7 +30,7 @@ jobs:
     - name: Add and commit build documentation to gh-pages branch          
       run: |
         # clone gh-pages branch into 
-        git clone "github.com/$GITHUB_REPOSITORY.git" --branch gh-pages --single-branch gh-pages
+        git clone "https://github.com/$GITHUB_REPOSITORY.git" --branch gh-pages --single-branch gh-pages
         rsync -av --delete  build/html/ gh-pages/$DOC_SUBDIR/   
         cp build/latex/*.pdf gh-pages/$DOC_SUBDIR/                   
         cd gh-pages
