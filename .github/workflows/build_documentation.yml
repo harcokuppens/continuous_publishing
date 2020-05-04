@@ -47,7 +47,7 @@ jobs:
         release_name: Release ${{ github.ref }}
         body: ''
         draft: false
-        pr erelease: false  
+        prerelease: false  
     - name: build documentation website in build/html/
       uses: ammaraskar/sphinx-action@master
       with:
