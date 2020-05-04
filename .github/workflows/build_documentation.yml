@@ -4,14 +4,23 @@ on:
    push:
      branches:
        - master  
-
-env:
-  DOC_SUBDIR: latest
-
+     tags:
+       - 'v*'
+         
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name:  check whether push is a tag push or commit push
+      run: |
+        REF=${{ github.ref }}
+        if [[ $REF == *"tags"* ]]; then
+          echo "pushing a tag!"
+          echo "::set-env name=DOC_SUBDIR::stable"
+        else
+          echo "pushing a commit!"
+          echo "::set-env name=DOC_SUBDIR::latest"
+        fi
     - name:  checkout source branch 
       uses: actions/checkout@v1   
       with:
