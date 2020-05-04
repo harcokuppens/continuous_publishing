@@ -17,6 +17,16 @@ jobs:
         if [[ $REF == *"tags"* ]]; then
           echo "pushing a tag!"
           echo "::set-env name=DOC_SUBDIR::stable"
+          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/${REF##*/}"
+          StatusCode=$(curl -o -I -L -s -w "%{http_code}" -X GET -G $URL)
+          echo $StatusCode
+          if [[ "$StatusCode" == 200 ]]; then
+             echo "This is tagged release!"
+             echo "::set-env name=CREATE_RELEASE::no"
+          else
+             echo "This is a tag not release!"
+             echo "::set-env name=CREATE_RELEASE::yes"
+          fi
         else
           echo "pushing a commit!"
           echo "::set-env name=DOC_SUBDIR::latest"
@@ -24,7 +34,20 @@ jobs:
     - name:  checkout source branch 
       uses: actions/checkout@v1   
       with:
-        ref: master     
+        ref: master
+    - name: Create Release
+      if: env.CREATE_RELEASE == 'yes'
+      id: create_release
+      # https://github.com/actions/create-release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      with:
+        tag_ name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: ''
+        draft: false
+        pr erelease: false  
     - name: build documentation website in build/html/
       uses: ammaraskar/sphinx-action@master
       with:
