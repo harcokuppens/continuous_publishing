@@ -15,6 +15,16 @@ jobs:
         REF=${{ github.ref }}
         if [[ $REF == *"tags"* ]]; then
           echo "pushing a tag!"
+          echo "::set-env name=PUSHTYPE::tag"
         else
           echo "pushing a commit!"
+          echo "::set-env name=PUSHTYPE::commit"
         fi
+    - name:  check whether push is a tag push or commit push
+      run: |
+        echo $PUSHTYPE
+        if [[ $PUSHTYPE == "tag" ]]; then
+          echo "pushing a tag!"
+        else
+          echo "pushing a commit!"
+        fi        
