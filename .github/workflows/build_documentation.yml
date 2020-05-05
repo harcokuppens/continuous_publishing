@@ -86,7 +86,7 @@ jobs:
     - name: Create Release Assets
       if: env.DO_RELEASE == 'yes'
       run: |  
-        zip -r doc.htz build/html/
+        cd build/html/; zip -r ../../doc.htmldir.zip .; cd - 
         cp build/latex/*.pdf doc.pdf
     - name: Get Release
       if: env.DO_RELEASE == 'yes'
