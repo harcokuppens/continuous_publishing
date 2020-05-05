@@ -24,7 +24,7 @@ jobs:
         if [[ $REF == *"tags"* ]]; then
           TAG_NAME=${REF##*/}
           echo "pushing a tag: $TAG_NAME"
-          TOOLVERSION=$(cat toolversion.txt 2>/dev/null) || TOOLVERSION=unknown
+          TOOLVERSION=$(cat source/TOOLVERSION.txt 2>/dev/null) || TOOLVERSION=unknown
           DOCUMENT_NAME=${DOCUMENT_NAME/TOOLVERSION/$TOOLVERSION}
           DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$TAG_NAME}
           echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"          

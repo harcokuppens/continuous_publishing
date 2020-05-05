@@ -28,7 +28,7 @@ author = 'Harco Kuppens'
 # This adds 'toolversion' as variable to sphinx documentation.
 # Use in .rst file as |toolversion|
 # eg. Documentation for TorXakis version: |toolversion|
-with open('../toolversion.txt') as f:
+with open('TOOLVERSION.txt') as f:
     toolversion = f.readline()
     rst_epilog = '.. |toolversion| replace:: %s' % toolversion
 
