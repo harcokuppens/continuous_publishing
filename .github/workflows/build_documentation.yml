@@ -45,19 +45,14 @@ jobs:
           echo "::set-env name=DO_A_RELEASE::no"
         fi
     - name:  checkout source branch 
-      uses: actions/checkout@v1   
+      uses: actions/checkout@v2   
       with:
         ref: master
-    - name: build documentation website in build/html/
-      uses: ammaraskar/sphinx-action@master
-      with:
-        pre-build-command: "pip install sphinx-rtd-theme"
-        docs-folder: "."
-    - name: build documentation pdf in build/latex/
-      uses: ammaraskar/sphinx-action@master
+    - name: build documentation website in build/html/ and pdf in build/latex/
+      uses: ammaraskar/sphinx-action@0.4
       with:
         pre-build-command: "pip install sphinx-rtd-theme && apt-get update -y && apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
-        build-command: "make latexpdf"
+        build-command: "make html latexpdf"
         docs-folder: "."    
     - name: Add and commit build documentation to gh-pages branch          
       run: |
