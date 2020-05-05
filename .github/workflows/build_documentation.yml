@@ -6,7 +6,10 @@ on:
        - master  
      tags:
        - 'v*'
-         
+
+env:
+   DOCUMENT_NAME: TorXakis-TOOLVERSION_Userguide-DOCVERSION 
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,6 +19,9 @@ jobs:
         REF=${{ github.ref }}
         if [[ $REF == *"tags"* ]]; then
           TAG_NAME=${REF##*/}
+          TOOLVERSION=$(cat toolversion.txt 2>/dev/null) || TOOLVERSION=unknown
+          DOCUMENT_NAME=${DOCUMENT_NAME/TOOLVERSION/$TOOLVERSION}
+          DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$TAG_NAME}
           echo "pushing a tag: $TAG_NAME"
           echo "::set-env name=TAG_NAME::$TAG_NAME"
           echo "::set-env name=DOC_SUBDIR::stable"
@@ -86,7 +92,7 @@ jobs:
     - name: Create Release Assets
       if: env.DO_RELEASE == 'yes'
       run: |  
-        cd build/html/; zip -r ../../doc.htmldir.zip .; cd - 
+        cd build/html/; zip -r ../../website.zip .; cd - 
         cp build/latex/*.pdf doc.pdf
     - name: Get Release
       if: env.DO_RELEASE == 'yes'
@@ -102,7 +108,7 @@ jobs:
       with:
         upload_url: ${{ steps.get_release_info.outputs.upload_url }}
         asset_path: ./doc.pdf
-        asset_name: doc-${{ env.TAG_NAME }}.pdf
+        asset_name: ${{ env.DOCUMENT_NAME }}.pdf
         asset_content_type: binary/octet-stream  
     - name: Upload release asset as zipped html (htz)
       if: env.DO_RELEASE == 'yes'
@@ -111,6 +117,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-        asset_path: ./doc.htmldir.zip
-        asset_name: doc-${{ env.TAG_NAME }}.htmldir.zip
+        asset_path: ./website.zip
+        asset_name: ${{ env.DOCUMENT_NAME }}.website.zip
         asset_content_type: application/zip         
