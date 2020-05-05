@@ -10,6 +10,7 @@ Welcome to Example sphinx doc repo's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+Documentation for TorXakis version: |toolversion|
 
 bike car book
 
