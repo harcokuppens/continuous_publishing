@@ -1,4 +1,4 @@
-name: Continous documentation (build stable docs on tag/release)
+name: Continous documentation (build stable docs on tag/release and latest docs on each push)
 
 on:
    push:
@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name:  check whether push is a tag push or commit push
+    - name:  check whether push is a commit push or tag push and creating a release is still needed 
       run: |
         REF=${{ github.ref }}
         if [[ $REF == *"tags"* ]]; then
@@ -111,6 +111,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-        asset_path: ./doc.htz
-        asset_name: doc-${{ env.TAG_NAME }}.htz
+        asset_path: ./doc.htmldir.zip
+        asset_name: doc-${{ env.TAG_NAME }}.htmldir.zip
         asset_content_type: application/zip         
