@@ -15,39 +15,32 @@ jobs:
       run: |
         REF=${{ github.ref }}
         if [[ $REF == *"tags"* ]]; then
-          echo "pushing a tag!"
+          TAG_NAME=${REF##*/}
+          echo "pushing a tag: $TAG_NAME"
+          echo "::set-env name=TAG_NAME::$TAG_NAME"
           echo "::set-env name=DOC_SUBDIR::stable"
-          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/${REF##*/}"
+          echo "::set-env name=DO_RELEASE::yes"
+          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/${TAG_NAME}"
           StatusCode=$(curl -o -I -L -s -w "%{http_code}" -X GET -G $URL)
           echo $StatusCode
           if [[ "$StatusCode" == 200 ]]; then
-             echo "This is tagged release!"
+             echo "This is tagged release: there exists as github release for this tag."
              echo "::set-env name=CREATE_RELEASE::no"
           else
-             echo "This is a tag not release!"
+             echo "This is a tag for which no github release exist."
              echo "::set-env name=CREATE_RELEASE::yes"
           fi
         else
-          echo "pushing a commit!"
+          BRANCH_NAME=${REF##*/}
+          echo "pushing a commit in branch: $BRANCH_NAME"
+          echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
           echo "::set-env name=DOC_SUBDIR::latest"
+          echo "::set-env name=DO_A_RELEASE::no"
         fi
     - name:  checkout source branch 
       uses: actions/checkout@v1   
       with:
         ref: master
-    - name: Create Release
-      if: env.CREATE_RELEASE == 'yes'
-      id: create_release
-      # https://github.com/actions/create-release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        body: ''
-        draft: false
-        prerelease: false  
     - name: build documentation website in build/html/
       uses: ammaraskar/sphinx-action@master
       with:
@@ -77,3 +70,45 @@ jobs:
         branch: gh-pages
         directory: gh-pages
         github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create Release
+      if: env.CREATE_RELEASE == 'yes'
+      id: create_release
+      # https://github.com/actions/create-release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: ''
+        draft: false
+        prerelease: false    
+    - name: Create Release Assets
+      if: env.DO_RELEASE == 'yes'
+      run: |  
+        zip -r doc.htz build/html/
+        cp build/latex/*.pdf doc.pdf
+    - name: Get Release
+      if: env.DO_RELEASE == 'yes'
+      id: get_release_info
+      uses: bruceadams/get-release@v1
+    - name: Upload release asset as pdf 
+      if: env.DO_RELEASE == 'yes'
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+        asset_path: ./doc.pdf
+        asset_name: doc-${{ env.TAG_NAME }}.pdf
+        asset_content_type: binary/octet-stream  
+    - name: Upload release asset as zipped html (htz)
+      if: env.DO_RELEASE == 'yes'
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+        asset_path: ./doc.htz
+        asset_name: doc-${{ env.TAG_NAME }}.htz
+        asset_content_type: application/zip         
