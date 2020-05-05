@@ -14,7 +14,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name:  check whether push is a commit push or tag push and creating a release is still needed 
+    - name:  checkout source branch 
+      uses: actions/checkout@v2   
+      with:
+        ref: master
+    - name:  check whether pushing commit or tag, check creating a release is still needed and set DOCUMENT_NAME
       run: |
         REF=${{ github.ref }}
         if [[ $REF == *"tags"* ]]; then
@@ -44,10 +48,6 @@ jobs:
           echo "::set-env name=DOC_SUBDIR::latest"
           echo "::set-env name=DO_A_RELEASE::no"
         fi
-    - name:  checkout source branch 
-      uses: actions/checkout@v2   
-      with:
-        ref: master
     - name: build documentation website in build/html/ and pdf in build/latex/
       uses: ammaraskar/sphinx-action@0.4
       with:
