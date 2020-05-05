@@ -92,6 +92,8 @@ jobs:
       if: env.DO_RELEASE == 'yes'
       id: get_release_info
       uses: bruceadams/get-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload release asset as pdf 
       if: env.DO_RELEASE == 'yes'
       uses: actions/upload-release-asset@v1.0.1
