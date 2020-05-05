@@ -30,7 +30,12 @@ author = 'Harco Kuppens'
 # eg. Documentation for TorXakis version: |toolversion|
 with open('TOOLVERSION.txt') as f:
     toolversion = f.readline()
-    rst_epilog = '.. |toolversion| replace:: %s' % toolversion
+
+rst_epilog = '.. |toolversion| replace:: %s' % toolversion
+#doc_base_url="https://harcokuppens.github.io/example_sphinx_doc_repo/"
+#pdf_url=doc_base_url + "stable/
+
+https://github.com/harcokuppens/example_sphinx_doc_repo/releases/download/v0.1.14/TorXakis-v4.3.14_Userguide-v0.1.14.pdf
 
 # -- General configuration ---------------------------------------------------
 import sphinx_rtd_theme
