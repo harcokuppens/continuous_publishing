@@ -19,10 +19,11 @@ jobs:
         REF=${{ github.ref }}
         if [[ $REF == *"tags"* ]]; then
           TAG_NAME=${REF##*/}
+          echo "pushing a tag: $TAG_NAME"
           TOOLVERSION=$(cat toolversion.txt 2>/dev/null) || TOOLVERSION=unknown
           DOCUMENT_NAME=${DOCUMENT_NAME/TOOLVERSION/$TOOLVERSION}
           DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$TAG_NAME}
-          echo "pushing a tag: $TAG_NAME"
+          echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"          
           echo "::set-env name=TAG_NAME::$TAG_NAME"
           echo "::set-env name=DOC_SUBDIR::stable"
           echo "::set-env name=DO_RELEASE::yes"
