@@ -49,8 +49,11 @@ jobs:
           echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"
           echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
           echo "::set-env name=DOC_SUBDIR::latest"
-          echo "::set-env name=DO_A_RELEASE::no"
+          echo "::set-env name=DO_RELEASE::no"
         fi
+        echo DO_RELEASE=$DO_RELEASE
+        echo DOCUMENT_NAME=$DOCUMENT_NAME
+        echo DOC_SUBDIR=$DOC_SUBDIR
     - name: build documentation website in build/html/ and pdf in build/latex/
       uses: ammaraskar/sphinx-action@0.4
       with:
