@@ -51,6 +51,11 @@ jobs:
           DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$SHA1_SHORT}
           DO_RELEASE="no"
           DOC_SUBDIR="latest"
+          echo run_id=${{ github.run_id }}
+          echo run_number=${{ github.run_number }}
+          URL="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${{ github.run_id }}"
+          echo URL=$URL
+          #URL=https://github.com/harcokuppens/example_sphinx_doc_repo/actions/runs/98194424
           echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"
           echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
           echo "::set-env name=DOC_SUBDIR::$DOC_SUBDIR"
@@ -101,7 +106,7 @@ jobs:
       if: env.DO_RELEASE == 'no'
       uses: actions/upload-artifact@v2
       with:
-        #name: ${{ env.DOCUMENT_NAME }}.pdf
+        name: ${{ env.DOCUMENT_NAME }}.pdf
         path: ${{ env.DOCUMENT_NAME }}.pdf
     - name: Create Release Assets
       if: env.DO_RELEASE == 'yes'
@@ -124,7 +129,7 @@ jobs:
         asset_path: ./doc.pdf
         asset_name: ${{ env.DOCUMENT_NAME }}.pdf
         asset_content_type: binary/octet-stream  
-    - name: Upload release asset as zipped html (htz)
+    - name: Upload release asset as zipped html website (.website.zip)
       if: env.DO_RELEASE == 'yes'
       uses: actions/upload-release-asset@v1.0.1
       env:
