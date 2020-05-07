@@ -38,11 +38,13 @@ jobs:
           echo $StatusCode
           if [[ "$StatusCode" == 200 ]]; then
              echo "This is tagged release: there exists as github release for this tag."
-             echo "::set-env name=CREATE_RELEASE::no"
+             CREATE_RELEASE="no"
           else
              echo "This is a tag for which no github release exist."
-             echo "::set-env name=CREATE_RELEASE::yes"
+             CREATE_RELEASE="yes"
           fi
+          echo CREATE_RELEASE=$CREATE_RELEASE
+          echo "::set-env name=CREATE_RELEASE::$CREATE_RELEASE"
         else
           BRANCH_NAME=${REF##*/}
           echo "pushing a commit in branch: $BRANCH_NAME"
@@ -53,12 +55,6 @@ jobs:
           DOC_SUBDIR="latest"
           echo run_id=${{ github.run_id }}
           echo run_number=${{ github.run_number }}
-          URL="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${{ github.run_id }}"
-          echo URL=$URL
-          #URL=https://github.com/harcokuppens/example_sphinx_doc_repo/actions/runs/98194424
-          URL="/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts"
-          echo URL=$URL
-          curl $URL
           echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"
           echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
           echo "::set-env name=DOC_SUBDIR::$DOC_SUBDIR"
