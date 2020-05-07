@@ -12,6 +12,8 @@ Welcome to Example sphinx doc repo's documentation!
 
 Documentation for TorXakis version: |toolversion|
 
+Documentation for TorXakis version: |pdfdocumenturl|
+
 bike car book
 
 Indices and tables
