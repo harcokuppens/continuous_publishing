@@ -56,6 +56,9 @@ jobs:
           URL="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${{ github.run_id }}"
           echo URL=$URL
           #URL=https://github.com/harcokuppens/example_sphinx_doc_repo/actions/runs/98194424
+          URL="/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts"
+          echo URL=$URL
+          curl $URL
           echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"
           echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
           echo "::set-env name=DOC_SUBDIR::$DOC_SUBDIR"
