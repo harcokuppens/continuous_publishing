@@ -21,16 +21,18 @@ jobs:
     - name:  check whether pushing commit or tag, check creating a release is still needed and set DOCUMENT_NAME
       run: |
         REF=${{ github.ref }}
+        TOOLVERSION=$(cat source/TOOLVERSION.txt 2>/dev/null) || TOOLVERSION=unknown
+        DOCUMENT_NAME=${DOCUMENT_NAME/TOOLVERSION/$TOOLVERSION}
         if [[ $REF == *"tags"* ]]; then
           TAG_NAME=${REF##*/}
           echo "pushing a tag: $TAG_NAME"
-          TOOLVERSION=$(cat source/TOOLVERSION.txt 2>/dev/null) || TOOLVERSION=unknown
-          DOCUMENT_NAME=${DOCUMENT_NAME/TOOLVERSION/$TOOLVERSION}
           DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$TAG_NAME}
+          DO_RELEASE="yes"
+          DOC_SUBDIR="stable"
           echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"          
           echo "::set-env name=TAG_NAME::$TAG_NAME"
-          echo "::set-env name=DOC_SUBDIR::stable"
-          echo "::set-env name=DO_RELEASE::yes"
+          echo "::set-env name=DOC_SUBDIR::$DOC_SUBDIR"
+          echo "::set-env name=DO_RELEASE::$DO_RELEASE"
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/${TAG_NAME}"
           StatusCode=$(curl -o -I -L -s -w "%{http_code}" -X GET -G $URL)
           echo $StatusCode
@@ -44,10 +46,27 @@ jobs:
         else
           BRANCH_NAME=${REF##*/}
           echo "pushing a commit in branch: $BRANCH_NAME"
+          SHA1=${{ github.sha }}
+          SHA1_SHORT=${SHA1:0:7}
+          DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$SHA1_SHORT}
+          DO_RELEASE="no"
+          DOC_SUBDIR="latest"
+          echo run_id=${{ github.run_id }}
+          echo run_number=${{ github.run_number }}
+          URL="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${{ github.run_id }}"
+          echo URL=$URL
+          #URL=https://github.com/harcokuppens/example_sphinx_doc_repo/actions/runs/98194424
+          URL="/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts"
+          echo URL=$URL
+          curl $URL
+          echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"
           echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
-          echo "::set-env name=DOC_SUBDIR::latest"
-          echo "::set-env name=DO_A_RELEASE::no"
+          echo "::set-env name=DOC_SUBDIR::$DOC_SUBDIR"
+          echo "::set-env name=DO_RELEASE::$DO_RELEASE"
         fi
+        echo DO_RELEASE=$DO_RELEASE
+        echo DOCUMENT_NAME=$DOCUMENT_NAME
+        echo DOC_SUBDIR=$DOC_SUBDIR
     - name: build documentation website in build/html/ and pdf in build/latex/
       uses: ammaraskar/sphinx-action@0.4
       with:
@@ -59,7 +78,8 @@ jobs:
         # clone gh-pages branch into 
         git clone "https://github.com/$GITHUB_REPOSITORY.git" --branch gh-pages --single-branch gh-pages
         rsync -av --delete  build/html/ gh-pages/$DOC_SUBDIR/   
-        cp build/latex/*.pdf gh-pages/$DOC_SUBDIR/                   
+        #cp build/latex/*.pdf gh-pages/$DOC_SUBDIR/       
+        cp build/latex/*.pdf ${{ env.DOCUMENT_NAME }}.pdf            
         cd gh-pages
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
@@ -85,6 +105,12 @@ jobs:
         body: ''
         draft: false
         prerelease: false    
+    - name: upload pdf artifact for push commit
+      if: env.DO_RELEASE == 'no'
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.DOCUMENT_NAME }}.pdf
+        path: ${{ env.DOCUMENT_NAME }}.pdf
     - name: Create Release Assets
       if: env.DO_RELEASE == 'yes'
       run: |  
@@ -106,7 +132,7 @@ jobs:
         asset_path: ./doc.pdf
         asset_name: ${{ env.DOCUMENT_NAME }}.pdf
         asset_content_type: binary/octet-stream  
-    - name: Upload release asset as zipped html (htz)
+    - name: Upload release asset as zipped html website (.website.zip)
       if: env.DO_RELEASE == 'yes'
       uses: actions/upload-release-asset@v1.0.1
       env:
