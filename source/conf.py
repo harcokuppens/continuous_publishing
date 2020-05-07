@@ -32,7 +32,10 @@ with open('TOOLVERSION.txt') as f:
     toolversion = f.readline()
 
 import os
-pdfdocumenturl=os.environ['DOCUMENT_URL_PDF']
+pdfdocumenturl=os.environ.get('DOCUMENT_URL_PDF')
+if not pdfdocumenturl:
+    pdfdocumenturl="unknown"
+
 rst_epilog = '.. |toolversion| replace:: %s' % toolversion
 rst_prolog = '.. |pdfdocumenturl| replace:: %s' % pdfdocumenturl
 #doc_base_url="https://harcokuppens.github.io/example_sphinx_doc_repo/"
