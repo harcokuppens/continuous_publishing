@@ -74,7 +74,7 @@ jobs:
       run: |
         buildpdf=${{ env.DOCUMENT_NAME }}.pdf            
         cp build/latex/*.pdf $buildpdf
-        json=$(curl -F "file=@$buildpdf" https://file.io)
+        json=$(curl -F "file=@$buildpdf" https://file.io/?expires=1m)
         jsonparsed=https:${json##*https:}
         DOCUMENT_URL_PDF=${jsonparsed%%\"*}
         echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
