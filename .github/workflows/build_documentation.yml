@@ -27,10 +27,12 @@ jobs:
           TAG_NAME=${REF##*/}
           echo "pushing a tag: $TAG_NAME"
           DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$TAG_NAME}
+          DO_RELEASE="yes"
+          DOC_SUBDIR="stable"
           echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"          
           echo "::set-env name=TAG_NAME::$TAG_NAME"
-          echo "::set-env name=DOC_SUBDIR::stable"
-          echo "::set-env name=DO_RELEASE::yes"
+          echo "::set-env name=DOC_SUBDIR::$DOC_SUBDIR"
+          echo "::set-env name=DO_RELEASE::$DO_RELEASE"
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/${TAG_NAME}"
           StatusCode=$(curl -o -I -L -s -w "%{http_code}" -X GET -G $URL)
           echo $StatusCode
@@ -45,11 +47,14 @@ jobs:
           BRANCH_NAME=${REF##*/}
           echo "pushing a commit in branch: $BRANCH_NAME"
           SHA1=${{ github.sha }}
-          DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$SHA1}
+          SHA1_SHORT=${SHA1:0:7}
+          DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$SHA1_SHORT}
+          DO_RELEASE="no"
+          DOC_SUBDIR="latest"
           echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"
           echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
-          echo "::set-env name=DOC_SUBDIR::latest"
-          echo "::set-env name=DO_RELEASE::no"
+          echo "::set-env name=DOC_SUBDIR::$DOC_SUBDIR"
+          echo "::set-env name=DO_RELEASE::$DO_RELEASE"
         fi
         echo DO_RELEASE=$DO_RELEASE
         echo DOCUMENT_NAME=$DOCUMENT_NAME
@@ -65,7 +70,8 @@ jobs:
         # clone gh-pages branch into 
         git clone "https://github.com/$GITHUB_REPOSITORY.git" --branch gh-pages --single-branch gh-pages
         rsync -av --delete  build/html/ gh-pages/$DOC_SUBDIR/   
-        cp build/latex/*.pdf gh-pages/$DOC_SUBDIR/                   
+        #cp build/latex/*.pdf gh-pages/$DOC_SUBDIR/       
+        cp build/latex/*.pdf ${{ env.DOCUMENT_NAME }}.pdf            
         cd gh-pages
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
@@ -95,8 +101,8 @@ jobs:
       if: env.DO_RELEASE == 'no'
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.DOCUMENT_NAME }}.pdf
-        path: build/latex/*.pdf
+        #name: ${{ env.DOCUMENT_NAME }}.pdf
+        path: ${{ env.DOCUMENT_NAME }}.pdf
     - name: Create Release Assets
       if: env.DO_RELEASE == 'yes'
       run: |  
