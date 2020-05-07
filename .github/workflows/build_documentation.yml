@@ -67,19 +67,38 @@ jobs:
         echo DO_RELEASE=$DO_RELEASE
         echo DOCUMENT_NAME=$DOCUMENT_NAME
         echo DOC_SUBDIR=$DOC_SUBDIR
-    - name: build documentation website in build/html/ and pdf in build/latex/
+    - name: build documentation website in pdf in build/latex/
       uses: ammaraskar/sphinx-action@0.4
       with:
         pre-build-command: "pip install sphinx-rtd-theme && apt-get update -y && apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
-        build-command: "make html latexpdf"
+        build-command: "make latexpdf"
+        docs-folder: "."    
+    - name: rename build pdf 
+      run: |
+        cp build/latex/*.pdf ${{ env.DOCUMENT_NAME }}.pdf            
+    - name: upload pdf artifact for push commit
+      id: upload_file_io
+      if: env.DO_RELEASE == 'no'
+      uses: heowc/action-file.io@0.2.0
+      with:
+        file_path: ${{ env.DOCUMENT_NAME }}.pdf
+    - name: store pdf url to env. variable  
+      run: |
+        DOCUMENT_URL_PDF="${{ steps.upload_file_io.outputs.response }}"  
+        echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
+        echo "DOCUMENT_URL_PDF=$DOCUMENT_URL_PDF"
+        cp build/latex/*.pdf ${{ env.DOCUMENT_NAME }}.pdf            
+    - name: build documentation website in build/html/ 
+      uses: ammaraskar/sphinx-action@0.4
+      with:
+        pre-build-command: "pip install sphinx-rtd-theme"
+        build-command: "make html"
         docs-folder: "."    
     - name: Add and commit build documentation to gh-pages branch          
       run: |
         # clone gh-pages branch into 
         git clone "https://github.com/$GITHUB_REPOSITORY.git" --branch gh-pages --single-branch gh-pages
         rsync -av --delete  build/html/ gh-pages/$DOC_SUBDIR/   
-        #cp build/latex/*.pdf gh-pages/$DOC_SUBDIR/       
-        cp build/latex/*.pdf ${{ env.DOCUMENT_NAME }}.pdf            
         cd gh-pages
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
@@ -105,12 +124,6 @@ jobs:
         body: ''
         draft: false
         prerelease: false    
-    - name: upload pdf artifact for push commit
-      if: env.DO_RELEASE == 'no'
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ env.DOCUMENT_NAME }}.pdf
-        path: ${{ env.DOCUMENT_NAME }}.pdf
     - name: Create Release Assets
       if: env.DO_RELEASE == 'yes'
       run: |  

@@ -31,11 +31,17 @@ author = 'Harco Kuppens'
 with open('TOOLVERSION.txt') as f:
     toolversion = f.readline()
 
+import os
+pdfdocumenturl=os.environ['DOCUMENT_URL_PDF']
 rst_epilog = '.. |toolversion| replace:: %s' % toolversion
+rst_prolog = '.. |pdfdocumenturl| replace:: %s' % pdfdocumenturl
 #doc_base_url="https://harcokuppens.github.io/example_sphinx_doc_repo/"
 #pdf_url=doc_base_url + "stable/
 
-https://github.com/harcokuppens/example_sphinx_doc_repo/releases/download/v0.1.14/TorXakis-v4.3.14_Userguide-v0.1.14.pdf
+#https://github.com/harcokuppens/example_sphinx_doc_repo/releases/download/v0.1.14/TorXakis-v4.3.14_Userguide-v0.1.14.pdf
+
+# DOCUMENT_URL_PDF
+
 
 # -- General configuration ---------------------------------------------------
 import sphinx_rtd_theme
