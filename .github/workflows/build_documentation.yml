@@ -69,21 +69,16 @@ jobs:
         pre-build-command: "pip install sphinx-rtd-theme && apt-get update -y && apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
         build-command: "make latexpdf"
         docs-folder: "."    
-    - name: rename build pdf 
-      run: |
-        cp build/latex/*.pdf ${{ env.DOCUMENT_NAME }}.pdf            
-    - name: upload pdf artifact for push commit
-      id: upload_file_io
+    - name: rename build pdf and upload store pdf url to env. variable  
       if: env.DO_RELEASE == 'no'
-      uses: heowc/action-file.io@0.2.0
-      with:
-        file_path: ${{ env.DOCUMENT_NAME }}.pdf
-    - name: store pdf url to env. variable  
       run: |
-        DOCUMENT_URL_PDF="${{ steps.upload_file_io.outputs.response }}"  
+        buildpdf=${{ env.DOCUMENT_NAME }}.pdf            
+        cp build/latex/*.pdf $buildpdf
+        json=$(curl -F "file=@$buildpdf" https://file.io)
+        jsonparsed=https:${json##*https:}
+        DOCUMENT_URL_PDF=${jsonparsed%%\"*}
         echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
         echo "DOCUMENT_URL_PDF=$DOCUMENT_URL_PDF"
-        cp build/latex/*.pdf ${{ env.DOCUMENT_NAME }}.pdf            
     - name: build documentation website in build/html/ 
       uses: ammaraskar/sphinx-action@0.4
       with:
