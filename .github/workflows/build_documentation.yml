@@ -70,7 +70,7 @@ jobs:
         pre-build-command: "apt-get update -y && apt-get install -y graphviz git latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
         build-command: "make latexpdf"
         docs-folder: "."    
-    - name: for none-release build: upload pdf to file.io storage and set file.io's url in env.var. DOCUMENT_URL_PDF 
+    - name: "for none-release build: upload pdf to file.io storage and set file.io's url in env.var. DOCUMENT_URL_PDF"
       if: env.DO_RELEASE == 'no'
       run: |
         json=$(curl -F "file=@$SPHINX_BUILD_PDF" https://file.io/?expires=1w)
