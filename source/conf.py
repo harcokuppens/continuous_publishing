@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = '34 sf-sdf $ & Example sphinx'
+project = 'Example sphinx'
 copyright = '2020, Harco Kuppens'
 author = 'Harco Kuppens'
 
