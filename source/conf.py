@@ -17,10 +17,30 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Example sphinx'
+project = '34 sf-sdf $ & Example sphinx'
 copyright = '2020, Harco Kuppens'
 author = 'Harco Kuppens'
 
+
+def slugify(value, allow_unicode=False):
+    """
+    Convert to ASCII if 'allow_unicode' is False. Convert spaces to hyphens.
+    Remove characters that aren't alphanumerics, underscores, or hyphens.
+    Convert to lowercase. Also strip leading and trailing whitespace.
+    """
+    import unicodedata
+    import re
+    value = str(value)
+    if allow_unicode:
+        value = unicodedata.normalize('NFKC', value)
+    else:
+        value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
+    value = re.sub(r'[^\w\s-]', '', value.lower()).strip()
+    return re.sub(r'[\s]+', '', value)
+
+
+output_pdf="build/latex/" + slugify(project) + ".pdf"
+print("::set-env name=DOCUMENT_PDF::" + output_pdf)
 
 # -- Automatically add toolversion,docversion and pdfdocumenturl  -----------------------
 

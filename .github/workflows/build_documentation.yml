@@ -75,7 +75,7 @@ jobs:
       run: |
         echo DOCUMENT_NAME-$DOCUMENT_NAME  
         buildpdf=${{ env.DOCUMENT_NAME }}.pdf            
-        cp build/latex/*.pdf $buildpdf
+        cp $DOCUMENT_PDF $buildpdf
         json=$(curl -F "file=@$buildpdf" https://file.io/?expires=1w)
         jsonparsed=https:${json##*https:}
         DOCUMENT_URL_PDF=${jsonparsed%%\"*}
@@ -121,7 +121,7 @@ jobs:
       if: env.DO_RELEASE == 'yes'
       run: |  
         cd build/html/; zip -r ../../website.zip .; cd - 
-        cp build/latex/*.pdf doc.pdf
+        cp $DOCUMENT_PDF doc.pdf
     - name: Get Release
       if: env.DO_RELEASE == 'yes'
       id: get_release_info
