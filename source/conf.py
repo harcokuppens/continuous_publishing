@@ -36,7 +36,6 @@ toolversion=toolversion.strip()
 
 import subprocess
 tag=subprocess.check_output(["git","tag", "--points-at","HEAD"])
-tag="v2.3"
 if tag:
    display_edit_on_github=False
    docversion=str(tag)
