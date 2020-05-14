@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Example sphinx &mdash; Example sphinx v4.3.14, Document version sha1 7082cbc documentation</title>
+  <title>Glossary &mdash; Example sphinx v4.3.14, Document version sha1 7082cbc documentation</title>
   
 
   
@@ -37,7 +37,8 @@
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introduction" href="intro.html" /> 
+    <link rel="next" title="Bibliography" href="bibliography.html" />
+    <link rel="prev" title="Domains" href="domains.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -51,7 +52,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> Example sphinx
+            <a href="index.html" class="icon icon-home"> Example sphinx
           
 
           
@@ -91,7 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="xtest.html">Xtest</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Appendices</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="rst.html">reStructuredText</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="basics.html">reStructuredText Primer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="basics.html#paragraphs">Paragraphs</a></li>
@@ -210,7 +211,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
 </ul>
@@ -227,7 +228,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">Example sphinx</a>
+          <a href="index.html">Example sphinx</a>
         
       </nav>
 
@@ -256,16 +257,16 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#">Docs</a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Example sphinx</li>
+      <li>Glossary</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/harcokuppens/example_sphinx_doc_repo/blob/master/source/index.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/harcokuppens/example_sphinx_doc_repo/blob/master/source/glossary.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -276,8 +277,10 @@
   
   <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
       
-        <a href="intro.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="bibliography.html" class="btn btn-neutral float-right" title="Bibliography" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+      
+        <a href="domains.html" class="btn btn-neutral float-left" title="Domains" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
   </div>
   
@@ -286,20 +289,84 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="example-sphinx">
-<h1>Example sphinx<a class="headerlink" href="#example-sphinx" title="Permalink to this headline">¶</a></h1>
-<p>Documentation version ‘7082cbc’ for TorXakis version ‘v4.3.14’.</p>
-<p>This documentation is also available as printable format as <a class="reference external" href="unknown">PDF document</a> .
-For other versions see the <a class="reference external" href="https://harcokuppens.github.io/example_sphinx_doc_repo/">documentation overview webpage</a>.</p>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xtest.html">Xtest</a></li>
-</ul>
+  <div class="section" id="glossary">
+<span id="id1"></span><h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h1>
+<dl class="glossary">
+<dt id="term-builder">builder</dt><dd><p>A class (inheriting from <code class="xref py py-class docutils literal notranslate"><span class="pre">Builder</span></code>) that takes
+parsed documents and performs an action on them.  Normally, builders
+translate the documents to an output format, but it is also possible to
+use the builder builders that e.g. check for broken links in the
+documentation, or build coverage information.</p>
+<p>See <span class="xref std std-doc">/usage/builders/index</span> for an overview over Sphinx’s built-in
+builders.</p>
+</dd>
+<dt id="term-configuration-directory">configuration directory</dt><dd><p>The directory containing <code class="file docutils literal notranslate"><span class="pre">conf.py</span></code>.  By default, this is the same as
+the <a class="reference internal" href="#term-source-directory"><span class="xref std std-term">source directory</span></a>, but can be set differently with the <strong>-c</strong>
+command-line option.</p>
+</dd>
+<dt id="term-directive">directive</dt><dd><p>A reStructuredText markup element that allows marking a block of content
+with special meaning.  Directives are supplied not only by docutils, but
+Sphinx and custom extensions can add their own.  The basic directive
+syntax looks like this:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">directivename</span><span class="p">::</span> argument ...
+   <span class="nc">:option:</span> value
+
+   Content of the directive.
+</pre></div>
 </div>
-<div class="toctree-wrapper compound">
-</div>
+<p>See <a class="reference internal" href="basics.html#rst-directives"><span class="std std-ref">Directives</span></a> for more information.</p>
+</dd>
+<dt id="term-document-name">document name</dt><dd><p>Since reST source files can have different extensions (some people like
+<code class="docutils literal notranslate"><span class="pre">.txt</span></code>, some like <code class="docutils literal notranslate"><span class="pre">.rst</span></code> – the extension can be configured with
+<a href="#id2"><span class="problematic" id="id3">:confval:`source_suffix`</span></a>) and different OSes have different path
+separators, Sphinx abstracts them: <em class="dfn">document names</em> are always
+relative to the <a class="reference internal" href="#term-source-directory"><span class="xref std std-term">source directory</span></a>, the extension is stripped, and
+path separators are converted to slashes.  All values, parameters and such
+referring to “documents” expect such document names.</p>
+<p>Examples for document names are <code class="docutils literal notranslate"><span class="pre">index</span></code>, <code class="docutils literal notranslate"><span class="pre">library/zipfile</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">reference/datamodel/types</span></code>.  Note that there is no leading or trailing
+slash.</p>
+</dd>
+<dt id="term-domain">domain</dt><dd><p>A domain is a collection of markup (reStructuredText <a class="reference internal" href="#term-directive"><span class="xref std std-term">directive</span></a>s
+and <a class="reference internal" href="#term-role"><span class="xref std std-term">role</span></a>s) to describe and link to <a class="reference internal" href="#term-object"><span class="xref std std-term">object</span></a>s belonging
+together, e.g. elements of a programming language.  Directive and role
+names in a domain have names like <code class="docutils literal notranslate"><span class="pre">domain:name</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">py:function</span></code>.</p>
+<p>Having domains means that there are no naming problems when one set of
+documentation wants to refer to e.g. C++ and Python classes.  It also
+means that extensions that support the documentation of whole new
+languages are much easier to write.</p>
+<p>For more information, refer to <span class="xref std std-doc">/usage/restructuredtext/domains</span>.</p>
+</dd>
+<dt id="term-environment">environment</dt><dd><p>A structure where information about all documents under the root is saved,
+and used for cross-referencing.  The environment is pickled after the
+parsing stage, so that successive runs only need to read and parse new and
+changed documents.</p>
+</dd>
+<dt id="term-extension">extension</dt><dd><p>A custom <a class="reference internal" href="#term-role"><span class="xref std std-term">role</span></a>, <a class="reference internal" href="#term-directive"><span class="xref std std-term">directive</span></a> or other aspect of Sphinx that
+allows users to modify any aspect of the build process within Sphinx.</p>
+<p>For more information, refer to <span class="xref std std-doc">/usage/extensions/index</span>.</p>
+</dd>
+<dt id="term-master-document">master document</dt><dd><p>The document that contains the root <a class="reference internal" href="directives.html#directive-toctree" title="toctree directive"><code class="xref rst rst-dir docutils literal notranslate"><span class="pre">toctree</span></code></a> directive.</p>
+</dd>
+<dt id="term-object">object</dt><dd><p>The basic building block of Sphinx documentation.  Every “object
+directive” (e.g. <code class="xref rst rst-dir docutils literal notranslate"><span class="pre">function</span></code> or <a class="reference internal" href="domains.html#directive-object" title="object directive"><code class="xref rst rst-dir docutils literal notranslate"><span class="pre">object</span></code></a>) creates such a
+block; and most objects can be cross-referenced to.</p>
+</dd>
+<dt id="term-removeinsphinxxxxwarning">RemoveInSphinxXXXWarning</dt><dd><p>The feature which is warned will be removed in Sphinx-XXX version.
+It usually caused from Sphinx extensions which is using deprecated.
+See also <span class="xref std std-ref">when-deprecation-warnings-are-displayed</span>.</p>
+</dd>
+<dt id="term-role">role</dt><dd><p>A reStructuredText markup element that allows marking a piece of text.
+Like directives, roles are extensible.  The basic syntax looks like this:
+<code class="docutils literal notranslate"><span class="pre">:rolename:`content`</span></code>.  See <a class="reference internal" href="basics.html#rst-inline-markup"><span class="std std-ref">Inline markup</span></a> for details.</p>
+</dd>
+<dt id="term-source-directory">source directory</dt><dd><p>The directory which, including its subdirectories, contains all source
+files for one Sphinx project.</p>
+</dd>
+<dt id="term-restructuredtext">reStructuredText</dt><dd><p>An easy-to-read, what-you-see-is-what-you-get plaintext markup syntax and
+parser system.</p>
+</dd>
+</dl>
 </div>
 
 
@@ -310,8 +377,10 @@ For other versions see the <a class="reference external" href="https://harcokupp
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="intro.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="bibliography.html" class="btn btn-neutral float-right" title="Bibliography" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+      
+        <a href="domains.html" class="btn btn-neutral float-left" title="Domains" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

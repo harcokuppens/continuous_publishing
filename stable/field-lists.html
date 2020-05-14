@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Example sphinx &mdash; Example sphinx v4.3.14, Document version sha1 7082cbc documentation</title>
+  <title>Field Lists &mdash; Example sphinx v4.3.14, Document version sha1 7082cbc documentation</title>
   
 
   
@@ -37,7 +37,8 @@
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introduction" href="intro.html" /> 
+    <link rel="next" title="Domains" href="domains.html" />
+    <link rel="prev" title="Directives" href="directives.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -51,7 +52,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> Example sphinx
+            <a href="index.html" class="icon icon-home"> Example sphinx
           
 
           
@@ -91,8 +92,8 @@
 <li class="toctree-l1"><a class="reference internal" href="xtest.html">Xtest</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Appendices</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="rst.html">reStructuredText</a><ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="rst.html">reStructuredText</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="basics.html">reStructuredText Primer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="basics.html#paragraphs">Paragraphs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="basics.html#inline-markup">Inline markup</a></li>
@@ -152,8 +153,8 @@
 <li class="toctree-l3"><a class="reference internal" href="directives.html#grammar-production-displays">Grammar production displays</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="field-lists.html">Field Lists</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="field-lists.html#file-wide-metadata">File-wide metadata</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Field Lists</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#file-wide-metadata">File-wide metadata</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="domains.html">Domains</a><ul>
@@ -227,7 +228,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">Example sphinx</a>
+          <a href="index.html">Example sphinx</a>
         
       </nav>
 
@@ -256,16 +257,18 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#">Docs</a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Example sphinx</li>
+          <li><a href="rst.html">reStructuredText</a> &raquo;</li>
+        
+      <li>Field Lists</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/harcokuppens/example_sphinx_doc_repo/blob/master/source/index.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/harcokuppens/example_sphinx_doc_repo/blob/master/source/field-lists.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -276,8 +279,10 @@
   
   <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
       
-        <a href="intro.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="domains.html" class="btn btn-neutral float-right" title="Domains" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+      
+        <a href="directives.html" class="btn btn-neutral float-left" title="Directives" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
   </div>
   
@@ -286,19 +291,66 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="example-sphinx">
-<h1>Example sphinx<a class="headerlink" href="#example-sphinx" title="Permalink to this headline">¶</a></h1>
-<p>Documentation version ‘7082cbc’ for TorXakis version ‘v4.3.14’.</p>
-<p>This documentation is also available as printable format as <a class="reference external" href="unknown">PDF document</a> .
-For other versions see the <a class="reference external" href="https://harcokuppens.github.io/example_sphinx_doc_repo/">documentation overview webpage</a>.</p>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xtest.html">Xtest</a></li>
-</ul>
+  <div class="section" id="field-lists">
+<h1>Field Lists<a class="headerlink" href="#field-lists" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="basics.html#rst-field-lists"><span class="std std-ref">As previously discussed</span></a>, field lists are sequences of
+fields marked up like this:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="nc">:fieldname:</span> Field content
+</pre></div>
 </div>
-<div class="toctree-wrapper compound">
+<p>Sphinx provides custom behavior for bibliographic fields compared to docutils.</p>
+<div class="section" id="file-wide-metadata">
+<span id="metadata"></span><h2>File-wide metadata<a class="headerlink" href="#file-wide-metadata" title="Permalink to this headline">¶</a></h2>
+<p>A field list near the top of a file is normally parsed by docutils as the
+<em>docinfo</em> which is generally used to record the author, date of publication and
+other metadata.  However, in Sphinx, a field list preceding any other markup is
+moved from the <em>docinfo</em> to the Sphinx environment as document metadata and is
+not displayed in the output; a field list appearing after the document title
+will be part of the <em>docinfo</em> as normal and will be displayed in the output.</p>
+<p>At the moment, these metadata fields are recognized:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">tocdepth</span></code></dt><dd><p>The maximum depth for a table of contents of this file.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="nc">:tocdepth:</span> 2
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This metadata effects to the depth of local toctree.  But it does not
+effect to the depth of <em>global</em> toctree.  So this would not be change
+the sidebar of some themes which uses global one.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.4.</span></p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">nocomments</span></code></dt><dd><p>If set, the web application won’t display a comment form for a page
+generated from this source file.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="nc">:nocomments:</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">orphan</span></code></dt><dd><p>If set, warnings about this file not being included in any toctree will be
+suppressed.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="nc">:orphan:</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.0.</span></p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">nosearch</span></code></dt><dd><p>If set, full text search for this file is disabled.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="nc">:nosearch:</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>object search is still available even if <cite>nosearch</cite> option is set.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.</span></p>
+</div>
+</dd>
+</dl>
 </div>
 </div>
 
@@ -310,8 +362,10 @@ For other versions see the <a class="reference external" href="https://harcokupp
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="intro.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="domains.html" class="btn btn-neutral float-right" title="Domains" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+      
+        <a href="directives.html" class="btn btn-neutral float-left" title="Directives" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
