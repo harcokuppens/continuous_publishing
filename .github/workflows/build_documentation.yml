@@ -63,13 +63,14 @@ jobs:
         echo DO_RELEASE=$DO_RELEASE
         echo DOCUMENT_NAME=$DOCUMENT_NAME
         echo DOC_SUBDIR=$DOC_SUBDIR
+        echo "::set-env name=DOCUMENT_URL_PDF::unknown"
     - name: build documentation website in pdf in build/latex/
       uses: ammaraskar/sphinx-action@0.4
       with:
-        pre-build-command: "apt-get update -y && apt-get install -y git latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
+        pre-build-command: "apt-get update -y && apt-get install -y graphviz git latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
         build-command: "make latexpdf"
         docs-folder: "."    
-    - name: rename build pdf and upload store pdf url to env. variable  
+    - name: rename build pdf and upload store pdf url to env. variable and store upload url in env.var. DOCUMENT_URL_PDF 
       if: env.DO_RELEASE == 'no'
       run: |
         echo DOCUMENT_NAME-$DOCUMENT_NAME  
@@ -83,7 +84,7 @@ jobs:
     - name: build documentation website in build/html/ 
       uses: ammaraskar/sphinx-action@0.4
       with:
-        pre-build-command: "apt-get update -y && apt-get install -y git"
+        pre-build-command: "apt-get update -y && apt-get install -y graphviz git"
         build-command: "make html"
         docs-folder: "."    
     - name: Add and commit build documentation to gh-pages branch          
