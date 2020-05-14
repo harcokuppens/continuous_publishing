@@ -40,7 +40,7 @@ def slugify(value, allow_unicode=False):
 
 
 output_pdf="build/latex/" + slugify(project) + ".pdf"
-print("::set-env name=DOCUMENT_PDF::" + output_pdf)
+print("::set-env name=SPHINX_BUILD_PDF::" + output_pdf)
 
 # -- Automatically add toolversion,docversion and pdfdocumenturl  -----------------------
 

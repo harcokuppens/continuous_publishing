@@ -29,10 +29,6 @@ jobs:
           DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$TAG_NAME}
           DO_RELEASE="yes"
           DOC_SUBDIR="stable"
-          echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"          
-          echo "::set-env name=TAG_NAME::$TAG_NAME"
-          echo "::set-env name=DOC_SUBDIR::$DOC_SUBDIR"
-          echo "::set-env name=DO_RELEASE::$DO_RELEASE"
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/${TAG_NAME}"
           StatusCode=$(curl -o -I -L -s -w "%{http_code}" -X GET -G $URL)
           echo $StatusCode
@@ -43,8 +39,8 @@ jobs:
              echo "This is a tag for which no github release exist."
              CREATE_RELEASE="yes"
           fi
-          echo CREATE_RELEASE=$CREATE_RELEASE
-          echo "::set-env name=CREATE_RELEASE::$CREATE_RELEASE"
+          DOCUMENT_URL_PDF="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG_NAME}/${DOCUMENT_NAME}.pdf" 
+          echo "::set-env name=TAG_NAME::$TAG_NAME"
         else
           BRANCH_NAME=${REF##*/}
           echo "pushing a commit in branch: $BRANCH_NAME"
@@ -53,41 +49,43 @@ jobs:
           DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$SHA1_SHORT}
           DO_RELEASE="no"
           DOC_SUBDIR="latest"
-          echo run_id=${{ github.run_id }}
-          echo run_number=${{ github.run_number }}
-          echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"
+          CREATE_RELEASE="no"
+          DOCUMENT_URL_PDF="" # cannot be known before build: for none-release the build pdf gets uploaded to file.io for which we know the url only after upload (and thus build of pdf)
           echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
-          echo "::set-env name=DOC_SUBDIR::$DOC_SUBDIR"
-          echo "::set-env name=DO_RELEASE::$DO_RELEASE"
         fi
-        echo DO_RELEASE=$DO_RELEASE
-        echo DOCUMENT_NAME=$DOCUMENT_NAME
         echo DOC_SUBDIR=$DOC_SUBDIR
-        echo "::set-env name=DOCUMENT_URL_PDF::unknown"
-    - name: build documentation website in pdf in build/latex/
+        echo DO_RELEASE=$DO_RELEASE
+        echo CREATE_RELEASE=$CREATE_RELEASE
+        echo "::set-env name=DOC_SUBDIR::$DOC_SUBDIR"
+        echo "::set-env name=DO_RELEASE::$DO_RELEASE"
+        echo "::set-env name=CREATE_RELEASE::$CREATE_RELEASE"
+        
+        echo DOCUMENT_NAME=$DOCUMENT_NAME
+        echo DOCUMENT_URL_PDF=$DOCUMENT_URL_PDF
+        echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"
+        echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
+    - name: build documentation pdf in build/latex/ which contains reference to online pdf in $DOCUMENT_URL_PDF (only for tagged builds this URL is set)
       uses: ammaraskar/sphinx-action@0.4
       with:
         pre-build-command: "apt-get update -y && apt-get install -y graphviz git latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
         build-command: "make latexpdf"
         docs-folder: "."    
-    - name: rename build pdf and upload store pdf url to env. variable and store upload url in env.var. DOCUMENT_URL_PDF 
+    - name: for none-release build: upload pdf to file.io storage and set file.io's url in env.var. DOCUMENT_URL_PDF 
       if: env.DO_RELEASE == 'no'
       run: |
-        echo DOCUMENT_NAME-$DOCUMENT_NAME  
-        buildpdf=${{ env.DOCUMENT_NAME }}.pdf            
-        cp $DOCUMENT_PDF $buildpdf
-        json=$(curl -F "file=@$buildpdf" https://file.io/?expires=1w)
+        json=$(curl -F "file=@$SPHINX_BUILD_PDF" https://file.io/?expires=1w)
         jsonparsed=https:${json##*https:}
         DOCUMENT_URL_PDF=${jsonparsed%%\"*}
+        echo DOCUMENT_URL_PDF=DOCUMENT_URL_PDF
         echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
         echo "DOCUMENT_URL_PDF=$DOCUMENT_URL_PDF"
-    - name: build documentation website in build/html/ 
+    - name: build documentation website in build/html/ which contains reference to online pdf in $DOCUMENT_URL_PDF
       uses: ammaraskar/sphinx-action@0.4
       with:
         pre-build-command: "apt-get update -y && apt-get install -y graphviz git"
         build-command: "make html"
         docs-folder: "."    
-    - name: Add and commit build documentation to gh-pages branch          
+    - name: Commit build html documentation to gh-pages branch checkout in gh-pages subdir          
       run: |
         # clone gh-pages branch into 
         git clone "https://github.com/$GITHUB_REPOSITORY.git" --branch gh-pages --single-branch gh-pages
@@ -98,12 +96,13 @@ jobs:
         git add .
         git commit -m "Update documentation" -a || true
         # The above command will fail if no changes were present, so we ignore that.
-    - name: Push changes in gh-pages directory to gh-pages branch
+    - name: Push changes in gh-pages branch to github
       uses: ad-m/github-push-action@master
       with:
         branch: gh-pages
         directory: gh-pages
         github_token: ${{ secrets.GITHUB_TOKEN }}
+# create release and upload pdf and zipped website to github releases page     
     - name: Create Release
       if: env.CREATE_RELEASE == 'yes'
       id: create_release
@@ -117,12 +116,11 @@ jobs:
         body: ''
         draft: false
         prerelease: false    
-    - name: Create Release Assets
+    - name: Create Web Release Asset
       if: env.DO_RELEASE == 'yes'
       run: |  
         cd build/html/; zip -r ../../website.zip .; cd - 
-        cp $DOCUMENT_PDF doc.pdf
-    - name: Get Release
+    - name: Get Release Info to fetch upload_url
       if: env.DO_RELEASE == 'yes'
       id: get_release_info
       uses: bruceadams/get-release@v1.2.0
@@ -135,7 +133,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-        asset_path: ./doc.pdf
+        asset_path: ${{ env.SPHINX_BUILD_PDF }}
         asset_name: ${{ env.DOCUMENT_NAME }}.pdf
         asset_content_type: binary/octet-stream  
     - name: Upload release asset as zipped html website (.website.zip)
