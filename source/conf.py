@@ -22,7 +22,7 @@ copyright = '2020, Harco Kuppens'
 author = 'Harco Kuppens'
 
 github_user_or_organisation='harcokuppens'
-github_repo_name=="example_sphinx_doc_repo"
+github_repo_name="example_sphinx_doc_repo"
 
 # ----------------------------------------------------------------------------
 
