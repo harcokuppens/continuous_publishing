@@ -62,7 +62,7 @@ toolversion=toolversion.strip()
 
 import subprocess
 tag=subprocess.check_output(["git","tag", "--points-at","HEAD"])
-print("tag="+tag)
+print("tag="+str(tag))
 if tag:
    print("tag taken")
    display_edit_on_github=False
