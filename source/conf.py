@@ -61,25 +61,25 @@ toolversion=toolversion.strip()
 
 
 import subprocess
-tag=subprocess.check_output(["git","tag", "--points-at","HEAD"])
-print("tag="+str(tag))
+tag=subprocess.check_output(["git","tag", "--points-at","HEAD"],encoding="utf-8").strip()
+print("tag="+tag)
 if tag:
    print("tag taken")
    display_edit_on_github=False
-   docversion=str(tag)
-   html_docversion="Stable docs (tag " + docversion+")"
+   docversion=tag
+   html_docversion="stable docs: " + docversion
    pdf_docversion="Document version " + docversion   
 else:   
    print("tag not taken")
    display_edit_on_github=True
-   docversion=subprocess.check_output(["git","rev-parse","--short","HEAD"])
-   docversion="git-sha1-" + str(docversion,'utf-8').strip()
+   docversion=subprocess.check_output(["git","rev-parse","--short","HEAD"],encoding="utf-8").strip()
+   docversion="git-sha1-" + docversion
    
    ret=subprocess.call(["git","diff","--quiet"])
    if ret == 1:
        docversion=docversion+"+"
 
-   html_docversion="Latest docs (" + docversion +")"
+   html_docversion="latest docs: " + docversion 
    pdf_docversion="Document version " + docversion   
 
 print("html_docversion="+html_docversion)
