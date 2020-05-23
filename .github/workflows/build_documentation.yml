@@ -70,7 +70,7 @@ jobs:
         pre-build-command: "apt-get update -y && apt-get install -y graphviz git latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
         build-command: "make latexpdf"
         docs-folder: "."    
-    - name: "for none-release build: upload pdf to bashupload.com storage and set bashupload.com's url in env.var. DOCUMENT_URL_PDF"
+    - name: "for none-release build: upload pdf to bashupload.com storage and set bashupload.com's url in env.var. DOCUMENT_URL_PDF (after 1 week is automatically deleted from server)"
       if: env.DO_RELEASE == 'no'
       run: |
         output=$(curl https://bashupload.com/docs.pdf --data-binary @$SPHINX_BUILD_PDF)

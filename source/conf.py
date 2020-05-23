@@ -21,6 +21,12 @@ project = 'Example sphinx'
 copyright = '2020, Harco Kuppens'
 author = 'Harco Kuppens'
 
+github_user_or_organisation='harcokuppens'
+github_repo_name=="example_sphinx_doc_repo"
+
+# ----------------------------------------------------------------------------
+
+
 
 def slugify(value, allow_unicode=False):
     """
@@ -64,14 +70,14 @@ if tag:
 else:   
    display_edit_on_github=True
    docversion=subprocess.check_output(["git","rev-parse","--short","HEAD"])
-   docversion=str(docversion,'utf-8').strip()
+   docversion="git-sha1-" + str(docversion,'utf-8').strip()
    
    ret=subprocess.call(["git","diff","--quiet"])
    if ret == 1:
        docversion=docversion+"+"
 
-   html_docversion="Latest docs (sha1 " + docversion +")"
-   pdf_docversion="Document version sha1 " + docversion   
+   html_docversion="Latest docs (" + docversion +")"
+   pdf_docversion="Document version " + docversion   
 
 # show in left top corner in html build
 version="version: " + toolversion + "<br/>" + html_docversion
@@ -86,23 +92,14 @@ if pdfdocumenturl:
    # add link to pdf in html theme below version
    version = version + r'<br/><a style="color:white" href="' + pdfdocumenturl + '">pdf</a>'
 else:
-   pdfdocumenturl="unknown"
+    pdfdocumenturl="https://for.local.build.no.pdf.is.uploaded"
 
-#document_overview_url="https://github.com/harcokuppens/example_sphinx_doc_repo/releases"       
-document_overview_url="https://harcokuppens.github.io/example_sphinx_doc_repo/"
+document_overview_url="https://{0}.github.io/{1}/".format(github_user_or_organisation,github_repo_name)
 
 print("docversion: " +docversion)        
 print("toolversion: " +toolversion)        
 print("pdfdocumenturl: " +pdfdocumenturl)        
 print("document_overview_url: " +document_overview_url)        
-
-
-#rst_epilog = '''
-#.. |TOOLVERSION| replace:: {toolversion}
-#.. |PDFDOCUMENTURL| replace:: {pdfdocumenturl}
-#.. |DOCVERSION| replace:: {docversion}
-#'''.format(toolversion=toolversion,pdfdocumenturl=pdfdocumenturl,docversion=docversion)
-#rst_epilog = rst_epilog  (toolversion, pdfdocumenturl, docversion)
 
 #rst_code = '''
 rst_epilog = '''
@@ -113,13 +110,6 @@ rst_epilog = '''
 '''.format(toolversion=toolversion,pdfdocumenturl=pdfdocumenturl,docversion=docversion,document_overview_url=document_overview_url)
 # see for the hyperref syntax: https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#embedded-uris-and-aliases
 
-#with open('generated_rst_code.tmp','w') as f:
-#    f.write(rst_code.format(pdfdocumenturl=pdfdocumenturl))
-#
-#then include in specific file:
-#  .. include:: generated_rst_code.tmp
-# => works only for that rst file
-# => so used rst_epilog instead : works in all files and is done automatically by sphinx so no include needed
 
 extlinks = {'duref': ('http://docutils.sourceforge.net/docs/ref/rst/'
                       'restructuredtext.html#%s', ''),
@@ -128,14 +118,7 @@ extlinks = {'duref': ('http://docutils.sourceforge.net/docs/ref/rst/'
             'dudir': ('http://docutils.sourceforge.net/docs/ref/rst/'
                       'directives.html#%s', '')}
 
-import fileinput
 
-#filename="index.rst"
-#with fileinput.FileInput(filename, inplace=True, backup='.bak') as file:
-#    for line in file:
-#        text_to_search=r"|PDFDOCUMENTURL|"
-#	replacement_text=pdfdocumenturl
-#        print(line.replace(text_to_search, replacement_text), end='')
 
 # -- General configuration ---------------------------------------------------
 import sphinx_rtd_theme
@@ -195,6 +178,8 @@ html_theme_options = {
 #https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=html_context#confval-html_context
 # html_context: A dictionary of values to pass into the template engine’s context for all pages.
 
+github_user_or_organisation='harcokuppens'
+github_repo_name=="example_sphinx_doc_repo"
 # works
 ## https://github.com/readthedocs/sphinx_rtd_theme/issues/314#issuecomment-244646642-permalink
 html_context = {
@@ -202,8 +187,8 @@ html_context = {
     "show_source": False,
     "display_github": display_edit_on_github,
     "github_host": "github.com",
-    "github_user": "harcokuppens",
-    "github_repo": 'example_sphinx_doc_repo',
+    "github_user": github_user_or_organisation,
+    "github_repo": github_repo_name,
     "github_version": "master",
     "conf_py_path": "/source/",
     "source_suffix": '.rst',
