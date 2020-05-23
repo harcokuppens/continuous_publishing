@@ -23,6 +23,8 @@ jobs:
         REF=${{ github.ref }}
         TOOLVERSION=$(cat source/TOOLVERSION.txt 2>/dev/null) || TOOLVERSION=unknown
         DOCUMENT_NAME=${DOCUMENT_NAME/TOOLVERSION/$TOOLVERSION}
+        # also fetch tags so that in later step sphinx build can detect whether
+        # current build is a tagged version or not
         git fetch --tags
         if [[ $REF == *"tags"* ]]; then
           TAG_NAME=${REF##*/}
