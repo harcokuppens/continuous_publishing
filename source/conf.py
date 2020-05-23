@@ -62,12 +62,15 @@ toolversion=toolversion.strip()
 
 import subprocess
 tag=subprocess.check_output(["git","tag", "--points-at","HEAD"])
+print("tag="+tag)
 if tag:
+   print("tag taken")
    display_edit_on_github=False
    docversion=str(tag)
    html_docversion="Stable docs (tag " + docversion+")"
    pdf_docversion="Document version " + docversion   
 else:   
+   print("tag not taken")
    display_edit_on_github=True
    docversion=subprocess.check_output(["git","rev-parse","--short","HEAD"])
    docversion="git-sha1-" + str(docversion,'utf-8').strip()
@@ -78,6 +81,8 @@ else:
 
    html_docversion="Latest docs (" + docversion +")"
    pdf_docversion="Document version " + docversion   
+
+print("html_docversion="+html_docversion)
 
 # show in left top corner in html build
 version="version: " + toolversion + "<br/>" + html_docversion
