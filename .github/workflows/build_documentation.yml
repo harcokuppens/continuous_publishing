@@ -23,7 +23,7 @@ jobs:
         DOCUMENT_NAME=${DOCUMENT_NAME/TOOLVERSION/$TOOLVERSION}
         # also fetch tags so that in later step sphinx build can detect whether
         # current build is a tagged version or not
-        git fetch --tags
+        #git fetch --tags
         if [[ $REF == *"tags"* ]]; then
           TAG_NAME=${REF##*/}
           echo "pushing a tag: $TAG_NAME"
