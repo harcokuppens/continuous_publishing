@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction of Continuous Documentation (CD) &mdash; Example sphinx v4.3.14, Document version git-sha1-6205ed7 documentation</title>
+  <title>Introduction of Continuous Publishing (CP) documentation &mdash; Example sphinx v4.3.14, Document version git-sha1-127b5e7 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                version: v4.3.14<br/>latest docs: git-sha1-6205ed7<br/><a style="color:white" href="https://bashupload.com/xeYde/docs.pdf?download=1">pdf</a>
+                version: v4.3.14<br/>latest docs: git-sha1-127b5e7<br/><a style="color:white" href="https://bashupload.com/t6frj/docs.pdf?download=1">pdf</a>
               </div>
             
           
@@ -88,7 +88,10 @@
             
               <p class="caption"><span class="caption-text">Contents</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction of Continuous Documentation (CD)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction of Continuous Publishing (CP) documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#why-combination-sphinx-github-actions-and-github-pages">Why combination sphinx, github actions and github pages</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="xtest.html">Xtest</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Appendices</span></p>
@@ -259,7 +262,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Introduction of Continuous Documentation (CD)</li>
+      <li>Introduction of Continuous Publishing (CP) documentation</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -289,10 +292,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="introduction-of-continuous-documentation-cd">
-<h1>Introduction of Continuous Documentation (CD)<a class="headerlink" href="#introduction-of-continuous-documentation-cd" title="Permalink to this headline">¶</a></h1>
-<p>Welcome to this example project showing how to use sphinx documentation.</p>
-<p>The idea is ‘continuous documentation’  so that on :</p>
+  <div class="section" id="introduction-of-continuous-publishing-cp-documentation">
+<h1>Introduction of Continuous Publishing (CP) documentation<a class="headerlink" href="#introduction-of-continuous-publishing-cp-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Continuous Publishing (CP) is in analogy to Continouos Integration(CI) and
+Continouos Deployment(CD) a method to</p>
+<ul class="simple">
+<li><p>to write documentation source</p></li>
+<li><p>with supporting easy cooperation of documentation writers</p></li>
+<li><p>using a version control system</p></li>
+<li><p>where on pushing the documentation gets automatically build and published</p></li>
+</ul>
+<p>In this project we implemented this idea of Continuous Publishing using the
+sphinx documentation generator tool in a github repository where we use a github action which on a git push automatically builds the documentation and publishes it online.</p>
+<p>The documentation writer only needs to write the documentation source, and depending on the type of push an official ‘stable’ release or a temporary  ‘latest’ version of the documentation is build and publish. In more detail:</p>
 <ul class="simple">
 <li><p>push of commits</p>
 <ol class="arabic simple">
@@ -316,10 +328,8 @@ that github release</p></li>
 </ol>
 </li>
 </ul>
-<p>So you only have to write documentation and push to github. The
-documentation will automatically build by a github actions workflow
-script.</p>
-<p>If you want to make an official release you create a tag and push that
+<p>So the documentation write only needs to write documentation and push it to github. The documentation will automatically be build and published by a github actions workflow script.</p>
+<p>For an official release you create a tag and push that
 to github. You get automatically build documentation which is archived
 in the repositories releases page. So you can always look back at older
 documentation.</p>
@@ -331,27 +341,45 @@ this in a separate TOOLVERSION.txt source file.</p></li>
 <li><p>documentation version:  because the documentation is a repository it
 has its own version now. So for a specific tool version we ‘can’ have
 multiple documentation versions. The version can be:</p>
-<blockquote>
-<div><dl class="simple">
-<dt># a tag version: when building a tagged commit in git the</dt><dd><p>documentation version is the tag label.</p>
+<dl class="simple">
+<dt>a tag version:</dt><dd><p>when building a tagged commit in git the
+documentation version is the tag label.</p>
 </dd>
-<dt># a commit version: when building a none tagged commit in git the</dt><dd><p>documentation version is the short SHA-1 version of the commit.
+<dt>a commit version:</dt><dd><p>when building a none tagged commit in git the
+documentation version is the short SHA-1 version of the commit.
 When building locally and you have none-commited changes in your
 working folder then also a ‘+’, called a dirty flag, is appended to the version.</p>
 </dd>
 </dl>
-</div></blockquote>
 </li>
 </ul>
-<p>The usage off sphinx has the following advantages:</p>
+<div class="section" id="why-combination-sphinx-github-actions-and-github-pages">
+<h2>Why combination sphinx, github actions and github pages<a class="headerlink" href="#why-combination-sphinx-github-actions-and-github-pages" title="Permalink to this headline">¶</a></h2>
+<p>The usage of sphinx as documentation build system has the following advantages:</p>
+<ul>
+<li><p>it uses RestructuredText as source. The primary goal of reStructuredText is to define a markup
+syntax that is readable and simple, yet powerful enough for non-trivial use. The intended purpose of the reStructuredText markup is twofold:</p>
 <ul class="simple">
-<li><p>it uses latexpdf to build  pdf, so you get nice</p></li>
-<li><p>it support mathjax so you can use latex formula in your source</p></li>
-<li><p>sphinx is easy extensible with python extensions, so almost anything
-is possible.
-eg. graphviz dot source code supported in a block(directive) which
-allows you to make visually attractive graphs in your documentation</p></li>
+<li><p>the establishment of a set of standard conventions allowing the expression of structure within plaintext, and</p></li>
+<li><p>the conversion of such documents into useful structured data formats.</p></li>
 </ul>
+<p>Thus, a simple and readable documentation source with the expression strenght to build powerfull documentation.
+Powerfull in the meaning that it supports document structuring with parts/chapter/sections/sub..sections,  table of contents, index, glossary, figure environment, advanced cross referencing, math, etc…</p>
+</li>
+<li><p>sphinx is easy extensible with python extensions, so almost anything
+is possible:</p>
+<blockquote>
+<div><p>eg. graphviz dot source code supported in a block(directive) which
+allows you to make visually attractive graphs in your documentation</p>
+</div></blockquote>
+</li>
+<li><p>it has fancy html themes for nice web documentation</p></li>
+<li><p>it uses pdflatex to build  pdf, so you also get a nice pdf document</p></li>
+<li><p>it supports mathjax so you can use latex formula in your source</p></li>
+</ul>
+<p>The combination of sphinx documentation builder and github actions allows us to automatically build the documentation on pushing to github.</p>
+<p>Using github pages we can publish the web documentation. Using the project’s releases page we can publish stable pdf documents and a zip archives of the web documentation. The ‘latest’ build is also published on the website under latest/ subdirectory, and the latest pdf document is uploaded to bashupload.com where it stays available for a week. You have a week the time to evaluate the pdf build for you can decide is good enough to make it possible the stable release.</p>
+</div>
 </div>
 
 
