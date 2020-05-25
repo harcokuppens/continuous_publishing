@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction &mdash; Example sphinx v4.3.14, Document version git-sha1-85df192 documentation</title>
+  <title>Introduction of Continuous Documentation (CD) &mdash; Example sphinx v4.3.14, Document version git-sha1-6205ed7 documentation</title>
   
 
   
@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Xtest" href="xtest.html" />
-    <link rel="prev" title="Example sphinx" href="index.html" /> 
+    <link rel="prev" title="Continuous Documentation (CD) with sphinx and github actions and pages" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                version: v4.3.14<br/>latest docs: git-sha1-85df192<br/><a style="color:white" href="https://bashupload.com/Zkq0O/docs.pdf?download=1">pdf</a>
+                version: v4.3.14<br/>latest docs: git-sha1-6205ed7<br/><a style="color:white" href="https://bashupload.com/xeYde/docs.pdf?download=1">pdf</a>
               </div>
             
           
@@ -88,7 +88,7 @@
             
               <p class="caption"><span class="caption-text">Contents</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction of Continuous Documentation (CD)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xtest.html">Xtest</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Appendices</span></p>
@@ -259,7 +259,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Introduction</li>
+      <li>Introduction of Continuous Documentation (CD)</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -280,7 +280,7 @@
         <a href="xtest.html" class="btn btn-neutral float-right" title="Xtest" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Example sphinx" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Continuous Documentation (CD) with sphinx and github actions and pages" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
   </div>
   
@@ -289,9 +289,69 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="introduction-of-continuous-documentation-cd">
+<h1>Introduction of Continuous Documentation (CD)<a class="headerlink" href="#introduction-of-continuous-documentation-cd" title="Permalink to this headline">¶</a></h1>
 <p>Welcome to this example project showing how to use sphinx documentation.</p>
+<p>The idea is ‘continuous documentation’  so that on :</p>
+<ul class="simple">
+<li><p>push of commits</p>
+<ol class="arabic simple">
+<li><p>documentation gets automatically build</p></li>
+<li><p>build website uploaded to  latest/ subdir of  gh-pages branch
+which is automatically shown as website by github</p></li>
+<li><p>build pdf uploaded to a some temporary internet storage ( 1 week
+)  which gets linked from the website</p></li>
+</ol>
+</li>
+<li><p>push of tag   or  creation of github release online(for which
+automatically a tag gets pushed)</p>
+<ol class="arabic simple">
+<li><p>stable documentation gets automaticaly build</p></li>
+<li><p>build website uploaded to  stable/ subdir of  gh-pages branch
+which is automatically shown as website by github</p></li>
+<li><p>the build pdf is upload as release asset for that github release,
+this pdf url is linked from the website</p></li>
+<li><p>the build website is zipped and also archived as release asset for
+that github release</p></li>
+</ol>
+</li>
+</ul>
+<p>So you only have to write documentation and push to github. The
+documentation will automatically build by a github actions workflow
+script.</p>
+<p>If you want to make an official release you create a tag and push that
+to github. You get automatically build documentation which is archived
+in the repositories releases page. So you can always look back at older
+documentation.</p>
+<p>In this setup there is also added support of separate</p>
+<ul>
+<li><p>tool version:  the version of the tool what the documentation
+describes. Because this changes from time to time we let you configure
+this in a separate TOOLVERSION.txt source file.</p></li>
+<li><p>documentation version:  because the documentation is a repository it
+has its own version now. So for a specific tool version we ‘can’ have
+multiple documentation versions. The version can be:</p>
+<blockquote>
+<div><dl class="simple">
+<dt># a tag version: when building a tagged commit in git the</dt><dd><p>documentation version is the tag label.</p>
+</dd>
+<dt># a commit version: when building a none tagged commit in git the</dt><dd><p>documentation version is the short SHA-1 version of the commit.
+When building locally and you have none-commited changes in your
+working folder then also a ‘+’, called a dirty flag, is appended to the version.</p>
+</dd>
+</dl>
+</div></blockquote>
+</li>
+</ul>
+<p>The usage off sphinx has the following advantages:</p>
+<ul class="simple">
+<li><p>it uses latexpdf to build  pdf, so you get nice</p></li>
+<li><p>it support mathjax so you can use latex formula in your source</p></li>
+<li><p>sphinx is easy extensible with python extensions, so almost anything
+is possible.
+eg. graphviz dot source code supported in a block(directive) which
+allows you to make visually attractive graphs in your documentation</p></li>
+</ul>
 </div>
 
 
@@ -305,7 +365,7 @@
         <a href="xtest.html" class="btn btn-neutral float-right" title="Xtest" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Example sphinx" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Continuous Documentation (CD) with sphinx and github actions and pages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
