@@ -88,6 +88,6 @@ The usage of sphinx as documentation build system has the following advantages:
 -  it uses pdflatex to build  pdf, so you also get a nice pdf document 
 -  it supports mathjax so you can use latex formula in your source
 
-The combination of sphinx documentation builder and github actions allows us to automatically build the documentation on pushing to github. 
+The combination of sphinx documentation builder and github actions allows us to automatically build the documentation on pushing to github. On problems with the restructuredText source the Sphinx build action within github actions shows in the online github editor annotations where the problems with the source are. This makes fixing problems with the source code easy. It also allows you to edit the source files online on the github website. After editing the online github editor lets you do a commit and push online. 
 
 Using github pages we can publish the web documentation. Using the project's releases page we can publish stable pdf documents and a zip archives of the web documentation. The 'latest' build is also published on the website under latest/ subdirectory, and the latest pdf document is uploaded to bashupload.com where it stays available for a week. You have a week the time to evaluate the pdf build for you can decide is good enough to make it possible the stable release.
