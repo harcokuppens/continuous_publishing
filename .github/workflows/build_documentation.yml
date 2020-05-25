@@ -14,6 +14,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+# checkout source of pushed commit or pushed tag
+# build pdf and for none-release builds push it online in bashupload for 7 days (for quick review pdf)
+# build html with link to pdf document ( released pdf url  or  bashupload url)
+# publish html on github pages ( in stable/ subdir for released docs, in latest/ for latest commit push)             
     - name:  checkout source branch 
       uses: actions/checkout@v2   
     - name:  check whether pushing commit or tag, check creating a release is still needed and set DOCUMENT_NAME
@@ -21,9 +25,6 @@ jobs:
         REF=${{ github.ref }}
         TOOLVERSION=$(cat source/TOOLVERSION.txt 2>/dev/null) || TOOLVERSION=unknown
         DOCUMENT_NAME=${DOCUMENT_NAME/TOOLVERSION/$TOOLVERSION}
-        # also fetch tags so that in later step sphinx build can detect whether
-        # current build is a tagged version or not
-        #git fetch --tags
         if [[ $REF == *"tags"* ]]; then
           TAG_NAME=${REF##*/}
           echo "pushing a tag: $TAG_NAME"
@@ -79,16 +80,6 @@ jobs:
         echo DOCUMENT_URL_PDF=DOCUMENT_URL_PDF
         echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
         echo "DOCUMENT_URL_PDF=$DOCUMENT_URL_PDF"
-# file.io deletes file after download => can only download once        
-#    - name: "for none-release build: upload pdf to file.io storage and set file.io's url in env.var. DOCUMENT_URL_PDF"
-#      if: env.DO_RELEASE == 'no'
-#      run: |
-#        json=$(curl -F "file=@$SPHINX_BUILD_PDF" https://file.io/?expires=1w)
-#        jsonparsed=https:${json##*https:}
-#        DOCUMENT_URL_PDF=${jsonparsed%%\"*}
-#        echo DOCUMENT_URL_PDF=DOCUMENT_URL_PDF
-#        echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
-#        echo "DOCUMENT_URL_PDF=$DOCUMENT_URL_PDF"
     - name: build documentation website in build/html/ which contains reference to online pdf in $DOCUMENT_URL_PDF
       uses: ammaraskar/sphinx-action@0.4
       with:
@@ -112,7 +103,7 @@ jobs:
         branch: gh-pages
         directory: gh-pages
         github_token: ${{ secrets.GITHUB_TOKEN }}
-# create release and upload pdf and zipped website to github releases page     
+# on new tag/release: create release and upload pdf and zipped website to github releases page     
     - name: Create Release
       if: env.CREATE_RELEASE == 'yes'
       id: create_release
