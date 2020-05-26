@@ -3,9 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-======================================================================
-Continuous Documentation (CD) with sphinx and github actions and pages
-======================================================================
+==========================================================================
+Continuous Publishing (CP) with Sphinx and GitHub Actions and GitHub Pages
+==========================================================================
 
 .. BUG: above heading MUST be included otherwise the first section will be ommited from the PDF.
         For html output everything works as normal, and above header is made and below content is shown in order as in source,
