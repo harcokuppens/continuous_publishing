@@ -14,7 +14,7 @@ Continouos Deployment(CD) a method
 We can say that Continuous Publishing (CP) makes writing documentation easy.
 
 In this project we implemented this idea of Continuous Publishing using the
-`Sphinx`_ documentation generator tool in a `GitHub`_ repository where we use  `GitHub Actions`_ which on a git push automatically builds the documentation and publishes it online in a `GitHub Pages`_ website. So documentation gets automatically build for each 'latest' version. However using git tags we can mark a specific version as a 'stable' release, for which automatically a release in the project's `GitHub Releases`_ page is created, and where the build pdf document and the zipped website are archived. Also the online website generated for the 'stable' release is put at a separate location then for the 'latest' documentation build, so that the 'stable' release can be used as official documention which only changes on each new release. The 'latest' release website location is overwritten on each commit.
+`Sphinx documentation generator tool <Sphinx_>`_ in a `GitHub`_ repository where we use  `GitHub Actions`_ which on a git push automatically builds the documentation and publishes it online in a `GitHub Pages`_ website. So documentation gets automatically build for each 'latest' version. However using git tags we can mark a specific version as a 'stable' release, for which automatically a release in the project's `GitHub Releases`_ page is created, and where the build PDF document and the zipped website are archived. Also the online website generated for the 'stable' release is put at a separate location then for the 'latest' documentation build, so that the 'stable' release can be used as official documention which only changes on each new release. The 'latest' release website location is overwritten on each commit.
 
 The documentation writer only needs to write the documentation source, and depending on the type of push an official 'stable' release or a temporary  'latest' version of the documentation is build and published.
 
@@ -22,7 +22,7 @@ The automation is done by a by a `Github Actions`_ workflow script which  builds
 
 -  push of a set of commits
 
-   #. build the documentation on that committed version. It builds documentation both as website and as a pdf document.
+   #. build the documentation on that committed version. It builds documentation both as website and as a PDF document.
    #. upload the build website  to the latest/ subdir of the `gh-pages <https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site>`_
       branch which is automatically shown as website by github
    #. upload the build PDF to the temporary internet storage bashupload_, where the specific storage URL gets used to link the PDF document from the website.  The PDF is automatically deleted from the online storage after 1 week. This allows documentation writers to inspect the build PDF for 1 week. Only for stable releases we archive the PDF permanent online.
@@ -30,11 +30,11 @@ The automation is done by a by a `Github Actions`_ workflow script which  builds
 -  push of a tag
 
 
-   #. build the documentation on that tagged version. It builds documentation both as website and as a pdf document.
+   #. build the documentation on that tagged version. It builds documentation both as website and as a PDF document.
    #. upload the build website  to the stable/ subdir of the gh-pages
       branch which is automatically shown as website by github
-   #. the build pdf is upload as release asset for that github release,
-      this pdf url is linked from the website
+   #. the build PDF is upload as release asset for that github release,
+      this PDF url is linked from the website
    #. the build website is zipped and also archived as release asset for
       that github release
 
@@ -72,7 +72,7 @@ documentation version:
      When building locally and you have none-commited changes in your
      working folder then also a '+', called a dirty flag, is appended to the version.
 
-We then combine these versions in the name of the pdf document. For example::
+We then combine these versions in the name of the PDF document. For example::
 
   TorXakis-v4.3.14_Userguide-0a69d7c.pdf
 
@@ -103,7 +103,7 @@ The usage of `Sphinx`_ as documentation build system has the following advantage
      allows you to make visually attractive graphs in your documentation
 
 -  `Sphinx`_ has fancy html themes for nice web documentation
--  `Sphinx`_ uses pdflatex to build  pdf, so you also get a nice pdf document
+-  `Sphinx`_ uses pdflatex to build  PDF, so you also get a nice PDF document
 -  `Sphinx`_ supports mathjax so you can use latex formula in your source
 -  `Sphinx`_ uses `Pygments <https://pygments.org/>`_ as a generic syntax highlighter with which you can `Sphinx`_ any source code. It is also easy to extend.
 
@@ -118,7 +118,7 @@ The combination of `Sphinx`_ documentation builder and `GitHub Actions`_ allows 
 GitHub Pages
 ^^^^^^^^^^^^^^
 
-Using `GitHub Pages`_ we can publish the web documentation online. Using the project's `GitHub Releases`_ page we can publish the pdf documents and zip archives of the web documentation for all 'stable' releases online. The 'latest' build is also published on the website under latest/ subdirectory, and the latest pdf document is uploaded to bashupload_ where it stays available for a week. You have a week the time to evaluate the pdf build for the latest commit.
+Using `GitHub Pages`_ we can publish the web documentation online. Using the project's `GitHub Releases`_ page we can publish the PDF documents and zip archives of the web documentation for all 'stable' releases online. The 'latest' build is also published on the website under latest/ subdirectory, and the latest PDF document is uploaded to bashupload_ where it stays available for a week. You have a week the time to evaluate the PDF build for the latest commit.
 
 .. _Sphinx: https://www.sphinx-doc.org/
 .. _GitHub: https://github.com/

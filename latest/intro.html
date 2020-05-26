@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction Continuous Publishing &mdash; Example sphinx v4.3.14, Document version git-sha1-6c262ea documentation</title>
+  <title>Introduction Continuous Publishing &mdash; Example sphinx v4.3.14, Document version git-sha1-8d73a15 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                version: v4.3.14<br/>latest docs: git-sha1-6c262ea<br/><a style="color:white" href="https://bashupload.com/MRpFf/docs.pdf?download=1">pdf</a>
+                version: v4.3.14<br/>latest docs: git-sha1-8d73a15<br/><a style="color:white" href="https://bashupload.com/CFFp3/docs.pdf?download=1">pdf</a>
               </div>
             
           
@@ -315,13 +315,13 @@ Continouos Deployment(CD) a method</p>
 </ul>
 <p>We can say that Continuous Publishing (CP) makes writing documentation easy.</p>
 <p>In this project we implemented this idea of Continuous Publishing using the
-<a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> documentation generator tool in a <a class="reference external" href="https://github.com/">GitHub</a> repository where we use  <a class="reference external" href="https://github.com/features/actions">GitHub Actions</a> which on a git push automatically builds the documentation and publishes it online in a <a class="reference external" href="https://pages.github.com/">GitHub Pages</a> website. So documentation gets automatically build for each ‘latest’ version. However using git tags we can mark a specific version as a ‘stable’ release, for which automatically a release in the project’s <a class="reference external" href="https://help.github.com/en/github/administering-a-repository/releasing-projects-on-github">GitHub Releases</a> page is created, and where the build pdf document and the zipped website are archived. Also the online website generated for the ‘stable’ release is put at a separate location then for the ‘latest’ documentation build, so that the ‘stable’ release can be used as official documention which only changes on each new release. The ‘latest’ release website location is overwritten on each commit.</p>
+<a class="reference external" href="https://www.sphinx-doc.org/">Sphinx documentation generator tool</a> in a <a class="reference external" href="https://github.com/">GitHub</a> repository where we use  <a class="reference external" href="https://github.com/features/actions">GitHub Actions</a> which on a git push automatically builds the documentation and publishes it online in a <a class="reference external" href="https://pages.github.com/">GitHub Pages</a> website. So documentation gets automatically build for each ‘latest’ version. However using git tags we can mark a specific version as a ‘stable’ release, for which automatically a release in the project’s <a class="reference external" href="https://help.github.com/en/github/administering-a-repository/releasing-projects-on-github">GitHub Releases</a> page is created, and where the build PDF document and the zipped website are archived. Also the online website generated for the ‘stable’ release is put at a separate location then for the ‘latest’ documentation build, so that the ‘stable’ release can be used as official documention which only changes on each new release. The ‘latest’ release website location is overwritten on each commit.</p>
 <p>The documentation writer only needs to write the documentation source, and depending on the type of push an official ‘stable’ release or a temporary  ‘latest’ version of the documentation is build and published.</p>
 <p>The automation is done by a by a <a class="reference external" href="https://github.com/features/actions">Github Actions</a> workflow script which  builds either the ‘latest’ or ‘stable documentation depending on the type of its trigger event:</p>
 <ul>
 <li><p>push of a set of commits</p>
 <ol class="arabic simple">
-<li><p>build the documentation on that committed version. It builds documentation both as website and as a pdf document.</p></li>
+<li><p>build the documentation on that committed version. It builds documentation both as website and as a PDF document.</p></li>
 <li><p>upload the build website  to the latest/ subdir of the <a class="reference external" href="https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site">gh-pages</a>
 branch which is automatically shown as website by github</p></li>
 <li><p>upload the build PDF to the temporary internet storage <a class="reference external" href="https://bashupload.com/">bashupload</a>, where the specific storage URL gets used to link the PDF document from the website.  The PDF is automatically deleted from the online storage after 1 week. This allows documentation writers to inspect the build PDF for 1 week. Only for stable releases we archive the PDF permanent online.</p></li>
@@ -329,11 +329,11 @@ branch which is automatically shown as website by github</p></li>
 </li>
 <li><p>push of a tag</p>
 <ol class="arabic simple">
-<li><p>build the documentation on that tagged version. It builds documentation both as website and as a pdf document.</p></li>
+<li><p>build the documentation on that tagged version. It builds documentation both as website and as a PDF document.</p></li>
 <li><p>upload the build website  to the stable/ subdir of the gh-pages
 branch which is automatically shown as website by github</p></li>
-<li><p>the build pdf is upload as release asset for that github release,
-this pdf url is linked from the website</p></li>
+<li><p>the build PDF is upload as release asset for that github release,
+this PDF url is linked from the website</p></li>
 <li><p>the build website is zipped and also archived as release asset for
 that github release</p></li>
 </ol>
@@ -368,7 +368,7 @@ working folder then also a ‘+’, called a dirty flag, is appended to the vers
 </dl>
 </dd>
 </dl>
-<p>We then combine these versions in the name of the pdf document. For example:</p>
+<p>We then combine these versions in the name of the PDF document. For example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TorXakis</span><span class="o">-</span><span class="n">v4</span><span class="o">.</span><span class="mf">3.14</span><span class="n">_Userguide</span><span class="o">-</span><span class="mi">0</span><span class="n">a69d7c</span><span class="o">.</span><span class="n">pdf</span>
 </pre></div>
 </div>
@@ -396,7 +396,7 @@ allows you to make visually attractive graphs in your documentation</p>
 </div></blockquote>
 </li>
 <li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> has fancy html themes for nice web documentation</p></li>
-<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> uses pdflatex to build  pdf, so you also get a nice pdf document</p></li>
+<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> uses pdflatex to build  PDF, so you also get a nice PDF document</p></li>
 <li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> supports mathjax so you can use latex formula in your source</p></li>
 <li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> uses <a class="reference external" href="https://pygments.org/">Pygments</a> as a generic syntax highlighter with which you can <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> any source code. It is also easy to extend.</p></li>
 <li><p>Thus with sphinx we get a simple and readable documentation source with the expression strenght to build powerfull documentation.
@@ -409,7 +409,7 @@ Powerfull in the meaning that it supports document structuring with parts/chapte
 </div>
 <div class="section" id="github-pages">
 <h3>GitHub Pages<a class="headerlink" href="#github-pages" title="Permalink to this headline">¶</a></h3>
-<p>Using <a class="reference external" href="https://pages.github.com/">GitHub Pages</a> we can publish the web documentation online. Using the project’s <a class="reference external" href="https://help.github.com/en/github/administering-a-repository/releasing-projects-on-github">GitHub Releases</a> page we can publish the pdf documents and zip archives of the web documentation for all ‘stable’ releases online. The ‘latest’ build is also published on the website under latest/ subdirectory, and the latest pdf document is uploaded to <a class="reference external" href="https://bashupload.com/">bashupload</a> where it stays available for a week. You have a week the time to evaluate the pdf build for the latest commit.</p>
+<p>Using <a class="reference external" href="https://pages.github.com/">GitHub Pages</a> we can publish the web documentation online. Using the project’s <a class="reference external" href="https://help.github.com/en/github/administering-a-repository/releasing-projects-on-github">GitHub Releases</a> page we can publish the PDF documents and zip archives of the web documentation for all ‘stable’ releases online. The ‘latest’ build is also published on the website under latest/ subdirectory, and the latest PDF document is uploaded to <a class="reference external" href="https://bashupload.com/">bashupload</a> where it stays available for a week. You have a week the time to evaluate the PDF build for the latest commit.</p>
 </div>
 </div>
 </div>
