@@ -18,10 +18,11 @@ jobs:
           # if building 'stable' documentation for a tag, then don't kill any previous builds running
           REF=${{ github.ref }}
           if [[ $REF == *"tags"* ]]; then
+             echo "not killing any previous runs when building a stable documentation for a tagged release"
              exit 0
           fi
           
-          # else when building 'latest; documentation when a set of commits is pushed to master branch then kill previous builds      
+          # else when building 'latest; documentation when a set of commits is pushed to master branch then kill previous 'latest' builds      
           GITHUB_API="https://api.github.com"
           AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
           
@@ -30,8 +31,8 @@ jobs:
           echo "workflow id: $workflow_id"
 
           # get the run ids
-          BRANCH="master" # head_branch:"master"   when pushing commits to master branch
-                          # head_branch:"TAGLABEL" when pushing a tag. 
+          BRANCH="master" # head_branch:"master" when pushing commits to master branch(latest build => older are killed)
+                          # head_branch:"TAGLABEL" when pushing a tag. (stable build => not killed)
           jq_run_ids=".workflow_runs | .[] | select(.head_branch==\"${BRANCH}\" and (.status==\"in_progress\" or .status==\"queued\")) | .id"         
           # only kill run ids with lower id value then the current run id (don't kill itself or newer runs)
           run_ids=$(curl -s "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/actions/workflows/${workflow_id}/runs" -H "${AUTH_HEADER}" | jq -r "${jq_run_ids}" | sort -n | sed -e "/$GITHUB_RUN_ID/,\$d")
