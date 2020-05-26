@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 ==========================================================================
-Continuous Publishing (CP) with Sphinx and GitHub Actions and GitHub Pages
+Continuous Publishing (CP) with Sphinx, GitHub Actions and GitHub Pages
 ==========================================================================
 
 .. BUG: above heading MUST be included otherwise the first section will be ommited from the PDF.
