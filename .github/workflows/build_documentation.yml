@@ -40,7 +40,7 @@ jobs:
           # cancel the previous runs
           for run_id in $run_ids
           do
-            curl -s -X POST -H "${auth_header}" ${GITHUB_API}/repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/cancel
+            curl -s -X POST -H "${AUTH_HEADER}" ${GITHUB_API}/repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/cancel
             echo "Cancelled run $run_id"
           done             
   build:
