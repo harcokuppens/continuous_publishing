@@ -33,8 +33,8 @@ jobs:
           BRANCH="master" # head_branch:"master"   when pushing commits to master branch
                           # head_branch:"TAGLABEL" when pushing a tag. 
           jq_run_ids=".workflow_runs | .[] | select(.head_branch==\"${BRANCH}\" and (.status==\"in_progress\" or .status==\"queued\")) | .id"         
-          # head -n-1 to skip the run id with highest number which is the current run 
-          run_ids=$(curl -s "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/actions/workflows/${workflow_id}/runs" -H "${AUTH_HEADER}" | jq -r "${jq_run_ids}" | sort -n | head -n-1)
+          # only kill run ids with lower id value then the current run id (don't kill itself or newer runs)
+          run_ids=$(curl -s "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/actions/workflows/${workflow_id}/runs" -H "${AUTH_HEADER}" | jq -r "${jq_run_ids}" | sort -n | sed -e "/$GITHUB_RUN_ID/,\$d")
           echo "run ids: $run_ids"
 
           # cancel the previous runs
