@@ -1,4 +1,5 @@
-# example_sphinx_doc_repo
-an example repo for documentation which is automatically build on each commit and release with storing pdf and html assets within release
+# Continous Publishing
 
-run a test again
+Writing documentation source which is on each push to git automatically build and published online as a website and pdf.  By tagging official versions can be automatically released.
+
+See the documentation at https://harcokuppens.github.io/continuous_publishing/stable/ .
