@@ -11,12 +11,38 @@ env:
    DOCUMENT_NAME: TorXakis-TOOLVERSION_Userguide-DOCVERSION 
 
 jobs:
-  cancel-previous-runs:
+  cancel-previous-latest-builds:
     runs-on: ubuntu-latest
     steps:
-      - uses: rokroskar/workflow-run-cleanup-action@v0.2.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          # if building 'stable' documentation for a tag, then don't kill any previous builds running
+          REF=${{ github.ref }}
+          if [[ $REF == *"tags"* ]]; then
+             exit 0
+          fi
+          
+          # else when building 'latest; documentation when a set of commits is pushed to master branch then kill previous builds      
+          GITHUB_API="https://api.github.com"
+          AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
+          
+          # get the github workflow ID
+          workflow_id=$(curl -s "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" -H "${AUTH_HEADER}" |  jq -r '.workflow_id')
+          echo "workflow id: $workflow_id"
+
+          # get the run ids
+          BRANCH="master" # head_branch:"master"   when pushing commits to master branch
+                          # head_branch:"TAGLABEL" when pushing a tag. 
+          jq_run_ids=".workflow_runs | .[] | select(.head_branch==\"${BRANCH}\" and (.status==\"in_progress\" or .status==\"queued\")) | .id"         
+          # head -n-1 to skip the run id with highest number which is the current run 
+          run_ids=$(curl -s "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/actions/workflows/${workflow_id}/runs" -H "${AUTH_HEADER}" | jq -r "${jq_run_ids}" | sort -n | head -n-1)
+          echo "run ids: $run_ids"
+
+          # cancel the previous runs
+          for run_id in $run_ids
+          do
+            curl -s -X POST -H "${auth_header}" ${GITHUB_API}/repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/cancel
+            echo "Cancelled run $run_id"
+          done             
   build:
     runs-on: ubuntu-latest
     steps:
