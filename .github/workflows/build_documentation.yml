@@ -154,14 +154,13 @@ jobs:
 # on latest build, delete and  recreate 'develop' release and upload pdf to github releases page     
     - name: Delete old develop release
       if: env.DO_RELEASE == 'no' 
-      run: |
-      
+      run: |    
           GITHUB_API="https://api.github.com"
           AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
           #GET /repos/:owner/:repo/releases    
           releases=$(curl -s -X GET -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/")
           echo $releases
-#          RELEASE_ID=${{ steps.get_olddevelop_release_info.outputs.id }} 
+          #RELEASE_ID=${{ steps.get_olddevelop_release_info.outputs.id }} 
           #DELETE /repos/:owner/:repo/releases/:release_id
           output_delete=$(curl -s -X DELETE -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}")
           echo $output_delete         
