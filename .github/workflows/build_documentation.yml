@@ -152,24 +152,24 @@ jobs:
         directory: gh-pages
         github_token: ${{ secrets.GITHUB_TOKEN }}
 # on latest build, delete and  recreate 'develop' release and upload pdf to github releases page     
-    - name: Get Release Info for old 'develop' release
-      if: env.DO_RELEASE == 'no'
-      id: get_olddevelop_release_info
-      uses: bruceadams/get-release@v1.2.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Delete old develop release
-      if:  success() && ( env.DO_RELEASE == 'no' )
+      if: env.DO_RELEASE == 'no' 
       run: |
+      
           GITHUB_API="https://api.github.com"
           AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
-          RELEASE_ID=${{ steps.get_olddevelop_release_info.outputs.id }}
+          #GET /repos/:owner/:repo/releases    
+          releases=$(curl -s -X GET -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/")
+          echo $releases
+#          RELEASE_ID=${{ steps.get_olddevelop_release_info.outputs.id }} 
           #DELETE /repos/:owner/:repo/releases/:release_id
           output_delete=$(curl -s -X DELETE -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}")
           echo $output_delete         
-    - name: ReCreate develop Release
-      if: always() && env.DO_RELEASE == 'no'
+    - name: (Re)Create develop Release
+      if: env.DO_RELEASE == 'no'
+      #if: always() && env.DO_RELEASE == 'no'
       # https://github.com/actions/create-release
+      id: develop_release_info
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
@@ -179,19 +179,13 @@ jobs:
         body: ''
         draft: false
         prerelease: false  
-    - name: Get Release Info to fetch upload_url
-      if: env.DO_RELEASE == 'no'
-      id: get_develop_release_info
-      uses: bruceadams/get-release@v1.2.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
     - name: Upload latest pdf as develop release asset 
       if: env.DO_RELEASE == 'no'
       uses: actions/upload-release-asset@v1.0.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.get_develop_release_info.outputs.upload_url }}
+        upload_url: ${{ steps.develop_release_info.outputs.upload_url }}
         asset_path: ${{ env.SPHINX_BUILD_PDF }}
         asset_name: ${{ env.DOCUMENT_NAME }}.pdf
         asset_content_type: binary/octet-stream                 
