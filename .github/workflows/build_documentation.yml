@@ -112,52 +112,52 @@ jobs:
         echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"
         echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
     
-# sphinx build sets environment variables SPHINX_BUILD_PDF,DOCUMENT_NAME and DOCUMENT_URL_PDF 
-# because all user config in sphinx config, so that this file can be unchanged
-    - name: build documentation pdf in build/latex/ which contains reference to online pdf in $DOCUMENT_URL_PDF (only for tagged builds this URL is set)
-      uses: ammaraskar/sphinx-action@0.4
-      with:
-        pre-build-command: "apt-get update -y && apt-get install -y graphviz git latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
-        build-command: "make html latexpdf"
-        docs-folder: "."    
-    # - name: "for none-release build: upload pdf to bashupload.com storage and set bashupload.com's url in env.var. DOCUMENT_URL_PDF (after 1 week is automatically deleted from server)"
-    #   if: env.DO_RELEASE == 'no'
-    #   run: |
-    #     output=$(curl https://bashupload.com/docs.pdf --data-binary @$SPHINX_BUILD_PDF)
-    #     DOCUMENT_URL_PDF=https:${output##*https:}?download=1
-    #     echo DOCUMENT_URL_PDF=DOCUMENT_URL_PDF
-    #     echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
-    #     echo "DOCUMENT_URL_PDF=$DOCUMENT_URL_PDF"
-    # - name: build documentation website in build/html/ which contains reference to online pdf in $DOCUMENT_URL_PDF
-    #   uses: ammaraskar/sphinx-action@0.4
-    #   with:
-    #     pre-build-command: "apt-get update -y && apt-get install -y graphviz git"
-    #     build-command: "make html"
-    #     docs-folder: "."
-    - name: Commit build html documentation to gh-pages branch checkout in gh-pages subdir          
-      run: |
-        # clone gh-pages branch into 
-        git clone "https://github.com/$GITHUB_REPOSITORY.git" --branch gh-pages --single-branch gh-pages
-        rsync -av --delete  build/html/ gh-pages/$WEBSITE_SUBDIR/   
-        cd gh-pages
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add .
-        git commit -m "Update documentation" -a || true
-        # The above command will fail if no changes were present, so we ignore that.
-    - name: Push changes in gh-pages branch to github
-      uses: ad-m/github-push-action@master
-      with:
-        branch: gh-pages
-        directory: gh-pages
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+# # sphinx build sets environment variables SPHINX_BUILD_PDF,DOCUMENT_NAME and DOCUMENT_URL_PDF
+# # because all user config in sphinx config, so that this file can be unchanged
+#     - name: build documentation pdf in build/latex/ which contains reference to online pdf in $DOCUMENT_URL_PDF (only for tagged builds this URL is set)
+#       uses: ammaraskar/sphinx-action@0.4
+#       with:
+#         pre-build-command: "apt-get update -y && apt-get install -y graphviz git latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
+#         build-command: "make html latexpdf"
+#         docs-folder: "."
+#     # - name: "for none-release build: upload pdf to bashupload.com storage and set bashupload.com's url in env.var. DOCUMENT_URL_PDF (after 1 week is automatically deleted from server)"
+#     #   if: env.DO_RELEASE == 'no'
+#     #   run: |
+#     #     output=$(curl https://bashupload.com/docs.pdf --data-binary @$SPHINX_BUILD_PDF)
+#     #     DOCUMENT_URL_PDF=https:${output##*https:}?download=1
+#     #     echo DOCUMENT_URL_PDF=DOCUMENT_URL_PDF
+#     #     echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
+#     #     echo "DOCUMENT_URL_PDF=$DOCUMENT_URL_PDF"
+#     # - name: build documentation website in build/html/ which contains reference to online pdf in $DOCUMENT_URL_PDF
+#     #   uses: ammaraskar/sphinx-action@0.4
+#     #   with:
+#     #     pre-build-command: "apt-get update -y && apt-get install -y graphviz git"
+#     #     build-command: "make html"
+#     #     docs-folder: "."
+#     - name: Commit build html documentation to gh-pages branch checkout in gh-pages subdir
+#       run: |
+#         # clone gh-pages branch into
+#         git clone "https://github.com/$GITHUB_REPOSITORY.git" --branch gh-pages --single-branch gh-pages
+#         rsync -av --delete  build/html/ gh-pages/$WEBSITE_SUBDIR/
+#         cd gh-pages
+#         git config --local user.email "action@github.com"
+#         git config --local user.name "GitHub Action"
+#         git add .
+#         git commit -m "Update documentation" -a || true
+#         # The above command will fail if no changes were present, so we ignore that.
+#     - name: Push changes in gh-pages branch to github
+#       uses: ad-m/github-push-action@master
+#       with:
+#         branch: gh-pages
+#         directory: gh-pages
+#         github_token: ${{ secrets.GITHUB_TOKEN }}
 # on latest build, delete and  recreate 'develop' release and upload pdf to github releases page     
     - name: Delete old develop release
       if: env.DO_RELEASE == 'no' 
       run: |    
           GITHUB_API="https://api.github.com"
           AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
-          RELEASE_ID=$(curl -s -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases |jq -r '.[] | select(.tag_name=="develop") | .id')          
+          RELEASE_ID=$(curl -s -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases" |jq -r '.[] | select(.tag_name=="develop") | .id')          
           #DELETE /repos/:owner/:repo/releases/:release_id
           output_delete=$(curl -s -X DELETE -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}")
           echo $output_delete         
