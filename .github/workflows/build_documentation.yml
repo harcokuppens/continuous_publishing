@@ -159,7 +159,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Delete old develop release
-      if: env.DO_RELEASE == 'no'
+      if: ${{ success() }} && env.DO_RELEASE == 'no'
       run: |
           GITHUB_API="https://api.github.com"
           AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
