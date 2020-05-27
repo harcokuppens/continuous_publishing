@@ -157,10 +157,7 @@ jobs:
       run: |    
           GITHUB_API="https://api.github.com"
           AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
-          #GET /repos/:owner/:repo/releases    
-          releases=$(curl -s -X GET -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/")
-          echo $releases
-          #RELEASE_ID=${{ steps.get_olddevelop_release_info.outputs.id }} 
+          RELEASE_ID=$(curl -s -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases |jq -r '.[] | select(.tag_name=="develop") | .id')          
           #DELETE /repos/:owner/:repo/releases/:release_id
           output_delete=$(curl -s -X DELETE -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}")
           echo $output_delete         
