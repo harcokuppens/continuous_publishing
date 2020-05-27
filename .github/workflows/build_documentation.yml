@@ -161,20 +161,20 @@ jobs:
           #DELETE /repos/:owner/:repo/releases/:release_id
           output_delete=$(curl -s -X DELETE -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}")
           echo $output_delete         
-    - name: (Re)Create develop Release
-      if: env.DO_RELEASE == 'no'
-      #if: always() && env.DO_RELEASE == 'no'
-      # https://github.com/actions/create-release
-      id: develop_release_info
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-      with:
-        tag_name: develop
-        release_name: Latest documentation still under development 
-        body: ''
-        draft: false
-        prerelease: false  
+    # - name: (Re)Create develop Release
+    #   if: env.DO_RELEASE == 'no'
+    #   #if: always() && env.DO_RELEASE == 'no'
+    #   # https://github.com/actions/create-release
+    #   id: develop_release_info
+    #   uses: actions/create-release@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     tag_name: develop
+    #     release_name: Latest documentation still under development
+    #     body: ''
+    #     draft: false
+    #     prerelease: false
     - name: Upload latest pdf as develop release asset 
       if: env.DO_RELEASE == 'no'
       uses: actions/upload-release-asset@v1.0.1
