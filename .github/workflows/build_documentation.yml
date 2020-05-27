@@ -168,7 +168,7 @@ jobs:
           output_delete=$(curl -s -X DELETE -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}")
           echo $output_delete         
     - name: ReCreate develop Release
-      if: env.DO_RELEASE == 'no'
+      if: always() && env.DO_RELEASE == 'no'
       # https://github.com/actions/create-release
       uses: actions/create-release@v1
       env:
