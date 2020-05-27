@@ -159,17 +159,16 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Delete old develop release
-      if: ${{ success() }} && env.DO_RELEASE == 'no'
+      if: ${{ success() }} && ( env.DO_RELEASE == 'no' )
       run: |
           GITHUB_API="https://api.github.com"
           AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
-          RELEASE_ID=${{ steps.get_develop_release_info.outputs.id }}
+          RELEASE_ID=${{ steps.get_olddevelop_release_info.outputs.id }}
           #DELETE /repos/:owner/:repo/releases/:release_id
           output_delete=$(curl -s -X DELETE -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}")
           echo $output_delete         
     - name: ReCreate develop Release
       if: env.DO_RELEASE == 'no'
-      id: create_develop_release
       # https://github.com/actions/create-release
       uses: actions/create-release@v1
       env:
