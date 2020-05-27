@@ -164,8 +164,8 @@ jobs:
           GITHUB_API="https://api.github.com"
           AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
           RELEASE_ID=${{ steps.get_develop_release_info.outputs.id }}
-          DELETE /repos/:owner/:repo/releases/:release_id
-          output_delete=$(curl -s "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}" -H "${AUTH_HEADER}"
+          #DELETE /repos/:owner/:repo/releases/:release_id
+          output_delete=$(curl -s -X DELETE -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}")
           echo $output_delete         
     - name: ReCreate develop Release
       if: env.DO_RELEASE == 'no'
