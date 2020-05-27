@@ -16,23 +16,29 @@ jobs:
     steps:
       - run: |
           # if building 'stable' documentation for a tag, then don't kill any previous builds running
+          # note: 
+          #   head_branch:"BRANCH" when pushing commits to BRANCH branch(latest build => older are killed)
+          #   head_branch:"TAGLABEL" when pushing a tag. (we want stable release build, therefore not killed)
           REF=${{ github.ref }}
           if [[ $REF == *"tags"* ]]; then
              echo "not killing any previous runs when building a stable documentation for a tagged release"
              exit 0
           fi
+
+          # get branch for 'latest' build    
+          BRANCH=${REF##*/}          
           
-          # else when building 'latest; documentation when a set of commits is pushed to master branch then kill previous 'latest' builds      
+          #  when building 'latest; documentation when commits are pushed to a BRANCH then kill previous 
+          # 'latest' builds. Note: we select below only builds for 'latest' builds to kill, not 'stable' builds.
+          
           GITHUB_API="https://api.github.com"
           AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
           
           # get the github workflow ID
           workflow_id=$(curl -s "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" -H "${AUTH_HEADER}" |  jq -r '.workflow_id')
           echo "workflow id: $workflow_id"
-
-          # get the run ids
-          BRANCH="master" # head_branch:"master" when pushing commits to master branch(latest build => older are killed)
-                          # head_branch:"TAGLABEL" when pushing a tag. (stable build => not killed)
+          
+          # get the run ids  for the specific branch 
           jq_run_ids=".workflow_runs | .[] | select(.head_branch==\"${BRANCH}\" and (.status==\"in_progress\" or .status==\"queued\")) | .id"         
           # only kill run ids with lower id value then the current run id (don't kill itself or newer runs)
           run_ids=$(curl -s "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/actions/workflows/${workflow_id}/runs" -H "${AUTH_HEADER}" | jq -r "${jq_run_ids}" | sort -n | sed -e "/$GITHUB_RUN_ID/,\$d")
@@ -61,9 +67,10 @@ jobs:
         if [[ $REF == *"tags"* ]]; then
           TAG_NAME=${REF##*/}
           echo "pushing a tag: $TAG_NAME"
-          DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$TAG_NAME}
+          echo "::set-env name=TAG_NAME::$TAG_NAME"
+          
           DO_RELEASE="yes"
-          DOC_SUBDIR="stable"
+          WEBSITE_SUBDIR="stable"
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/${TAG_NAME}"
           StatusCode=$(curl -o -I -L -s -w "%{http_code}" -X GET -G $URL)
           echo $StatusCode
@@ -74,24 +81,29 @@ jobs:
              echo "This is a tag for which no github release exist."
              CREATE_RELEASE="yes"
           fi
+          
+          DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$TAG_NAME}
           DOCUMENT_URL_PDF="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG_NAME}/${DOCUMENT_NAME}.pdf" 
-          echo "::set-env name=TAG_NAME::$TAG_NAME"
+          
         else
           BRANCH_NAME=${REF##*/}
           echo "pushing a commit in branch: $BRANCH_NAME"
+          echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
+          
+          DO_RELEASE="no"
+          CREATE_RELEASE="no"
+          WEBSITE_SUBDIR="latest"
+          
           SHA1=${{ github.sha }}
           SHA1_SHORT=${SHA1:0:7}
           DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$SHA1_SHORT}
-          DO_RELEASE="no"
-          DOC_SUBDIR="latest"
-          CREATE_RELEASE="no"
-          DOCUMENT_URL_PDF="" # cannot be known before build: for none-release the build pdf gets uploaded to file.io for which we know the url only after upload (and thus build of pdf)
-          echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
+          DOCUMENT_URL_PDF="https://github.com/${GITHUB_REPOSITORY}/releases/download/develop/${DOCUMENT_NAME}.pdf"         
         fi
-        echo DOC_SUBDIR=$DOC_SUBDIR
+        
         echo DO_RELEASE=$DO_RELEASE
         echo CREATE_RELEASE=$CREATE_RELEASE
-        echo "::set-env name=DOC_SUBDIR::$DOC_SUBDIR"
+        echo WEBSITE_SUBDIR=$WEBSITE_SUBDIR
+        echo "::set-env name=WEBSITE_SUBDIR::$WEBSITE_SUBDIR"
         echo "::set-env name=DO_RELEASE::$DO_RELEASE"
         echo "::set-env name=CREATE_RELEASE::$CREATE_RELEASE"
         
@@ -99,31 +111,34 @@ jobs:
         echo DOCUMENT_URL_PDF=$DOCUMENT_URL_PDF
         echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"
         echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
+    
+# sphinx build sets environment variables SPHINX_BUILD_PDF,DOCUMENT_NAME and DOCUMENT_URL_PDF 
+# because all user config in sphinx config, so that this file can be unchanged
     - name: build documentation pdf in build/latex/ which contains reference to online pdf in $DOCUMENT_URL_PDF (only for tagged builds this URL is set)
       uses: ammaraskar/sphinx-action@0.4
       with:
         pre-build-command: "apt-get update -y && apt-get install -y graphviz git latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
-        build-command: "make latexpdf"
+        build-command: "make html latexpdf"
         docs-folder: "."    
-    - name: "for none-release build: upload pdf to bashupload.com storage and set bashupload.com's url in env.var. DOCUMENT_URL_PDF (after 1 week is automatically deleted from server)"
-      if: env.DO_RELEASE == 'no'
-      run: |
-        output=$(curl https://bashupload.com/docs.pdf --data-binary @$SPHINX_BUILD_PDF)
-        DOCUMENT_URL_PDF=https:${output##*https:}?download=1
-        echo DOCUMENT_URL_PDF=DOCUMENT_URL_PDF
-        echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
-        echo "DOCUMENT_URL_PDF=$DOCUMENT_URL_PDF"
-    - name: build documentation website in build/html/ which contains reference to online pdf in $DOCUMENT_URL_PDF
-      uses: ammaraskar/sphinx-action@0.4
-      with:
-        pre-build-command: "apt-get update -y && apt-get install -y graphviz git"
-        build-command: "make html"
-        docs-folder: "."    
+    # - name: "for none-release build: upload pdf to bashupload.com storage and set bashupload.com's url in env.var. DOCUMENT_URL_PDF (after 1 week is automatically deleted from server)"
+    #   if: env.DO_RELEASE == 'no'
+    #   run: |
+    #     output=$(curl https://bashupload.com/docs.pdf --data-binary @$SPHINX_BUILD_PDF)
+    #     DOCUMENT_URL_PDF=https:${output##*https:}?download=1
+    #     echo DOCUMENT_URL_PDF=DOCUMENT_URL_PDF
+    #     echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
+    #     echo "DOCUMENT_URL_PDF=$DOCUMENT_URL_PDF"
+    # - name: build documentation website in build/html/ which contains reference to online pdf in $DOCUMENT_URL_PDF
+    #   uses: ammaraskar/sphinx-action@0.4
+    #   with:
+    #     pre-build-command: "apt-get update -y && apt-get install -y graphviz git"
+    #     build-command: "make html"
+    #     docs-folder: "."
     - name: Commit build html documentation to gh-pages branch checkout in gh-pages subdir          
       run: |
         # clone gh-pages branch into 
         git clone "https://github.com/$GITHUB_REPOSITORY.git" --branch gh-pages --single-branch gh-pages
-        rsync -av --delete  build/html/ gh-pages/$DOC_SUBDIR/   
+        rsync -av --delete  build/html/ gh-pages/$WEBSITE_SUBDIR/   
         cd gh-pages
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
@@ -136,10 +151,54 @@ jobs:
         branch: gh-pages
         directory: gh-pages
         github_token: ${{ secrets.GITHUB_TOKEN }}
+# on latest build, delete and  recreate 'develop' release and upload pdf to github releases page     
+    - name: Get Release Info for old 'develop' release
+      if: env.DO_RELEASE == 'no'
+      id: get_olddevelop_release_info
+      uses: bruceadams/get-release@v1.2.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Delete old develop release
+      if: env.DO_RELEASE == 'no'
+      run: |
+          GITHUB_API="https://api.github.com"
+          AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
+          RELEASE_ID=${{ steps.get_develop_release_info.outputs.id }}
+          DELETE /repos/:owner/:repo/releases/:release_id
+          output_delete=$(curl -s "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}" -H "${AUTH_HEADER}"
+          echo $output_delete         
+    - name: ReCreate develop Release
+      if: env.DO_RELEASE == 'no'
+      id: create_develop_release
+      # https://github.com/actions/create-release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      with:
+        tag_name: develop
+        release_name: Latest documentation still under development 
+        body: ''
+        draft: false
+        prerelease: false  
+    - name: Get Release Info to fetch upload_url
+      if: env.DO_RELEASE == 'no'
+      id: get_develop_release_info
+      uses: bruceadams/get-release@v1.2.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
+    - name: Upload latest pdf as develop release asset 
+      if: env.DO_RELEASE == 'no'
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.get_develop_release_info.outputs.upload_url }}
+        asset_path: ${{ env.SPHINX_BUILD_PDF }}
+        asset_name: ${{ env.DOCUMENT_NAME }}.pdf
+        asset_content_type: binary/octet-stream                 
 # on new tag/release: create release and upload pdf and zipped website to github releases page     
     - name: Create Release
       if: env.CREATE_RELEASE == 'yes'
-      id: create_release
       # https://github.com/actions/create-release
       uses: actions/create-release@v1
       env:
