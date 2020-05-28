@@ -135,8 +135,7 @@ jobs:
           GITHUB_API="https://api.github.com"
           AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
           RELEASE_ID=$(curl -s -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases" |jq -r '.[] | select(.tag_name=="develop") | .id')          
-          curl -s -X DELETE -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}"
-          echo $AUTH_HEADER         
+          curl -s -X DELETE -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}"        
     - name: (Re)Create develop Release
       if: env.DO_RELEASE == 'no'
       #if: always() && env.DO_RELEASE == 'no'
@@ -148,7 +147,7 @@ jobs:
       with:
         tag_name: develop
         release_name: Latest documentation still under development 
-        body: 'Online you can also find [the latest documentation under development](${{ env.GITHUB_PAGES_WEBSITE_URL }}/latest).'
+        body: 'Online you can also find [the latest documentation under development](${{ env.GITHUB_PAGES_WEBSITE_URL }}/${{ env.WEBSITE_SUBDIR }}).'
         draft: false
         prerelease: false  
     - name: Upload latest pdf as develop release asset 
@@ -171,7 +170,7 @@ jobs:
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
-        body: 'Online you can also find [the latest stable documentation](${{ env.GITHUB_PAGES_WEBSITE_URL }}/stable).'
+        body: 'Online you can also find [the latest stable documentation](${{ env.GITHUB_PAGES_WEBSITE_URL }}/${{ env.WEBSITE_SUBDIR }}).'
         draft: false
         prerelease: false    
     - name: Create Web Release Asset

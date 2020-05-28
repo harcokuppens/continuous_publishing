@@ -28,6 +28,8 @@ github_repo_name="continuous_publishing"
 #       documentation source. This general configuration once set doesn't need changing then. 
 document_name_format="TorXakis-{TOOLVERSION}_Userguide-{DOCVERSION}"
 
+prefix_for_git_sha1_version="git-sha1-"
+
 # ----------------------------------------------------------------------------
 
 # -- SPHINX_BUILD_PDF  -----------------------
@@ -81,7 +83,7 @@ else:
    release_name="develop"
    display_edit_on_github=True
    docversion=subprocess.check_output(["git","rev-parse","--short","HEAD"],encoding="utf-8").strip()
-   docversion="git-sha1-" + docversion
+   docversion=prefix_for_git_sha1_version + docversion
    
    ret=subprocess.call(["git","diff","--quiet"])
    if ret == 1:
