@@ -147,7 +147,7 @@ jobs:
       with:
         tag_name: develop
         release_name: Latest documentation still under development 
-        body: 'Online you can also find [the latest documentation under development](${{ env.GITHUB_PAGES_WEBSITE_URL }}/${{ env.WEBSITE_SUBDIR }}).'
+        body: 'Online you can also find [the latest documentation under development](${{ env.GITHUB_PAGES_WEBSITE_URL }}/${{ env.WEBSITE_SUBDIR }}/).'
         draft: false
         prerelease: false  
     - name: Upload latest pdf as develop release asset 
@@ -170,7 +170,7 @@ jobs:
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
-        body: 'Online you can also find [the latest stable documentation](${{ env.GITHUB_PAGES_WEBSITE_URL }}/${{ env.WEBSITE_SUBDIR }}).'
+        body: 'Online you can also find [the latest stable documentation](${{ env.GITHUB_PAGES_WEBSITE_URL }}/${{ env.WEBSITE_SUBDIR }}/).'
         draft: false
         prerelease: false    
     - name: Create Web Release Asset
