@@ -17,15 +17,20 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Example sphinx'
+project = 'Continuous Publishing'
 copyright = '2020, Harco Kuppens'
 author = 'Harco Kuppens'
 
 github_user_or_organisation='harcokuppens'
-github_repo_name="example_sphinx_doc_repo"
+github_repo_name="continuous_publishing"
+
+# note: TOOLVERSION is set in separate file TOOLVERSION.txt so we only need to change that file as part of the
+#       documentation source. This general configuration once set doesn't need changing then. 
+document_name_format="TorXakis-{TOOLVERSION}_Userguide-{DOCVERSION}"
 
 # ----------------------------------------------------------------------------
 
+# -- SPHINX_BUILD_PDF  -----------------------
 
 
 def slugify(value, allow_unicode=False):
@@ -48,6 +53,7 @@ def slugify(value, allow_unicode=False):
 output_pdf="build/latex/" + slugify(project) + ".pdf"
 print("::set-env name=SPHINX_BUILD_PDF::" + output_pdf)
 
+
 # -- Automatically add toolversion,docversion and pdfdocumenturl  -----------------------
 
 
@@ -65,12 +71,14 @@ tag=subprocess.check_output(["git","tag", "--points-at","HEAD"],encoding="utf-8"
 print("tag="+tag)
 if tag:
    print("tag taken")
+   release_name=tag
    display_edit_on_github=False
    docversion=tag
    html_docversion="stable docs: " + docversion
    pdf_docversion="Document version " + docversion   
 else:   
    print("tag not taken")
+   release_name="develop"
    display_edit_on_github=True
    docversion=subprocess.check_output(["git","rev-parse","--short","HEAD"],encoding="utf-8").strip()
    docversion="git-sha1-" + docversion
@@ -89,15 +97,27 @@ version="version: " + toolversion + "<br/>" + html_docversion
 # show on first page in pdf build
 release= toolversion + ", " + pdf_docversion
 
+
+document_name = document_name_format.format(TOOLVERSION=toolversion,DOCVERSION=docversion)
+print("::set-env name=DOCUMENT_NAME::" + document_name)
+
+
+
+
+
+
+pdfdocumenturl="https://github.com/{0}/{1}/releases/download/{2}/{3}.pdf".format(github_user_or_organisation,
+                github_repo_name,release_name,document_name)
+
+
 import os
-# DOCUMENT_URL_PDF is set by previous github workflow which build and uploaded the pdf
-# for local builds this variable won't be set and no pdf link is added
-pdfdocumenturl=os.environ.get('DOCUMENT_URL_PDF')
-if pdfdocumenturl:
+if os.environ.get('RUN_ON_GITHUB_PAGES'):
+   # build on github actions
    # add link to pdf in html theme below version
    version = version + r'<br/><a style="color:white" href="' + pdfdocumenturl + '">pdf</a>'
 else:
-    pdfdocumenturl="https://for.local.build.no.pdf.is.uploaded"
+   # local build    
+   pdfdocumenturl="https://for.local.build.no.pdf.is.uploaded"
 
 document_overview_url="https://{0}.github.io/{1}/".format(github_user_or_organisation,github_repo_name)
 
@@ -116,12 +136,7 @@ rst_epilog = '''
 # see for the hyperref syntax: https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#embedded-uris-and-aliases
 
 
-extlinks = {'duref': ('http://docutils.sourceforge.net/docs/ref/rst/'
-                      'restructuredtext.html#%s', ''),
-            'durole': ('http://docutils.sourceforge.net/docs/ref/rst/'
-                       'roles.html#%s', ''),
-            'dudir': ('http://docutils.sourceforge.net/docs/ref/rst/'
-                      'directives.html#%s', '')}
+
 
 
 
@@ -211,3 +226,15 @@ latex_elements = {
 }
 
 #html_show_sourcelink = True
+
+
+# -- config for restructured text appendix  -----------------------
+
+extlinks = {'duref': ('http://docutils.sourceforge.net/docs/ref/rst/'
+                      'restructuredtext.html#%s', ''),
+            'durole': ('http://docutils.sourceforge.net/docs/ref/rst/'
+                       'roles.html#%s', ''),
+            'dudir': ('http://docutils.sourceforge.net/docs/ref/rst/'
+                      'directives.html#%s', '')}
+
+

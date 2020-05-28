@@ -7,8 +7,7 @@ on:
      tags:
        - 'v*'
 
-env:
-   DOCUMENT_NAME: TorXakis-TOOLVERSION_Userguide-DOCVERSION 
+
 
 jobs:
   cancel-previous-latest-builds:
@@ -59,11 +58,9 @@ jobs:
 # publish html on github pages ( in stable/ subdir for released docs, in latest/ for latest commit push)             
     - name:  checkout source branch 
       uses: actions/checkout@v2   
-    - name:  check whether pushing commit or tag, check creating a release is still needed and set DOCUMENT_NAME
+    - name:  check whether pushing commit or tag, check creating a release is still needed 
       run: |
         REF=${{ github.ref }}
-        TOOLVERSION=$(cat source/TOOLVERSION.txt 2>/dev/null) || TOOLVERSION=unknown
-        DOCUMENT_NAME=${DOCUMENT_NAME/TOOLVERSION/$TOOLVERSION}
         if [[ $REF == *"tags"* ]]; then
           TAG_NAME=${REF##*/}
           echo "pushing a tag: $TAG_NAME"
@@ -81,10 +78,6 @@ jobs:
              echo "This is a tag for which no github release exist."
              CREATE_RELEASE="yes"
           fi
-          
-          DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$TAG_NAME}
-          DOCUMENT_URL_PDF="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG_NAME}/${DOCUMENT_NAME}.pdf" 
-          
         else
           BRANCH_NAME=${REF##*/}
           echo "pushing a commit in branch: $BRANCH_NAME"
@@ -92,12 +85,7 @@ jobs:
           
           DO_RELEASE="no"
           CREATE_RELEASE="no"
-          WEBSITE_SUBDIR="latest"
-          
-          SHA1=${{ github.sha }}
-          SHA1_SHORT=${SHA1:0:7}
-          DOCUMENT_NAME=${DOCUMENT_NAME/DOCVERSION/$SHA1_SHORT}
-          DOCUMENT_URL_PDF="https://github.com/${GITHUB_REPOSITORY}/releases/download/develop/${DOCUMENT_NAME}.pdf"         
+          WEBSITE_SUBDIR="latest"          
         fi
         
         echo DO_RELEASE=$DO_RELEASE
@@ -106,34 +94,18 @@ jobs:
         echo "::set-env name=WEBSITE_SUBDIR::$WEBSITE_SUBDIR"
         echo "::set-env name=DO_RELEASE::$DO_RELEASE"
         echo "::set-env name=CREATE_RELEASE::$CREATE_RELEASE"
-        
-        echo DOCUMENT_NAME=$DOCUMENT_NAME
-        echo DOCUMENT_URL_PDF=$DOCUMENT_URL_PDF
-        echo "::set-env name=DOCUMENT_NAME::$DOCUMENT_NAME"
-        echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
-    
-# sphinx build sets environment variables SPHINX_BUILD_PDF,DOCUMENT_NAME and DOCUMENT_URL_PDF
-# because all user config in sphinx config, so that this file can be unchanged
-    - name: build documentation pdf in build/latex/ which contains reference to online pdf in $DOCUMENT_URL_PDF (only for tagged builds this URL is set)
+        echo "::set-env name=RUN_ON_GITHUB_PAGES::true"
+           
+# sphinx build sets environment variables 
+#  * SPHINX_BUILD_PDF: the file path of the pdf file build by sphinx  
+#  * DOCUMENT_NAME: official name for the documention configured in the sphinx configuration file conf.py
+# NOTE: all user configaration is done in the sphinx config so that this file can left unchanged
+    - name: build documentation pdf and html
       uses: ammaraskar/sphinx-action@0.4
       with:
         pre-build-command: "apt-get update -y && apt-get install -y graphviz git latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
         build-command: "make html latexpdf"
         docs-folder: "."
-    # - name: "for none-release build: upload pdf to bashupload.com storage and set bashupload.com's url in env.var. DOCUMENT_URL_PDF (after 1 week is automatically deleted from server)"
-    #   if: env.DO_RELEASE == 'no'
-    #   run: |
-    #     output=$(curl https://bashupload.com/docs.pdf --data-binary @$SPHINX_BUILD_PDF)
-    #     DOCUMENT_URL_PDF=https:${output##*https:}?download=1
-    #     echo DOCUMENT_URL_PDF=DOCUMENT_URL_PDF
-    #     echo "::set-env name=DOCUMENT_URL_PDF::$DOCUMENT_URL_PDF"
-    #     echo "DOCUMENT_URL_PDF=$DOCUMENT_URL_PDF"
-    # - name: build documentation website in build/html/ which contains reference to online pdf in $DOCUMENT_URL_PDF
-    #   uses: ammaraskar/sphinx-action@0.4
-    #   with:
-    #     pre-build-command: "apt-get update -y && apt-get install -y graphviz git"
-    #     build-command: "make html"
-    #     docs-folder: "."
     - name: Commit build html documentation to gh-pages branch checkout in gh-pages subdir
       run: |
         # clone gh-pages branch into
