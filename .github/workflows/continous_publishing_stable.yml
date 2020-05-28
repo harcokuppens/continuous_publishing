@@ -23,7 +23,7 @@ jobs:
         pre-build-command: "apt-get update -y && apt-get install -y graphviz git latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
         build-command: "make html latexpdf BUILDDIR=build"
         docs-folder: "."
-# Upload website         
+# Publish website on github pages      
     - name:  get env.GITHUB_PAGES_WEBSITE_URL and env.WEBSITE_SUBDIR
       run: |
         

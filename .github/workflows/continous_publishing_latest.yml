@@ -6,7 +6,7 @@ on:
        - master  
 
 jobs:
-# on push of new commit cancel previous builds, because only latest build is shown online  
+# Cancel previous builds because only latest build is shown online  
   cancel-previous-latest-builds:
     runs-on: ubuntu-latest
     steps:
@@ -39,10 +39,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-# checkout source of pushed commit 
+# Checkout source of pushed commit 
     - name:  checkout source branch 
       uses: actions/checkout@v2   
-# sphinx builds html and pdf  (in the documentation it contains a link to the  documentation website and the build pdf)
+# Sphinx builds html and pdf  (in the documentation it contains a link to the  documentation website and the build pdf)
 #    sphinx build sets environment variables 
 #     * SPHINX_BUILD_PDF: the file path of the pdf file build by sphinx  
 #     * DOCUMENT_NAME: official name for the documention configured in the sphinx configuration file conf.py
@@ -53,7 +53,21 @@ jobs:
         pre-build-command: "apt-get update -y && apt-get install -y graphviz git latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
         build-command: "make html latexpdf BUILDDIR=build"
         docs-folder: "."
-# publish html on github pages        
+# Publish website on github pages      
+    - name: get env.GITHUB_PAGES_WEBSITE_URL and env.WEBSITE_SUBDIR
+      run: |
+        WEBSITE_SUBDIR="latest"          
+        
+        REPOSITORY_OWNER_SLASH_NAME="${{ github.repository }}"
+        REPOSITORY_OWNER="${{ github.repository_owner }}"
+        REPOSITORY_NAME=${REPOSITORY_OWNER_SLASH_NAME##*/}
+        GITHUB_PAGES_WEBSITE_URL="https://${REPOSITORY_OWNER}.github.io/${REPOSITORY_NAME}"
+                    
+        echo WEBSITE_SUBDIR=$WEBSITE_SUBDIR
+        echo "::set-env name=WEBSITE_SUBDIR::$WEBSITE_SUBDIR"     
+           
+        echo GITHUB_PAGES_WEBSITE_URL=$GITHUB_PAGES_WEBSITE_URL
+        echo "::set-env name=GITHUB_PAGES_WEBSITE_URL::$GITHUB_PAGES_WEBSITE_URL"  
     - name: Commit build html documentation to gh-pages branch checkout in gh-pages subdir
       run: |
         # clone gh-pages branch into
@@ -71,21 +85,7 @@ jobs:
         branch: gh-pages
         directory: gh-pages
         github_token: ${{ secrets.GITHUB_TOKEN }}
-#  delete and  recreate 'develop' release and upload pdf to github releases page     
-    - name: get env.GITHUB_PAGES_WEBSITE_URL and env.WEBSITE_SUBDIR
-      run: |
-        WEBSITE_SUBDIR="latest"          
-        
-        REPOSITORY_OWNER_SLASH_NAME="${{ github.repository }}"
-        REPOSITORY_OWNER="${{ github.repository_owner }}"
-        REPOSITORY_NAME=${REPOSITORY_OWNER_SLASH_NAME##*/}
-        GITHUB_PAGES_WEBSITE_URL="https://${REPOSITORY_OWNER}.github.io/${REPOSITORY_NAME}"
-                    
-        echo WEBSITE_SUBDIR=$WEBSITE_SUBDIR
-        echo "::set-env name=WEBSITE_SUBDIR::$WEBSITE_SUBDIR"     
-           
-        echo GITHUB_PAGES_WEBSITE_URL=$GITHUB_PAGES_WEBSITE_URL
-        echo "::set-env name=GITHUB_PAGES_WEBSITE_URL::$GITHUB_PAGES_WEBSITE_URL"
+#  Delete and  recreate 'develop' release and upload pdf to github releases page     
     - name: Delete old develop release
       run: |    
           GITHUB_API="https://api.github.com"
