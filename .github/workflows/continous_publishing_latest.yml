@@ -1,0 +1,116 @@
+name: Continous Publishing (latest)
+
+on:
+   push:
+     branches:
+       - master  
+
+jobs:
+# on push of new commit cancel previous builds, because only latest build is shown online  
+  cancel-previous-latest-builds:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          # get branch for 'latest' build    
+          BRANCH=${REF##*/}          
+          
+          #  when building 'latest; documentation when commits are pushed to a BRANCH then kill previous 
+          # 'latest' builds. Note: we select below only builds for 'latest' builds to kill, not 'stable' builds.
+          
+          GITHUB_API="https://api.github.com"
+          AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
+          
+          # get the github workflow ID
+          workflow_id=$(curl -s "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" -H "${AUTH_HEADER}" |  jq -r '.workflow_id')
+          echo "workflow id: $workflow_id"
+          
+          # get the run ids  for the specific branch 
+          jq_run_ids=".workflow_runs | .[] | select(.head_branch==\"${BRANCH}\" and (.status==\"in_progress\" or .status==\"queued\")) | .id"         
+          # only kill run ids with lower id value then the current run id (don't kill itself or newer runs)
+          run_ids=$(curl -s "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/actions/workflows/${workflow_id}/runs" -H "${AUTH_HEADER}" | jq -r "${jq_run_ids}" | sort -n | sed -e "/$GITHUB_RUN_ID/,\$d")
+          echo "run ids: $run_ids"
+
+          # cancel the previous runs
+          for run_id in $run_ids
+          do
+            curl -s -X POST -H "${AUTH_HEADER}" ${GITHUB_API}/repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/cancel
+            echo "Cancelled run $run_id"
+          done             
+  build:
+    runs-on: ubuntu-latest
+    steps:
+# checkout source of pushed commit 
+    - name:  checkout source branch 
+      uses: actions/checkout@v2   
+# sphinx builds html and pdf  (in the documentation it contains a link to the  documentation website and the build pdf)
+#    sphinx build sets environment variables 
+#     * SPHINX_BUILD_PDF: the file path of the pdf file build by sphinx  
+#     * DOCUMENT_NAME: official name for the documention configured in the sphinx configuration file conf.py
+#    NOTE: all user configaration is done in the sphinx config so that this file can left unchanged
+    - name: build documentation pdf and html (sets env.SPHINX_BUILD_PDF env.DOCUMENT_NAME)
+      uses: ammaraskar/sphinx-action@0.4
+      with:
+        pre-build-command: "apt-get update -y && apt-get install -y graphviz git latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
+        build-command: "make html latexpdf BUILDDIR=build"
+        docs-folder: "."
+# publish html on github pages        
+    - name: Commit build html documentation to gh-pages branch checkout in gh-pages subdir
+      run: |
+        # clone gh-pages branch into
+        git clone "https://github.com/$GITHUB_REPOSITORY.git" --branch gh-pages --single-branch gh-pages
+        rsync -av --delete  build/html/ gh-pages/$WEBSITE_SUBDIR/
+        cd gh-pages
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "Update documentation" -a || true
+        # The above command will fail if no changes were present, so we ignore that.
+    - name: Push changes in gh-pages branch to github
+      uses: ad-m/github-push-action@master
+      with:
+        branch: gh-pages
+        directory: gh-pages
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+#  delete and  recreate 'develop' release and upload pdf to github releases page     
+    - name: get env.GITHUB_PAGES_WEBSITE_URL and env.WEBSITE_SUBDIR
+      run: |
+        WEBSITE_SUBDIR="latest"          
+        
+        REPOSITORY_OWNER_SLASH_NAME="${{ github.repository }}"
+        REPOSITORY_OWNER="${{ github.repository_owner }}"
+        REPOSITORY_NAME=${REPOSITORY_OWNER_SLASH_NAME##*/}
+        GITHUB_PAGES_WEBSITE_URL="https://${REPOSITORY_OWNER}.github.io/${REPOSITORY_NAME}"
+                    
+        echo WEBSITE_SUBDIR=$WEBSITE_SUBDIR
+        echo "::set-env name=WEBSITE_SUBDIR::$WEBSITE_SUBDIR"     
+           
+        echo GITHUB_PAGES_WEBSITE_URL=$GITHUB_PAGES_WEBSITE_URL
+        echo "::set-env name=GITHUB_PAGES_WEBSITE_URL::$GITHUB_PAGES_WEBSITE_URL"
+    - name: Delete old develop release
+      run: |    
+          GITHUB_API="https://api.github.com"
+          AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
+          RELEASE_ID=$(curl -s -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases" |jq -r '.[] | select(.tag_name=="develop") | .id')          
+          curl -s -X DELETE -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}"    
+    - name: (Re)Create develop Release
+      #if: always() && env.DO_RELEASE == 'no'
+      # https://github.com/actions/create-release
+      id: develop_release_info
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      with:
+        tag_name: develop
+        release_name: Latest documentation still under development 
+        body: 'Online you can also find [the latest documentation under development](${{ env.GITHUB_PAGES_WEBSITE_URL }}/${{ env.WEBSITE_SUBDIR }}/).'
+        draft: false
+        prerelease: false  
+    - name: Upload latest pdf as develop release asset 
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.develop_release_info.outputs.upload_url }}
+        asset_path: ${{ env.SPHINX_BUILD_PDF }}
+        asset_name: ${{ env.DOCUMENT_NAME }}.pdf
+        asset_content_type: binary/octet-stream                     
