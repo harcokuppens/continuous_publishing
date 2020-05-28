@@ -87,8 +87,8 @@ jobs:
           CREATE_RELEASE="no"
           WEBSITE_SUBDIR="latest"          
         fi
-        REPOSITORY_OWNER_SLASH_NAME= ${{ github.repository }}
-        REPOSITORY_OWNER=${{ github.repository_owner }}
+        REPOSITORY_OWNER_SLASH_NAME="${{ github.repository }}"
+        REPOSITORY_OWNER="${{ github.repository_owner }}"
         REPOSITORY_NAME=${REPOSITORY_OWNER_SLASH_NAME##*/}
         GITHUB_PAGES_WEBSITE_URL="https://${REPOSITORY_OWNER}.github.io/${REPOSITORY_NAME}"
         echo "::set-env name=GITHUB_PAGES_WEBSITE_URL::$GITHUB_PAGES_WEBSITE_URL"
