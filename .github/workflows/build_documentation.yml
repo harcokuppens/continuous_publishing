@@ -109,7 +109,7 @@ jobs:
       uses: ammaraskar/sphinx-action@0.4
       with:
         pre-build-command: "apt-get update -y && apt-get install -y graphviz git latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
-        build-command: "make html latexpdf"
+        build-command: "make html latexpdf BUILDDIR=build"
         docs-folder: "."
     - name: Commit build html documentation to gh-pages branch checkout in gh-pages subdir
       run: |
