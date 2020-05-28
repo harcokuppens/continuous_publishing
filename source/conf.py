@@ -111,7 +111,7 @@ pdfdocumenturl="https://github.com/{0}/{1}/releases/download/{2}/{3}.pdf".format
 
 
 import os
-if os.environ.get('RUN_ON_GITHUB_PAGES'):
+if os.environ.get('GITHUB_ACTIONS'):
    # build on github actions
    # add link to pdf in html theme below version
    version = version + r'<br/><a style="color:white" href="' + pdfdocumenturl + '">pdf</a>'

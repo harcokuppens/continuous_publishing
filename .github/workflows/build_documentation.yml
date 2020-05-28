@@ -87,6 +87,11 @@ jobs:
           CREATE_RELEASE="no"
           WEBSITE_SUBDIR="latest"          
         fi
+        REPOSITORY_OWNER_SLASH_NAME= ${{ github.repository }}
+        REPOSITORY_OWNER=${{ github.repository_owner }}
+        REPOSITORY_NAME=${REPOSITORY_OWNER_SLASH_NAME##*/}
+        GITHUB_PAGES_WEBSITE_URL="https://${REPOSITORY_OWNER}.github.io/${REPOSITORY_NAME}"
+        echo "::set-env name=GITHUB_PAGES_WEBSITE_URL::$GITHUB_PAGES_WEBSITE_URL"
         
         echo DO_RELEASE=$DO_RELEASE
         echo CREATE_RELEASE=$CREATE_RELEASE
@@ -130,9 +135,8 @@ jobs:
           GITHUB_API="https://api.github.com"
           AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
           RELEASE_ID=$(curl -s -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases" |jq -r '.[] | select(.tag_name=="develop") | .id')          
-          #DELETE /repos/:owner/:repo/releases/:release_id
-          output_delete=$(curl -s -X DELETE -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}")
-          echo $output_delete         
+          curl -s -X DELETE -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}"
+          echo $AUTH_HEADER         
     - name: (Re)Create develop Release
       if: env.DO_RELEASE == 'no'
       #if: always() && env.DO_RELEASE == 'no'
@@ -144,7 +148,7 @@ jobs:
       with:
         tag_name: develop
         release_name: Latest documentation still under development 
-        body: ''
+        body: 'Online you can also find [the latest documentation under development](${{ env.GITHUB_PAGES_WEBSITE_URL }/latest).'
         draft: false
         prerelease: false  
     - name: Upload latest pdf as develop release asset 
@@ -167,7 +171,7 @@ jobs:
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
-        body: ''
+        body: 'Online you can also find [the latest stable documentation](${{ env.GITHUB_PAGES_WEBSITE_URL }/stable).'
         draft: false
         prerelease: false    
     - name: Create Web Release Asset
