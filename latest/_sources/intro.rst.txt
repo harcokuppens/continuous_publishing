@@ -137,12 +137,4 @@ initial setup
 configuration
 -------------
 
-TODO:
- * index.html with link to releases website
- * make build faster by upload to bashupload in sphinx's make file!
- * configuration at one place,  DOCUMENT_NAME
- * document as example and as easy reference we added rest doc from sphinx website
- * document: gh-pages url's
- * document: setup doc repo, how to set orphan gh-pages branch
-   => make it easy => download start files
- * document: rest docs overview
+
