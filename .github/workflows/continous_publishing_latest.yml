@@ -93,7 +93,6 @@ jobs:
           RELEASE_ID=$(curl -s -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases" |jq -r '.[] | select(.tag_name=="develop") | .id')          
           curl -s -X DELETE -H "${AUTH_HEADER}" "${GITHUB_API}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}"    
     - name: (Re)Create develop Release
-      #if: always() && env.DO_RELEASE == 'no'
       # https://github.com/actions/create-release
       id: develop_release_info
       uses: actions/create-release@v1
