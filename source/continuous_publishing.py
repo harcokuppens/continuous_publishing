@@ -49,6 +49,7 @@ else:
    print("tag not taken")
    release_name="develop"
    todo_include_todos=True
+   todo_link_only=True
    display_edit_on_github=True
    docversion=subprocess.check_output(["git","rev-parse","--short","HEAD"],encoding="utf-8").strip()
    docversion=prefix_for_git_sha1_version + docversion
