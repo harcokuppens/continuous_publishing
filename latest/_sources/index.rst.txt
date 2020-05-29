@@ -26,6 +26,7 @@ For other versions see the `documentation overview webpage <DOCUMENT_OVERVIEW_UR
    :caption: Contents
 
    intro
+   combination
    setup
    xtest 
 

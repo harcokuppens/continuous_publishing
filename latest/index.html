@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Continuous Publishing (CP) with Sphinx, GitHub Actions and GitHub Pages &mdash; Continuous Publishing v4.3.14, Document version git-sha1-38d73d0 documentation</title>
+  <title>Continuous Publishing (CP) with Sphinx, GitHub Actions and GitHub Pages &mdash; Continuous Publishing v4.3.14, Document version git-sha1-708e277 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                version: v4.3.14<br/>latest docs: git-sha1-38d73d0<br/><a style="color:white" href="https://github.com/harcokuppens/continuous_publishing/releases/download/develop/TorXakis-v4.3.14_Userguide-git-sha1-38d73d0.pdf">pdf</a>
+                version: v4.3.14<br/>latest docs: git-sha1-708e277<br/><a style="color:white" href="https://github.com/harcokuppens/continuous_publishing/releases/download/develop/TorXakis-v4.3.14_Userguide-git-sha1-708e277.pdf">pdf</a>
               </div>
             
           
@@ -91,9 +91,16 @@
 <li class="toctree-l2"><a class="reference internal" href="intro.html#combined-version-of-tool-and-documentation-version">Combined version of tool and documentation version</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="combination.html">Why combination sphinx, github actions and github pages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="combination.html#sphinx">Sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combination.html#github-actions">GitHub Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combination.html#github-pages">GitHub Pages</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Setup a new documentation repository</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#initial-setup">initial setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#configuration">configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#setup-github-repo-with-sphinx">Setup github repo with sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#config-sphinx-for-continuous-publishing">Config sphinx for  continuous_publishing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#setup-github-actions-for-continuous-publishing-sphinx-website-and-pdf-on-github">Setup github actions for  continuous_publishing sphinx website and pdf on github</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="xtest.html">Xtest</a></li>
@@ -296,24 +303,14 @@
             
   <div class="section" id="continuous-publishing-cp-with-sphinx-github-actions-and-github-pages">
 <h1>Continuous Publishing (CP) with Sphinx, GitHub Actions and GitHub Pages<a class="headerlink" href="#continuous-publishing-cp-with-sphinx-github-actions-and-github-pages" title="Permalink to this headline">¶</a></h1>
-<p>Documentation version ‘git-sha1-38d73d0’ for TorXakis version ‘v4.3.14’.</p>
-<p>This documentation is also available as printable format as <a class="reference external" href="https://github.com/harcokuppens/continuous_publishing/releases/download/develop/TorXakis-v4.3.14_Userguide-git-sha1-38d73d0.pdf">PDF document</a> .
+<p>Documentation version ‘git-sha1-708e277’ for TorXakis version ‘v4.3.14’.</p>
+<p>This documentation is also available as printable format as <a class="reference external" href="https://github.com/harcokuppens/continuous_publishing/releases/download/develop/TorXakis-v4.3.14_Userguide-git-sha1-708e277.pdf">PDF document</a> .
 For other versions see the <a class="reference external" href="https://github.com/harcokuppens/continuous_publishing/releases/">documentation overview webpage</a>.</p>
 <div class="admonition-todo admonition">
 <p class="admonition-title">Todo</p>
 <p>Is this not part of the standard domain?</p>
 </div>
-<p class="todo-source">(The <a class="reference internal" href="roles.html#id11"><em>original entry</em></a> is located in /github/workspace/source/roles.rst, line 401.)</p>
-<div class="admonition-todo admonition">
-<p class="admonition-title">Todo</p>
-<p>add initial setup</p>
-</div>
-<p class="todo-source">(The <a class="reference internal" href="setup.html#id1"><em>original entry</em></a> is located in /github/workspace/source/setup.rst, line 7.)</p>
-<div class="admonition-todo admonition">
-<p class="admonition-title">Todo</p>
-<p>add configuration for initial setup</p>
-</div>
-<p class="todo-source">(The <a class="reference internal" href="setup.html#id2"><em>original entry</em></a> is located in /github/workspace/source/setup.rst, line 14.)</p>
+<p class="todo-source"><a class="reference internal" href="roles.html#id11"><em>original entry</em></a></p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents</span></p>
 <ul>
@@ -321,9 +318,16 @@ For other versions see the <a class="reference external" href="https://github.co
 <li class="toctree-l2"><a class="reference internal" href="intro.html#combined-version-of-tool-and-documentation-version">Combined version of tool and documentation version</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="combination.html">Why combination sphinx, github actions and github pages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="combination.html#sphinx">Sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combination.html#github-actions">GitHub Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combination.html#github-pages">GitHub Pages</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Setup a new documentation repository</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#initial-setup">initial setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#configuration">configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#setup-github-repo-with-sphinx">Setup github repo with sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#config-sphinx-for-continuous-publishing">Config sphinx for  continuous_publishing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#setup-github-actions-for-continuous-publishing-sphinx-website-and-pdf-on-github">Setup github actions for  continuous_publishing sphinx website and pdf on github</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="xtest.html">Xtest</a></li>
