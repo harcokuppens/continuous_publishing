@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Continuous Publishing (CP) with Sphinx, GitHub Actions and GitHub Pages &mdash; Continuous Publishing v4.3.14, Document version git-sha1-38d73d0 documentation</title>
+  <title>Why combination sphinx, github actions and github pages &mdash; Continuous Publishing v4.3.14, Document version git-sha1-38d73d0 documentation</title>
   
 
   
@@ -36,8 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introduction Continuous Publishing" href="intro.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -51,7 +50,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> Continuous Publishing
+            <a href="index.html" class="icon icon-home"> Continuous Publishing
           
 
           
@@ -235,7 +234,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">Continuous Publishing</a>
+          <a href="index.html">Continuous Publishing</a>
         
       </nav>
 
@@ -264,16 +263,16 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#">Docs</a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Continuous Publishing (CP) with Sphinx, GitHub Actions and GitHub Pages</li>
+      <li>Why combination sphinx, github actions and github pages</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/harcokuppens/continuous_publishing/blob/master/source/index.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/harcokuppens/continuous_publishing/blob/master/source/combination.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -282,54 +281,48 @@
   </ul>
 
   
-  <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
-      
-        <a href="intro.html" class="btn btn-neutral float-right" title="Introduction Continuous Publishing" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-  </div>
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="continuous-publishing-cp-with-sphinx-github-actions-and-github-pages">
-<h1>Continuous Publishing (CP) with Sphinx, GitHub Actions and GitHub Pages<a class="headerlink" href="#continuous-publishing-cp-with-sphinx-github-actions-and-github-pages" title="Permalink to this headline">¶</a></h1>
-<p>Documentation version ‘git-sha1-38d73d0’ for TorXakis version ‘v4.3.14’.</p>
-<p>This documentation is also available as printable format as <a class="reference external" href="https://github.com/harcokuppens/continuous_publishing/releases/download/develop/TorXakis-v4.3.14_Userguide-git-sha1-38d73d0.pdf">PDF document</a> .
-For other versions see the <a class="reference external" href="https://github.com/harcokuppens/continuous_publishing/releases/">documentation overview webpage</a>.</p>
-<div class="admonition-todo admonition">
-<p class="admonition-title">Todo</p>
-<p>Is this not part of the standard domain?</p>
-</div>
-<p class="todo-source">(The <a class="reference internal" href="roles.html#id11"><em>original entry</em></a> is located in /github/workspace/source/roles.rst, line 401.)</p>
-<div class="admonition-todo admonition">
-<p class="admonition-title">Todo</p>
-<p>add initial setup</p>
-</div>
-<p class="todo-source">(The <a class="reference internal" href="setup.html#id1"><em>original entry</em></a> is located in /github/workspace/source/setup.rst, line 7.)</p>
-<div class="admonition-todo admonition">
-<p class="admonition-title">Todo</p>
-<p>add configuration for initial setup</p>
-</div>
-<p class="todo-source">(The <a class="reference internal" href="setup.html#id2"><em>original entry</em></a> is located in /github/workspace/source/setup.rst, line 14.)</p>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents</span></p>
+  <div class="section" id="why-combination-sphinx-github-actions-and-github-pages">
+<h1>Why combination sphinx, github actions and github pages<a class="headerlink" href="#why-combination-sphinx-github-actions-and-github-pages" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="sphinx">
+<h2>Sphinx<a class="headerlink" href="#sphinx" title="Permalink to this headline">¶</a></h2>
+<p>The usage of <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> as documentation build system has the following advantages:</p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction Continuous Publishing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#combined-version-of-tool-and-documentation-version">Combined version of tool and documentation version</a></li>
+<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> uses RestructuredText as source which is an easy-to-read, what-you-see-is-what-you-get plaintext markup syntax.</p>
+<p>The primary goal of reStructuredText is to define a markup
+syntax that is readable and simple, yet powerful enough for non-trivial use. The intended purpose of the reStructuredText markup is twofold:</p>
+<ul class="simple">
+<li><p>the establishment of a set of standard conventions allowing the expression of structure within plaintext, and</p></li>
+<li><p>the conversion of such documents into useful structured data formats.</p></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup a new documentation repository</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#initial-setup">initial setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#configuration">configuration</a></li>
-</ul>
+<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> enhances RestructuredText to allow you to write documentation  in a more structured  way in many source files with cross referencing between these source files. It extends RestructuredText with many convenient roles and directives to make documentation writing easier and better.</p></li>
+<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> is easy extensible with python extensions, so almost anything
+is possible:</p>
+<blockquote>
+<div><p>eg. graphviz dot source code supported in a block(directive) which
+allows you to make visually attractive graphs in your documentation</p>
+</div></blockquote>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="xtest.html">Xtest</a></li>
+<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> has fancy html themes for nice web documentation</p></li>
+<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> uses pdflatex to build  PDF, so you also get a nice PDF document</p></li>
+<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> supports mathjax so you can use latex formula in your source</p></li>
+<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> uses <a class="reference external" href="https://pygments.org/">Pygments</a> as a generic syntax highlighter with which you can <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> any source code. It is also easy to extend.</p></li>
+<li><p>Thus with sphinx we get a simple and readable documentation source with the expression strenght to build powerfull documentation.
+Powerfull in the meaning that it supports document structuring with parts/chapter/sections/sub..sections,  table of contents, index, glossary, figure environment, advanced cross referencing, math, etc…</p></li>
 </ul>
 </div>
-<div class="toctree-wrapper compound">
+<div class="section" id="github-actions">
+<h2>GitHub Actions<a class="headerlink" href="#github-actions" title="Permalink to this headline">¶</a></h2>
+<p>The combination of <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> documentation builder and <a class="reference external" href="https://github.com/features/actions">GitHub Actions</a> allows us to automatically build the documentation on pushing to github. On problems with the restructuredText source the Sphinx build action within github actions shows in the online github editor annotations where the problems with the source are. This makes fixing problems with the source code easy. It also allows you to edit the source files online on the github website, where on every save in the online editor a new commit is pushed to the repository.</p>
+</div>
+<div class="section" id="github-pages">
+<h2>GitHub Pages<a class="headerlink" href="#github-pages" title="Permalink to this headline">¶</a></h2>
+<p>Using <a class="reference external" href="https://pages.github.com/">GitHub Pages</a> we can publish the web documentation online. Using the project’s <a class="reference external" href="https://help.github.com/en/github/administering-a-repository/releasing-projects-on-github">GitHub Releases</a> page we can publish the PDF documents and zip archives of the web documentation for all ‘stable’ releases online. The ‘latest’ build is also published on the website under latest/ subdirectory, and the latest PDF document is uploaded to <a class="reference external" href="https://bashupload.com/">bashupload</a> where it stays available for a week. You have a week the time to evaluate the PDF build for the latest commit.</p>
 </div>
 </div>
 
@@ -338,13 +331,6 @@ For other versions see the <a class="reference external" href="https://github.co
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="intro.html" class="btn btn-neutral float-right" title="Introduction Continuous Publishing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-    </div>
   
 
   <hr/>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Roles &mdash; Continuous Publishing v4.3.14, Document version git-sha1-636e20f documentation</title>
+  <title>Roles &mdash; Continuous Publishing v4.3.14, Document version git-sha1-38d73d0 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                version: v4.3.14<br/>latest docs: git-sha1-636e20f<br/><a style="color:white" href="https://github.com/harcokuppens/continuous_publishing/releases/download/develop/TorXakis-v4.3.14_Userguide-git-sha1-636e20f.pdf">pdf</a>
+                version: v4.3.14<br/>latest docs: git-sha1-38d73d0<br/><a style="color:white" href="https://github.com/harcokuppens/continuous_publishing/releases/download/develop/TorXakis-v4.3.14_Userguide-git-sha1-38d73d0.pdf">pdf</a>
               </div>
             
           
@@ -90,17 +90,11 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction Continuous Publishing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="intro.html#combined-version-of-tool-and-documentation-version">Combined version of tool and documentation version</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#why-combination-sphinx-github-actions-and-github-pages">Why combination sphinx, github actions and github pages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="intro.html#sphinx">Sphinx</a></li>
-<li class="toctree-l3"><a class="reference internal" href="intro.html#github-actions">GitHub Actions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="intro.html#github-pages">GitHub Pages</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="intro.html#setup-a-new-documentation-repository">Setup a new documentation repository</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#initial-setup">initial setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#configuration">configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup a new documentation repository</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#initial-setup">initial setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#configuration">configuration</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="xtest.html">Xtest</a></li>
@@ -716,6 +710,10 @@ portion, taken alone).</p>
 <dd><p>The name of a Usenet newsgroup.</p>
 </dd></dl>
 
+<div class="admonition-todo admonition" id="id11">
+<p class="admonition-title">Todo</p>
+<p>Is this not part of the standard domain?</p>
+</div>
 <dl class="role">
 <dt id="role-program">
 <code class="sig-name descname">:program:</code><a class="headerlink" href="#role-program" title="Permalink to this definition">¶</a></dt>
@@ -776,7 +774,7 @@ default. They are set in the build configuration file.</p>
 <code class="sig-name descname">|release|</code></dt>
 <dd><p>Replaced by the project release the documentation refers to.  This is meant
 to be the full version string including alpha/beta/release candidate tags,
-e.g. <code class="docutils literal notranslate"><span class="pre">2.5.2b3</span></code>.  Set by <a href="#id11"><span class="problematic" id="id12">:confval:`release`</span></a>.</p>
+e.g. <code class="docutils literal notranslate"><span class="pre">2.5.2b3</span></code>.  Set by <a href="#id12"><span class="problematic" id="id13">:confval:`release`</span></a>.</p>
 </dd></dl>
 
 <dl class="describe">
@@ -784,7 +782,7 @@ e.g. <code class="docutils literal notranslate"><span class="pre">2.5.2b3</span>
 <code class="sig-name descname">|version|</code></dt>
 <dd><p>Replaced by the project version the documentation refers to. This is meant to
 consist only of the major and minor version parts, e.g. <code class="docutils literal notranslate"><span class="pre">2.5</span></code>, even for
-version 2.5.1.  Set by <a href="#id13"><span class="problematic" id="id14">:confval:`version`</span></a>.</p>
+version 2.5.1.  Set by <a href="#id14"><span class="problematic" id="id15">:confval:`version`</span></a>.</p>
 </dd></dl>
 
 <dl class="describe">
@@ -792,7 +790,7 @@ version 2.5.1.  Set by <a href="#id13"><span class="problematic" id="id14">:conf
 <code class="sig-name descname">|today|</code></dt>
 <dd><p>Replaced by either today’s date (the date on which the document is read), or
 the date set in the build configuration file.  Normally has the format
-<code class="docutils literal notranslate"><span class="pre">April</span> <span class="pre">14,</span> <span class="pre">2007</span></code>.  Set by <a href="#id15"><span class="problematic" id="id16">:confval:`today_fmt`</span></a> and <a href="#id17"><span class="problematic" id="id18">:confval:`today`</span></a>.</p>
+<code class="docutils literal notranslate"><span class="pre">April</span> <span class="pre">14,</span> <span class="pre">2007</span></code>.  Set by <a href="#id16"><span class="problematic" id="id17">:confval:`today_fmt`</span></a> and <a href="#id18"><span class="problematic" id="id19">:confval:`today`</span></a>.</p>
 </dd></dl>
 
 </div>
