@@ -14,11 +14,11 @@ Continouos Deployment(CD) a method
 We can say that Continuous Publishing (CP) makes writing documentation easy.
 
 In this project we implemented this idea of Continuous Publishing using the
-`Sphinx documentation generator tool <Sphinx_>`_ in a `GitHub`_ repository where we use  `GitHub Actions`_ which on a git push automatically builds the documentation and publishes it online in a `GitHub Pages`_ website. So documentation gets automatically build for each 'latest' version. However using git tags we can mark a specific version as a 'stable' release, for which automatically a release in the project's `GitHub Releases`_ page is created, and where the build PDF document and the zipped website are archived. Also the online website generated for the 'stable' release is put at a separate location then for the 'latest' documentation build, so that the 'stable' release can be used as official documention which only changes on each new release. The 'latest' release website location is overwritten on each commit.
+:ref:`Sphinx documentation generator tool <Sphinx>` in a :ref:`GitHub` repository where we use  :ref:`GitHub Actions` which on a git push automatically builds the documentation and publishes it online in a :ref:`GitHub Pages` website. So documentation gets automatically build for each 'latest' version. However using git tags we can mark a specific version as a 'stable' release, for which automatically a release in the project's :ref:`GitHub Releases` page is created, and where the build PDF document and the zipped website are archived. Also the online website generated for the 'stable' release is put at a separate location then for the 'latest' documentation build, so that the 'stable' release can be used as official documention which only changes on each new release. The 'latest' release website location is overwritten on each commit.
 
 The documentation writer only needs to write the documentation source, and depending on the type of push an official 'stable' release or a temporary  'latest' version of the documentation is build and published.
 
-The automation is done by a by a `Github Actions`_ workflow script which  builds either the 'latest' or 'stable documentation depending on the type of its trigger event:
+The automation is done by a by a :ref:`Github Actions` workflow script which  builds either the 'latest' or 'stable documentation depending on the type of its trigger event:
 
 -  push of a set of commits
 
@@ -74,6 +74,6 @@ documentation version:
 
 We then combine these versions in the name of the PDF document. For example::
 
-  TorXakis-v4.3.14_Userguide-0a69d7c.pdf
+  TorXakis-v4.3.14_Userguide-git-sha1-0a69d7c.pdf
 
 
