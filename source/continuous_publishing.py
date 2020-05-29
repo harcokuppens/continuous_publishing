@@ -82,7 +82,8 @@ else:
    # local build    
    pdfdocumenturl="https://for.local.build.no.pdf.is.uploaded"
 
-document_overview_url="https://{0}.github.io/{1}/".format(github_user_or_organisation,github_repo_name)
+#document_overview_url="https://{0}.github.io/{1}/".format(github_user_or_organisation,github_repo_name)
+document_overview_url="https://github.com/{0}/{1}/releases/".format(github_user_or_organisation,github_repo_name)
 
 print("docversion: " +docversion)        
 print("toolversion: " +toolversion)        
