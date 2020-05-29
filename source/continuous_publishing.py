@@ -40,6 +40,7 @@ print("tag="+tag)
 if tag:
    print("tag taken")
    release_name=tag
+   todo_include_todos=False
    display_edit_on_github=False
    docversion=tag
    html_docversion="stable docs: " + docversion
@@ -47,6 +48,7 @@ if tag:
 else:   
    print("tag not taken")
    release_name="develop"
+   todo_include_todos=True
    display_edit_on_github=True
    docversion=subprocess.check_output(["git","rev-parse","--short","HEAD"],encoding="utf-8").strip()
    docversion=prefix_for_git_sha1_version + docversion

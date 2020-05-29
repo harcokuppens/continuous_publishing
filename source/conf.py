@@ -17,7 +17,7 @@ author = 'Harco Kuppens'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-        'sphinx.ext.extlinks',
+        'sphinx.ext.extlinks','sphinx.ext.todo',
         'sphinx.ext.mathjax','sphinx.ext.graphviz'
 ]
 
