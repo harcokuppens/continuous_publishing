@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Setup a new documentation repository &mdash; Continuous Publishing v4.3.14, Document version git-sha1-c0de8f9 documentation</title>
+  <title>Setup a new documentation repository &mdash; Continuous Publishing v4.3.14, Document version git-sha1-1d01ef5 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -30,11 +36,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Xtest" href="xtest.html" />
@@ -52,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Continuous Publishing
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Continuous Publishing
           
 
           
@@ -62,7 +63,7 @@
             
             
               <div class="version">
-                version: v4.3.14<br/>latest docs: git-sha1-c0de8f9<br/><a style="color:white" href="https://github.com/harcokuppens/continuous_publishing/releases/download/develop/TorXakis-v4.3.14_Userguide-git-sha1-c0de8f9.pdf">pdf</a>
+                version: v4.3.14<br/>latest docs: git-sha1-1d01ef5<br/><a style="color:white" href="https://github.com/harcokuppens/continuous_publishing/releases/download/develop/TorXakis-v4.3.14_Userguide-git-sha1-1d01ef5.pdf">pdf</a>
               </div>
             
           
@@ -79,6 +80,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -234,6 +236,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -272,7 +275,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Setup a new documentation repository</li>
     
@@ -335,24 +338,26 @@
 <span class="n">cd</span> <span class="o">-</span>
 </pre></div>
 </div>
-<p>then add to end of conf.py file :</p>
-<blockquote>
-<div><p># – Load Continuous publishing configuration —————————————————</p>
-<p>includefile=’continuous_publishing.py’
-exec(compile(source=open(includefile).read(), filename=includefile, mode=’exec’))</p>
-</div></blockquote>
+<p>then add to end of conf.py file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># -- Load Continuous publishing configuration ---------------------------------------------------</span>
+
+<span class="n">includefile</span><span class="o">=</span><span class="s1">&#39;continuous_publishing.py&#39;</span>
+<span class="n">exec</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">includefile</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">filename</span><span class="o">=</span><span class="n">includefile</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;exec&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
 </li>
 <li><p>config continuous_publishing.py : fill in config values in first section to setup github for cont. publishing:</p></li>
-<li><p>set tool version in  TOOLVERSION.txt and add “sphinx-rtd-theme” python package as requirement for sphinx</p>
-<blockquote>
-<div><p>TOOLVERSION=…
+<li><p>set tool version in  TOOLVERSION.txt and add “sphinx-rtd-theme” python package as requirement for sphinx:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>TOOLVERSION=...
 cd source
 echo $TOOLVERSION &gt; TOOLVERSION.txt
-echo “sphinx-rtd-theme” &gt; requirements.txt</p>
-<p>cd -
+echo &quot;sphinx-rtd-theme&quot; &gt; requirements.txt
+
+cd -
 git add .
-git commit -m’setup sphinx with continuous publishing’</p>
-</div></blockquote>
+git commit -m&#39;setup sphinx with continuous publishing&#39;
+</pre></div>
+</div>
 </li>
 </ol>
 </div>
@@ -413,11 +418,19 @@ git push -u origin $WEBSITE_BRANCH
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Harco Kuppens
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -428,7 +441,6 @@ git push -u origin $WEBSITE_BRANCH
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
