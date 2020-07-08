@@ -40,12 +40,11 @@ Config sphinx for  continuous_publishing
  
 4. set tool version in  TOOLVERSION.txt and add "sphinx-rtd-theme" python package as requirement for sphinx::
 
-     TOOLVERSION=...  
+     TOOLVERSION=...     
      cd source      
-     echo $TOOLVERSION > TOOLVERSION.txt
-     echo "sphinx-rtd-theme" > requirements.txt 
-     
+     echo $TOOLVERSION > TOOLVERSION.txt  
      cd - 
+     echo "sphinx-rtd-theme" > requirements.txt 
      git add .
      git commit -m'setup sphinx with continuous publishing'
     
