@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction Continuous Publishing &mdash; Continuous Publishing v4.3.14, Document version git-sha1-6e662be documentation</title>
+  <title>Introduction Continuous Publishing &mdash; Continuous Publishing v4.3.14, Document version git-sha1-ee79418 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                version: v4.3.14<br/>latest docs: git-sha1-6e662be<br/><a style="color:white" href="https://github.com/harcokuppens/continuous_publishing/releases/download/develop/TorXakis-v4.3.14_Userguide-git-sha1-6e662be.pdf">pdf</a>
+                version: v4.3.14<br/>latest docs: git-sha1-ee79418<br/><a style="color:white" href="https://github.com/harcokuppens/continuous_publishing/releases/download/develop/TorXakis-v4.3.14_Userguide-git-sha1-ee79418.pdf">pdf</a>
               </div>
             
           
@@ -319,16 +319,19 @@ Continuous Deployment(CD) a method</p>
 </ul>
 <p>We can say that Continuous Publishing (CP) makes writing documentation easy.</p>
 <p>In this project we implemented this idea of Continuous Publishing using the
-<span class="xref std std-ref">Sphinx documentation generator tool</span> in a <span class="xref std std-ref">GitHub</span> repository where we use  <span class="xref std std-ref">GitHub Actions</span> which on a git push automatically builds the documentation and publishes it online in a <span class="xref std std-ref">GitHub Pages</span> website. So documentation gets automatically build for each ‘latest’ version. However using git tags we can mark a specific version as a ‘stable’ release, for which automatically a release in the project’s <span class="xref std std-ref">GitHub Releases</span> page is created, and where the build PDF document and the zipped website are archived. Also, the online website generated for the ‘stable’ release is put at a separate location then for the ‘latest’ documentation build so that the ‘stable’ release can be used as official documentation which only changes on each new release. The ‘latest’ release website location is overwritten on each commit.</p>
+<a class="reference external" href="Sphinx">Sphinx documentation generator tool</a> in a <a class="reference external" href="https://github.com/">GitHub</a> repository where we use  <a class="reference external" href="https://github.com/features/actions">GitHub Actions</a> which on a git push automatically builds the documentation and publishes it online in a <a class="reference external" href="https://pages.github.com/">GitHub Pages</a> website. So documentation gets automatically build for each ‘latest’ version. However using git tags we can mark a specific version as a ‘stable’ release, for which automatically a release in the project’s <a class="reference external" href="https://help.github.com/en/github/administering-a-repository/releasing-projects-on-github">GitHub Releases</a> page is created, and where the build PDF document and the zipped website are archived. Also the online website generated for the ‘stable’ release is put at a separate location then for the ‘latest’ documentation build, so that the ‘stable’ release can be used as official documention which only changes on each new release. The ‘latest’ release website location is overwritten on each commit.</p>
 <p>The documentation writer only needs to write the documentation source, and depending on the type of push an official ‘stable’ release or a temporary  ‘latest’ version of the documentation is build and published.</p>
-<p>The automation is done by a <span class="xref std std-ref">Github Actions</span> workflow script which  builds either the ‘latest’ or ‘stable documentation depending on the type of its trigger event:</p>
+<p>The automation is done by a by a <a class="reference external" href="https://github.com/features/actions">Github Actions</a> workflow script which  builds either the ‘latest’ or ‘stable documentation depending on the type of its trigger event:</p>
 <ul>
 <li><p>push of a set of commits</p>
 <ol class="arabic simple">
-<li><p>build the documentation on that committed version. It builds documentation both as a website and as a PDF document.</p></li>
-<li><p>upload the build website to the latest/ subdir of the <a class="reference external" href="https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site">gh-pages</a>
-branch which is automatically shown as a website by github</p></li>
-<li><p>upload the build PDF to the temporary internet storage <a href="#id1"><span class="problematic" id="id2">bashupload_</span></a>, where the specific storage URL gets used to link the PDF document from the website.  The PDF is automatically deleted from the online storage after 1 week. This allows documentation writers to inspect the build PDF for 1 week. Only for stable releases we archive the PDF permanent online.</p></li>
+<li><p>build the documentation on that committed version. It builds documentation both as website and as a PDF document.</p></li>
+<li><p>upload the build website  to the latest/ subdir of the <a class="reference external" href="https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site">gh-pages</a>
+branch which is automatically shown as website by github</p></li>
+<li><p>the build PDF is upload as release asset to the ‘develop’ release. Before
+every upload the ‘develop’ release is deleted and recreated.
+Thus the ‘develop’ release is at every push of commits renewed with the newest latest PDF.
+Older builds are then automatically deleted from the releases page.</p></li>
 </ol>
 </li>
 <li><p>push of a tag</p>
@@ -345,7 +348,7 @@ that github release</p></li>
 created and pushed</p>
 </li>
 </ul>
-<p>The ‘stable’ documentation gets linked to your tool’s website as the official documentation. The ‘stable’ documentation gets tagged by official versions which are represented by releases on <a href="#id3"><span class="problematic" id="id4">GitHub_</span></a>. The build documentation per release gets archived on the github’s documentation project releases webpage. So you can always look back at older officially released documentation versions.</p>
+<p>The ‘stable’ documentation gets linked to your tool’s website as the official documentation. The ‘stable’ documentation gets tagged by official versions which are represented by releases on <a class="reference external" href="https://github.com/">GitHub</a>. The build documentation per release gets archived on the github’s documentation project releases webpage. So you can always look back at older officially released documentation versions.</p>
 <p>The ‘latest’ documentation is seen as the latest documentation under construction. It is the latest version where the documentation writers are working on. Users of the tool should not use this as documentation but instead, read the ‘stable’ documentation. Only when the ‘latest’ documentation is found ready, then a new ‘stable’ release will be made by the documentation writers.  Only documentation writers use this ‘latest’ build of the documentation to quickly review the documentation without needing to build it themselves locally. They even can write documentation online in the github repository’s editor. On every save in the online editor, a new commit is pushed to the repository and new ‘latest’ documentation gets automatically build and published. When looking at a webpage in the ‘latest’ documentation website there is an ‘Edit on Github’ button which takes you directly the page’s source in the github project to allows you to quickly edit it. So for example, if you see a small typo you can immediately fix it online. On the ‘stable’ documentation website this button is not present, because it is a fixed release.</p>
 <p>We can conclude that writing documentation has become easy, because the documentation writer only needs to write the documentation source and push it online to github, and then the documentation gets automatically build and he only has to review the build version online. If then finally the new documentation is ready for release he can either just create a new git tag locally and push it to github or just create a new tagged release on the github project’s website. Then the documentation will be automatically build and officially released as the new stable version of the documentation which is linked by the tool’s website.</p>
 <div class="section" id="combined-version-of-tool-and-documentation-version">
