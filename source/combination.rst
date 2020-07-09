@@ -1,3 +1,5 @@
+
+
 Why combination sphinx, github actions and github pages
 -------------------------------------------------------
 
@@ -26,7 +28,7 @@ The usage of `Sphinx`_ as documentation build system has the following advantage
 -  `Sphinx`_ has fancy html themes for nice web documentation
 -  `Sphinx`_ uses pdflatex to build  PDF, so you also get a nice PDF document
 -  `Sphinx`_ supports mathjax so you can use latex formula in your source
--  `Sphinx`_ uses `Pygments <https://pygments.org/>`_ as a generic syntax highlighter with which you can `Sphinx`_ any source code. It is also easy to extend.
+-  :ref:`Sphinx` uses `Pygments <https://pygments.org/>`_ as a generic syntax highlighter with which you can `Sphinx`_ any source code. It is also easy to extend.
 
 - Thus with sphinx we get a simple and readable documentation source with the expression strenght to build powerfull documentation.
   Powerfull in the meaning that it supports document structuring with parts/chapter/sections/sub..sections,  table of contents, index, glossary, figure environment, advanced cross referencing, math, etc...
@@ -39,13 +41,7 @@ The combination of `Sphinx`_ documentation builder and `GitHub Actions`_ allows 
 GitHub Pages
 ^^^^^^^^^^^^^^
 
-Using `GitHub Pages`_ we can publish the web documentation online. Using the project's `GitHub Releases`_ page we can publish the PDF documents and zip archives of the web documentation for all 'stable' releases online. The 'latest' build is also published on the website under latest/ subdirectory, and the latest PDF document is uploaded to bashupload_ where it stays available for a week. You have a week the time to evaluate the PDF build for the latest commit.
+Using `GitHub Pages`_ we can publish the web documentation online. Using the project's `GitHub Releases`_ page we can publish the PDF documents and zip archives of the web documentation for all 'stable' releases online. The 'latest' build is also published on the website under latest/ subdirectory, and the latest PDF document is uploaded to 'develop' release  which gets renewed on every latest build.
 
-.. _Sphinx: https://www.sphinx-doc.org/
-.. _GitHub: https://github.com/
-.. _GitHub Actions: https://github.com/features/actions
-.. _GitHub Pages: https://pages.github.com/
-.. _bashupload:  https://bashupload.com/
-.. _GitHub Releases: https://help.github.com/en/github/administering-a-repository/releasing-projects-on-github
 
 

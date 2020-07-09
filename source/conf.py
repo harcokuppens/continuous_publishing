@@ -33,6 +33,10 @@ templates_path = ['_templates']
 #exclude_patterns = []
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
+rst_epilog="""
+.. include:: hyperlinks.rst
+"""
+
 
 # -- configuration for restructured text appendix  -----------------------
 

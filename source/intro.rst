@@ -1,5 +1,6 @@
 
 
+
 Introduction Continuous Publishing
 ==================================
 
@@ -14,18 +15,21 @@ Continouos Deployment(CD) a method
 We can say that Continuous Publishing (CP) makes writing documentation easy.
 
 In this project we implemented this idea of Continuous Publishing using the
-:ref:`Sphinx documentation generator tool <Sphinx>` in a :ref:`GitHub` repository where we use  :ref:`GitHub Actions` which on a git push automatically builds the documentation and publishes it online in a :ref:`GitHub Pages` website. So documentation gets automatically build for each 'latest' version. However using git tags we can mark a specific version as a 'stable' release, for which automatically a release in the project's :ref:`GitHub Releases` page is created, and where the build PDF document and the zipped website are archived. Also the online website generated for the 'stable' release is put at a separate location then for the 'latest' documentation build, so that the 'stable' release can be used as official documention which only changes on each new release. The 'latest' release website location is overwritten on each commit.
+`Sphinx documentation generator tool <Sphinx>`_ in a `GitHub`_ repository where we use  `GitHub Actions`_ which on a git push automatically builds the documentation and publishes it online in a `GitHub Pages`_ website. So documentation gets automatically build for each 'latest' version. However using git tags we can mark a specific version as a 'stable' release, for which automatically a release in the project's `GitHub Releases`_ page is created, and where the build PDF document and the zipped website are archived. Also the online website generated for the 'stable' release is put at a separate location then for the 'latest' documentation build, so that the 'stable' release can be used as official documention which only changes on each new release. The 'latest' release website location is overwritten on each commit.
 
 The documentation writer only needs to write the documentation source, and depending on the type of push an official 'stable' release or a temporary  'latest' version of the documentation is build and published.
 
-The automation is done by a by a :ref:`Github Actions` workflow script which  builds either the 'latest' or 'stable documentation depending on the type of its trigger event:
+The automation is done by a by a `Github Actions`_ workflow script which  builds either the 'latest' or 'stable documentation depending on the type of its trigger event:
 
 -  push of a set of commits
 
    #. build the documentation on that committed version. It builds documentation both as website and as a PDF document.
    #. upload the build website  to the latest/ subdir of the `gh-pages <https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site>`_
       branch which is automatically shown as website by github
-   #. upload the build PDF to the temporary internet storage bashupload_, where the specific storage URL gets used to link the PDF document from the website.  The PDF is automatically deleted from the online storage after 1 week. This allows documentation writers to inspect the build PDF for 1 week. Only for stable releases we archive the PDF permanent online.
+   #. the build PDF is upload as release asset to the 'develop' release. Before
+      every upload the 'develop' release is deleted and recreated. 
+      Thus the 'develop' release is at every push of commits renewed with the newest latest PDF.
+      Older builds are then automatically deleted from the releases page.
 
 -  push of a tag
 
