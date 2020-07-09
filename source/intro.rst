@@ -1,11 +1,8 @@
-
-
-
 Introduction Continuous Publishing
 ==================================
 
-Continuous Publishing(CP) is in analogy to Continouos Integration(CI) and
-Continouos Deployment(CD) a method
+Continuous Publishing(CP) is in analogy to Continuous Integration(CI) and
+Continuous Deployment(CD) a method
 
 - to write documentation source
 - with supporting easy cooperation of documentation writers
@@ -34,9 +31,9 @@ The automation is done by a by a `Github Actions`_ workflow script which  builds
 -  push of a tag
 
 
-   #. build the documentation on that tagged version. It builds documentation both as website and as a PDF document.
+   #. build the documentation on that tagged version. It builds documentation both as a website and as a PDF document.
    #. upload the build website  to the stable/ subdir of the gh-pages
-      branch which is automatically shown as website by github
+      branch which is automatically shown as a website by github
    #. the build PDF is upload as release asset for that github release,
       this PDF url is linked from the website
    #. the build website is zipped and also archived as release asset for
@@ -45,9 +42,9 @@ The automation is done by a by a `Github Actions`_ workflow script which  builds
    note: when creating a github release online then indirectly a tag gets
    created and pushed
 
-The 'stable' documentation gets linked to from your tool's website as the official documentation. The 'stable' documentation gets tagged by official versions which are represented by releases on GitHub_. The build documentation per release gets archived on the github's documention project releases webpage. So you can always look back at older officially released documentation versions.
+The 'stable' documentation gets linked to your tool's website as the official documentation. The 'stable' documentation gets tagged by official versions which are represented by releases on GitHub_. The build documentation per release gets archived on the github's documentation project releases webpage. So you can always look back at older officially released documentation versions.
 
-The 'latest' documentation is seen as the latest documentation under construction. It is the latest version where the documentation writers are working on. Users of the tool should not use this as documentation, but instead read the 'stable' documentation. Only when the 'latest' documentation is found ready, then a new 'stable' release will be made by the documentation writers.  Only documentation writers use this 'latest' build of the documentation to quickly review the documentation without needing to build it themselves locally. They even can write documentation online in the github repository's editor. On every save in the online editor a new commit is pushed to the repository and new 'latest' documentation gets automatically build and published. When looking at a webpage in the 'latest' documentation website there is a 'Edit on Github' button which takes you directly the page's source in the github project to allows you to quickly edit it. So for example if you see small typo you can immediately fix it online. On the 'stable' documentation website this button is not present, because it is a fixed release.
+The 'latest' documentation is seen as the latest documentation under construction. It is the latest version where the documentation writers are working on. Users of the tool should not use this as documentation but instead, read the 'stable' documentation. Only when the 'latest' documentation is found ready, then a new 'stable' release will be made by the documentation writers.  Only documentation writers use this 'latest' build of the documentation to quickly review the documentation without needing to build it themselves locally. They even can write documentation online in the github repository's editor. On every save in the online editor, a new commit is pushed to the repository and new 'latest' documentation gets automatically build and published. When looking at a webpage in the 'latest' documentation website there is an 'Edit on Github' button which takes you directly the page's source in the github project to allows you to quickly edit it. So for example, if you see a small typo you can immediately fix it online. On the 'stable' documentation website this button is not present, because it is a fixed release.
 
 We can conclude that writing documentation has become easy, because the documentation writer only needs to write the documentation source and push it online to github, and then the documentation gets automatically build and he only has to review the build version online. If then finally the new documentation is ready for release he can either just create a new git tag locally and push it to github or just create a new tagged release on the github project's website. Then the documentation will be automatically build and officially released as the new stable version of the documentation which is linked by the tool's website.
 
@@ -55,12 +52,11 @@ We can conclude that writing documentation has become easy, because the document
 Combined version of tool and documentation version
 --------------------------------------------------
 
-Often documentation is written for some tool. In that case we will
+Often documentation is written for some tool. In that case, we will
 have two different versions which we combine:
 
 tool version:
-   the version of the tool what the documentation
-   describes. Because this changes from time to time we let you configure
+   the version of the tool that the documentation describes. Because this changes from time to time we let you configure
    this in a separate TOOLVERSION.txt source file.
 documentation version:
    because the documentation is a repository it

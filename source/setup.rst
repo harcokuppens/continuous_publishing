@@ -24,12 +24,11 @@ Config sphinx for  continuous_publishing
 
 2. load continuous_publishing.py in conf.py::
 
-
       cd source/
       curl -O https://raw.githubusercontent.com/harcokuppens/continuous_publishing/master/source/continuous_publishing.py 
       cd - 
    
-   then add to end of conf.py file :
+   then add to end of conf.py file::
    
       # -- Load Continuous publishing configuration ---------------------------------------------------
 
@@ -39,14 +38,13 @@ Config sphinx for  continuous_publishing
 3. config continuous_publishing.py : fill in config values in first section to setup github for cont. publishing::
   
  
-4. set tool version in  TOOLVERSION.txt and add "sphinx-rtd-theme" python package as requirement for sphinx
+4. set tool version in  TOOLVERSION.txt and add "sphinx-rtd-theme" python package as requirement for sphinx::
 
-     TOOLVERSION=...  
+     TOOLVERSION=...     
      cd source      
-     echo $TOOLVERSION > TOOLVERSION.txt
-     echo "sphinx-rtd-theme" > requirements.txt 
-     
+     echo $TOOLVERSION > TOOLVERSION.txt  
      cd - 
+     echo "sphinx-rtd-theme" > requirements.txt 
      git add .
      git commit -m'setup sphinx with continuous publishing'
     
