@@ -44,15 +44,24 @@ jobs:
       uses: actions/checkout@v2   
 # Sphinx builds html and pdf  (in the documentation it contains a link to the  documentation website and the build pdf)
 #    sphinx build sets environment variables 
-#     * SPHINX_BUILD_PDF: the file path of the pdf file build by sphinx  
 #     * DOCUMENT_NAME: official name for the documention configured in the sphinx configuration file conf.py
 #    NOTE: all user configaration is done in the sphinx config so that this file can left unchanged
-    - name: build documentation pdf and html (sets env.SPHINX_BUILD_PDF env.DOCUMENT_NAME)
+    - name: build documentation pdf and html (sets env.DOCUMENT_NAME)
       uses: ammaraskar/sphinx-action@0.4
       with:
         pre-build-command: "apt-get update -y && apt-get install -y graphviz git latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
         build-command: "make html latexpdf BUILDDIR=build"
         docs-folder: "."
+# Determine filename of pdf build by sphinx; sphinx uses strange algorithm to
+# derive filename; so we just find the .log file and change the extension to .pdf .
+# Note: we search for log file, because there is only one log file. But
+# there could be multiple pdf files in project. (eg. for an image) 
+    - name: determine filename of pdf build by sphinx (sets env.SPHINX_BUILD_PDF)        
+      run: |
+        WEBSITE_SUBDIR="latest"          
+        logfile=$(echo build/latex/*.log)
+        pdffile=${logfile%.log}.pdf
+        printf "::set-env name=SPHINX_BUILD_PDF::$pdffile\n"
 # Publish website on github pages      
     - name: get env.GITHUB_PAGES_WEBSITE_URL and env.WEBSITE_SUBDIR
       run: |
