@@ -37,7 +37,6 @@ jobs:
 # Publish website on github pages      
     - name:  get env.GITHUB_PAGES_WEBSITE_URL 
       run: |
-        
         REPOSITORY_OWNER_SLASH_NAME="${{ github.repository }}"
         REPOSITORY_OWNER="${{ github.repository_owner }}"
         REPOSITORY_NAME=${REPOSITORY_OWNER_SLASH_NAME##*/}
