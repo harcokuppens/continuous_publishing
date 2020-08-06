@@ -12,7 +12,9 @@ jobs:
     steps:
       - run: |
           # get branch for 'latest' build    
-          BRANCH=${REF##*/}          
+          echo GITHUB_REF=$GITHUB_REF  
+          BRANCH=${GITHUB_REF##*/}       
+          echo BRANCH=$BRANCH            
           
           #  when building 'latest; documentation when commits are pushed to a BRANCH then kill previous 
           # 'latest' builds. Note: we select below only builds for 'latest' builds to kill, not 'stable' builds.
