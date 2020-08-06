@@ -1,5 +1,8 @@
 name: Continous Publishing (stable)
 
+env:
+   WEBSITE_SUBDIR: "stable" 
+
 on:
    push:
      tags:
@@ -28,24 +31,17 @@ jobs:
 # there could be multiple pdf files in project. (eg. for an image)
     - name: determine filename of pdf build by sphinx (sets env.SPHINX_BUILD_PDF)
       run: |
-        WEBSITE_SUBDIR="latest"
         logfile=$(echo build/latex/*.log)
         pdffile=${logfile%.log}.pdf
         printf "::set-env name=SPHINX_BUILD_PDF::$pdffile\n"
 # Publish website on github pages      
-    - name:  get env.GITHUB_PAGES_WEBSITE_URL and env.WEBSITE_SUBDIR
+    - name:  get env.GITHUB_PAGES_WEBSITE_URL 
       run: |
-        
-        WEBSITE_SUBDIR="stable"
         
         REPOSITORY_OWNER_SLASH_NAME="${{ github.repository }}"
         REPOSITORY_OWNER="${{ github.repository_owner }}"
         REPOSITORY_NAME=${REPOSITORY_OWNER_SLASH_NAME##*/}
-        GITHUB_PAGES_WEBSITE_URL="https://${REPOSITORY_OWNER}.github.io/${REPOSITORY_NAME}"        
-
-        
-        echo WEBSITE_SUBDIR=$WEBSITE_SUBDIR
-        echo "::set-env name=WEBSITE_SUBDIR::$WEBSITE_SUBDIR"     
+        GITHUB_PAGES_WEBSITE_URL="https://${REPOSITORY_OWNER}.github.io/${REPOSITORY_NAME}"           
            
         echo GITHUB_PAGES_WEBSITE_URL=$GITHUB_PAGES_WEBSITE_URL
         echo "::set-env name=GITHUB_PAGES_WEBSITE_URL::$GITHUB_PAGES_WEBSITE_URL"                   
