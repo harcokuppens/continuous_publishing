@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Roles &mdash; Continuous Publishing v4.3.14, Document version v0.1.31 documentation</title>
+  <title>Roles &mdash; Continuous Publishing v4.3.14, Document version v0.1.32 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -30,11 +36,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Directives" href="directives.html" />
@@ -52,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Continuous Publishing
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Continuous Publishing
           
 
           
@@ -62,7 +63,7 @@
             
             
               <div class="version">
-                version: v4.3.14<br/>stable docs: v0.1.31<br/><a style="color:white" href="https://github.com/harcokuppens/continuous_publishing/releases/download/v0.1.31/TorXakis-v4.3.14_Userguide-v0.1.31.pdf">pdf</a>
+                version: v4.3.14<br/>stable docs: v0.1.32<br/><a style="color:white" href="https://github.com/harcokuppens/continuous_publishing/releases/download/v0.1.32/TorXakis-v4.3.14_Userguide-v0.1.32.pdf">pdf</a>
               </div>
             
           
@@ -79,6 +80,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -90,17 +92,18 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction Continuous Publishing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="intro.html#combined-version-of-tool-and-documentation-version">Combined version of tool and documentation version</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#why-combination-sphinx-github-actions-and-github-pages">Why combination sphinx, github actions and github pages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="intro.html#sphinx">Sphinx</a></li>
-<li class="toctree-l3"><a class="reference internal" href="intro.html#github-actions">GitHub Actions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="intro.html#github-pages">GitHub Pages</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="combination.html">Why combination sphinx, github actions and github pages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="combination.html#sphinx">Sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combination.html#github-actions">GitHub Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combination.html#github-pages">GitHub Pages</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="intro.html#setup-a-new-documentation-repository">Setup a new documentation repository</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#initial-setup">initial setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#configuration">configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup a new documentation repository</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#setup-github-repo-with-sphinx">Setup github repo with sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#config-sphinx-for-continuous-publishing">Config sphinx for  continuous_publishing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#setup-github-actions-for-continuous-publishing-sphinx-website-and-pdf-on-github">Setup github actions for  continuous_publishing sphinx website and pdf on github</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="xtest.html">Xtest</a></li>
@@ -233,6 +236,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -271,7 +275,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="rst.html">reStructuredText</a> &raquo;</li>
         
@@ -772,7 +776,7 @@ default. They are set in the build configuration file.</p>
 <code class="sig-name descname">|release|</code></dt>
 <dd><p>Replaced by the project release the documentation refers to.  This is meant
 to be the full version string including alpha/beta/release candidate tags,
-e.g. <code class="docutils literal notranslate"><span class="pre">2.5.2b3</span></code>.  Set by <a href="#id11"><span class="problematic" id="id12">:confval:`release`</span></a>.</p>
+e.g. <code class="docutils literal notranslate"><span class="pre">2.5.2b3</span></code>.  Set by <a href="#id12"><span class="problematic" id="id13">:confval:`release`</span></a>.</p>
 </dd></dl>
 
 <dl class="describe">
@@ -780,7 +784,7 @@ e.g. <code class="docutils literal notranslate"><span class="pre">2.5.2b3</span>
 <code class="sig-name descname">|version|</code></dt>
 <dd><p>Replaced by the project version the documentation refers to. This is meant to
 consist only of the major and minor version parts, e.g. <code class="docutils literal notranslate"><span class="pre">2.5</span></code>, even for
-version 2.5.1.  Set by <a href="#id13"><span class="problematic" id="id14">:confval:`version`</span></a>.</p>
+version 2.5.1.  Set by <a href="#id14"><span class="problematic" id="id15">:confval:`version`</span></a>.</p>
 </dd></dl>
 
 <dl class="describe">
@@ -788,7 +792,7 @@ version 2.5.1.  Set by <a href="#id13"><span class="problematic" id="id14">:conf
 <code class="sig-name descname">|today|</code></dt>
 <dd><p>Replaced by either today’s date (the date on which the document is read), or
 the date set in the build configuration file.  Normally has the format
-<code class="docutils literal notranslate"><span class="pre">April</span> <span class="pre">14,</span> <span class="pre">2007</span></code>.  Set by <a href="#id15"><span class="problematic" id="id16">:confval:`today_fmt`</span></a> and <a href="#id17"><span class="problematic" id="id18">:confval:`today`</span></a>.</p>
+<code class="docutils literal notranslate"><span class="pre">April</span> <span class="pre">14,</span> <span class="pre">2007</span></code>.  Set by <a href="#id16"><span class="problematic" id="id17">:confval:`today_fmt`</span></a> and <a href="#id18"><span class="problematic" id="id19">:confval:`today`</span></a>.</p>
 </dd></dl>
 
 </div>
@@ -814,11 +818,19 @@ the date set in the build configuration file.  Normally has the format
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Harco Kuppens
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -829,7 +841,6 @@ the date set in the build configuration file.  Normally has the format
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

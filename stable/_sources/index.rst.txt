@@ -19,10 +19,15 @@ This documentation is also available as printable format as `PDF document <PDFDO
 For other versions see the `documentation overview webpage <DOCUMENT_OVERVIEW_URL_>`_. 
 
 
+.. todolist::
+
+
 .. toctree::
    :caption: Contents
 
    intro
+   combination
+   setup
    xtest 
 
 .. toctree::
@@ -33,4 +38,6 @@ For other versions see the `documentation overview webpage <DOCUMENT_OVERVIEW_UR
    glossary
    bibliography
    genindex 
+
+
 

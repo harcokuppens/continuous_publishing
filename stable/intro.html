@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction Continuous Publishing &mdash; Continuous Publishing v4.3.14, Document version v0.1.31 documentation</title>
+  <title>Introduction Continuous Publishing &mdash; Continuous Publishing v4.3.14, Document version v0.1.32 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -30,14 +36,9 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Xtest" href="xtest.html" />
+    <link rel="next" title="Why combination sphinx, github actions and github pages" href="combination.html" />
     <link rel="prev" title="Continuous Publishing (CP) with Sphinx, GitHub Actions and GitHub Pages" href="index.html" /> 
 </head>
 
@@ -52,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Continuous Publishing
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Continuous Publishing
           
 
           
@@ -62,7 +63,7 @@
             
             
               <div class="version">
-                version: v4.3.14<br/>stable docs: v0.1.31<br/><a style="color:white" href="https://github.com/harcokuppens/continuous_publishing/releases/download/v0.1.31/TorXakis-v4.3.14_Userguide-v0.1.31.pdf">pdf</a>
+                version: v4.3.14<br/>stable docs: v0.1.32<br/><a style="color:white" href="https://github.com/harcokuppens/continuous_publishing/releases/download/v0.1.32/TorXakis-v4.3.14_Userguide-v0.1.32.pdf">pdf</a>
               </div>
             
           
@@ -79,6 +80,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -90,17 +92,18 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction Continuous Publishing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#combined-version-of-tool-and-documentation-version">Combined version of tool and documentation version</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#why-combination-sphinx-github-actions-and-github-pages">Why combination sphinx, github actions and github pages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#sphinx">Sphinx</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#github-actions">GitHub Actions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#github-pages">GitHub Pages</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="combination.html">Why combination sphinx, github actions and github pages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="combination.html#sphinx">Sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combination.html#github-actions">GitHub Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combination.html#github-pages">GitHub Pages</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#setup-a-new-documentation-repository">Setup a new documentation repository</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#initial-setup">initial setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#configuration">configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup a new documentation repository</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#setup-github-repo-with-sphinx">Setup github repo with sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#config-sphinx-for-continuous-publishing">Config sphinx for  continuous_publishing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#setup-github-actions-for-continuous-publishing-sphinx-website-and-pdf-on-github">Setup github actions for  continuous_publishing sphinx website and pdf on github</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="xtest.html">Xtest</a></li>
@@ -233,6 +236,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -271,7 +275,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Introduction Continuous Publishing</li>
     
@@ -287,7 +291,7 @@
   
   <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
       
-        <a href="xtest.html" class="btn btn-neutral float-right" title="Xtest" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="combination.html" class="btn btn-neutral float-right" title="Why combination sphinx, github actions and github pages" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral float-left" title="Continuous Publishing (CP) with Sphinx, GitHub Actions and GitHub Pages" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -301,8 +305,8 @@
             
   <div class="section" id="introduction-continuous-publishing">
 <h1>Introduction Continuous Publishing<a class="headerlink" href="#introduction-continuous-publishing" title="Permalink to this headline">¶</a></h1>
-<p>Continuous Publishing(CP) is in analogy to Continouos Integration(CI) and
-Continouos Deployment(CD) a method</p>
+<p>Continuous Publishing(CP) is in analogy to Continuous Integration(CI) and
+Continuous Deployment(CD) a method</p>
 <ul class="simple">
 <li><p>to write documentation source</p></li>
 <li><p>with supporting easy cooperation of documentation writers</p></li>
@@ -311,7 +315,7 @@ Continouos Deployment(CD) a method</p>
 </ul>
 <p>We can say that Continuous Publishing (CP) makes writing documentation easy.</p>
 <p>In this project we implemented this idea of Continuous Publishing using the
-<a class="reference external" href="https://www.sphinx-doc.org/">Sphinx documentation generator tool</a> in a <a class="reference external" href="https://github.com/">GitHub</a> repository where we use  <a class="reference external" href="https://github.com/features/actions">GitHub Actions</a> which on a git push automatically builds the documentation and publishes it online in a <a class="reference external" href="https://pages.github.com/">GitHub Pages</a> website. So documentation gets automatically build for each ‘latest’ version. However using git tags we can mark a specific version as a ‘stable’ release, for which automatically a release in the project’s <a class="reference external" href="https://help.github.com/en/github/administering-a-repository/releasing-projects-on-github">GitHub Releases</a> page is created, and where the build PDF document and the zipped website are archived. Also the online website generated for the ‘stable’ release is put at a separate location then for the ‘latest’ documentation build, so that the ‘stable’ release can be used as official documention which only changes on each new release. The ‘latest’ release website location is overwritten on each commit.</p>
+<a class="reference external" href="Sphinx">Sphinx documentation generator tool</a> in a <a class="reference external" href="https://github.com/">GitHub</a> repository where we use  <a class="reference external" href="https://github.com/features/actions">GitHub Actions</a> which on a git push automatically builds the documentation and publishes it online in a <a class="reference external" href="https://pages.github.com/">GitHub Pages</a> website. So documentation gets automatically build for each ‘latest’ version. However using git tags we can mark a specific version as a ‘stable’ release, for which automatically a release in the project’s <a class="reference external" href="https://help.github.com/en/github/administering-a-repository/releasing-projects-on-github">GitHub Releases</a> page is created, and where the build PDF document and the zipped website are archived. Also the online website generated for the ‘stable’ release is put at a separate location then for the ‘latest’ documentation build, so that the ‘stable’ release can be used as official documention which only changes on each new release. The ‘latest’ release website location is overwritten on each commit.</p>
 <p>The documentation writer only needs to write the documentation source, and depending on the type of push an official ‘stable’ release or a temporary  ‘latest’ version of the documentation is build and published.</p>
 <p>The automation is done by a by a <a class="reference external" href="https://github.com/features/actions">Github Actions</a> workflow script which  builds either the ‘latest’ or ‘stable documentation depending on the type of its trigger event:</p>
 <ul>
@@ -320,14 +324,17 @@ Continouos Deployment(CD) a method</p>
 <li><p>build the documentation on that committed version. It builds documentation both as website and as a PDF document.</p></li>
 <li><p>upload the build website  to the latest/ subdir of the <a class="reference external" href="https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site">gh-pages</a>
 branch which is automatically shown as website by github</p></li>
-<li><p>upload the build PDF to the temporary internet storage <a class="reference external" href="https://bashupload.com/">bashupload</a>, where the specific storage URL gets used to link the PDF document from the website.  The PDF is automatically deleted from the online storage after 1 week. This allows documentation writers to inspect the build PDF for 1 week. Only for stable releases we archive the PDF permanent online.</p></li>
+<li><p>the build PDF is upload as release asset to the ‘develop’ release. Before
+every upload the ‘develop’ release is deleted and recreated.
+Thus the ‘develop’ release is at every push of commits renewed with the newest latest PDF.
+Older builds are then automatically deleted from the releases page.</p></li>
 </ol>
 </li>
 <li><p>push of a tag</p>
 <ol class="arabic simple">
-<li><p>build the documentation on that tagged version. It builds documentation both as website and as a PDF document.</p></li>
+<li><p>build the documentation on that tagged version. It builds documentation both as a website and as a PDF document.</p></li>
 <li><p>upload the build website  to the stable/ subdir of the gh-pages
-branch which is automatically shown as website by github</p></li>
+branch which is automatically shown as a website by github</p></li>
 <li><p>the build PDF is upload as release asset for that github release,
 this PDF url is linked from the website</p></li>
 <li><p>the build website is zipped and also archived as release asset for
@@ -337,16 +344,15 @@ that github release</p></li>
 created and pushed</p>
 </li>
 </ul>
-<p>The ‘stable’ documentation gets linked to from your tool’s website as the official documentation. The ‘stable’ documentation gets tagged by official versions which are represented by releases on <a class="reference external" href="https://github.com/">GitHub</a>. The build documentation per release gets archived on the github’s documention project releases webpage. So you can always look back at older officially released documentation versions.</p>
-<p>The ‘latest’ documentation is seen as the latest documentation under construction. It is the latest version where the documentation writers are working on. Users of the tool should not use this as documentation, but instead read the ‘stable’ documentation. Only when the ‘latest’ documentation is found ready, then a new ‘stable’ release will be made by the documentation writers.  Only documentation writers use this ‘latest’ build of the documentation to quickly review the documentation without needing to build it themselves locally. They even can write documentation online in the github repository’s editor. On every save in the online editor a new commit is pushed to the repository and new ‘latest’ documentation gets automatically build and published. When looking at a webpage in the ‘latest’ documentation website there is a ‘Edit on Github’ button which takes you directly the page’s source in the github project to allows you to quickly edit it. So for example if you see small typo you can immediately fix it online. On the ‘stable’ documentation website this button is not present, because it is a fixed release.</p>
+<p>The ‘stable’ documentation gets linked to your tool’s website as the official documentation. The ‘stable’ documentation gets tagged by official versions which are represented by releases on <a class="reference external" href="https://github.com/">GitHub</a>. The build documentation per release gets archived on the github’s documentation project releases webpage. So you can always look back at older officially released documentation versions.</p>
+<p>The ‘latest’ documentation is seen as the latest documentation under construction. It is the latest version where the documentation writers are working on. Users of the tool should not use this as documentation but instead, read the ‘stable’ documentation. Only when the ‘latest’ documentation is found ready, then a new ‘stable’ release will be made by the documentation writers.  Only documentation writers use this ‘latest’ build of the documentation to quickly review the documentation without needing to build it themselves locally. They even can write documentation online in the github repository’s editor. On every save in the online editor, a new commit is pushed to the repository and new ‘latest’ documentation gets automatically build and published. When looking at a webpage in the ‘latest’ documentation website there is an ‘Edit on Github’ button which takes you directly the page’s source in the github project to allows you to quickly edit it. So for example, if you see a small typo you can immediately fix it online. On the ‘stable’ documentation website this button is not present, because it is a fixed release.</p>
 <p>We can conclude that writing documentation has become easy, because the documentation writer only needs to write the documentation source and push it online to github, and then the documentation gets automatically build and he only has to review the build version online. If then finally the new documentation is ready for release he can either just create a new git tag locally and push it to github or just create a new tagged release on the github project’s website. Then the documentation will be automatically build and officially released as the new stable version of the documentation which is linked by the tool’s website.</p>
 <div class="section" id="combined-version-of-tool-and-documentation-version">
 <h2>Combined version of tool and documentation version<a class="headerlink" href="#combined-version-of-tool-and-documentation-version" title="Permalink to this headline">¶</a></h2>
-<p>Often documentation is written for some tool. In that case we will
+<p>Often documentation is written for some tool. In that case, we will
 have two different versions which we combine:</p>
 <dl>
-<dt>tool version:</dt><dd><p>the version of the tool what the documentation
-describes. Because this changes from time to time we let you configure
+<dt>tool version:</dt><dd><p>the version of the tool that the documentation describes. Because this changes from time to time we let you configure
 this in a separate TOOLVERSION.txt source file.</p>
 </dd>
 <dt>documentation version:</dt><dd><p>because the documentation is a repository it
@@ -365,57 +371,9 @@ working folder then also a ‘+’, called a dirty flag, is appended to the vers
 </dd>
 </dl>
 <p>We then combine these versions in the name of the PDF document. For example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TorXakis</span><span class="o">-</span><span class="n">v4</span><span class="o">.</span><span class="mf">3.14</span><span class="n">_Userguide</span><span class="o">-</span><span class="mi">0</span><span class="n">a69d7c</span><span class="o">.</span><span class="n">pdf</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TorXakis</span><span class="o">-</span><span class="n">v4</span><span class="o">.</span><span class="mf">3.14</span><span class="n">_Userguide</span><span class="o">-</span><span class="n">git</span><span class="o">-</span><span class="n">sha1</span><span class="o">-</span><span class="mi">0</span><span class="n">a69d7c</span><span class="o">.</span><span class="n">pdf</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="why-combination-sphinx-github-actions-and-github-pages">
-<h2>Why combination sphinx, github actions and github pages<a class="headerlink" href="#why-combination-sphinx-github-actions-and-github-pages" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="sphinx">
-<h3>Sphinx<a class="headerlink" href="#sphinx" title="Permalink to this headline">¶</a></h3>
-<p>The usage of <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> as documentation build system has the following advantages:</p>
-<ul>
-<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> uses RestructuredText as source which is an easy-to-read, what-you-see-is-what-you-get plaintext markup syntax.</p>
-<p>The primary goal of reStructuredText is to define a markup
-syntax that is readable and simple, yet powerful enough for non-trivial use. The intended purpose of the reStructuredText markup is twofold:</p>
-<ul class="simple">
-<li><p>the establishment of a set of standard conventions allowing the expression of structure within plaintext, and</p></li>
-<li><p>the conversion of such documents into useful structured data formats.</p></li>
-</ul>
-</li>
-<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> enhances RestructuredText to allow you to write documentation  in a more structured  way in many source files with cross referencing between these source files. It extends RestructuredText with many convenient roles and directives to make documentation writing easier and better.</p></li>
-<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> is easy extensible with python extensions, so almost anything
-is possible:</p>
-<blockquote>
-<div><p>eg. graphviz dot source code supported in a block(directive) which
-allows you to make visually attractive graphs in your documentation</p>
-</div></blockquote>
-</li>
-<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> has fancy html themes for nice web documentation</p></li>
-<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> uses pdflatex to build  PDF, so you also get a nice PDF document</p></li>
-<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> supports mathjax so you can use latex formula in your source</p></li>
-<li><p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> uses <a class="reference external" href="https://pygments.org/">Pygments</a> as a generic syntax highlighter with which you can <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> any source code. It is also easy to extend.</p></li>
-<li><p>Thus with sphinx we get a simple and readable documentation source with the expression strenght to build powerfull documentation.
-Powerfull in the meaning that it supports document structuring with parts/chapter/sections/sub..sections,  table of contents, index, glossary, figure environment, advanced cross referencing, math, etc…</p></li>
-</ul>
-</div>
-<div class="section" id="github-actions">
-<h3>GitHub Actions<a class="headerlink" href="#github-actions" title="Permalink to this headline">¶</a></h3>
-<p>The combination of <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> documentation builder and <a class="reference external" href="https://github.com/features/actions">GitHub Actions</a> allows us to automatically build the documentation on pushing to github. On problems with the restructuredText source the Sphinx build action within github actions shows in the online github editor annotations where the problems with the source are. This makes fixing problems with the source code easy. It also allows you to edit the source files online on the github website, where on every save in the online editor a new commit is pushed to the repository.</p>
-</div>
-<div class="section" id="github-pages">
-<h3>GitHub Pages<a class="headerlink" href="#github-pages" title="Permalink to this headline">¶</a></h3>
-<p>Using <a class="reference external" href="https://pages.github.com/">GitHub Pages</a> we can publish the web documentation online. Using the project’s <a class="reference external" href="https://help.github.com/en/github/administering-a-repository/releasing-projects-on-github">GitHub Releases</a> page we can publish the PDF documents and zip archives of the web documentation for all ‘stable’ releases online. The ‘latest’ build is also published on the website under latest/ subdirectory, and the latest PDF document is uploaded to <a class="reference external" href="https://bashupload.com/">bashupload</a> where it stays available for a week. You have a week the time to evaluate the PDF build for the latest commit.</p>
-</div>
-</div>
-</div>
-<div class="section" id="setup-a-new-documentation-repository">
-<h1>Setup a new documentation repository<a class="headerlink" href="#setup-a-new-documentation-repository" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="initial-setup">
-<h2>initial setup<a class="headerlink" href="#initial-setup" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="configuration">
-<h2>configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -427,7 +385,7 @@ Powerfull in the meaning that it supports document structuring with parts/chapte
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="xtest.html" class="btn btn-neutral float-right" title="Xtest" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="combination.html" class="btn btn-neutral float-right" title="Why combination sphinx, github actions and github pages" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral float-left" title="Continuous Publishing (CP) with Sphinx, GitHub Actions and GitHub Pages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -439,11 +397,19 @@ Powerfull in the meaning that it supports document structuring with parts/chapte
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Harco Kuppens
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -454,7 +420,6 @@ Powerfull in the meaning that it supports document structuring with parts/chapte
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
